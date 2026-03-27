@@ -1,7 +1,6 @@
 <!DOCTYPE html>
 <html lang="ja">
 <head>
-  <link rel="icon" href="favicon.ico">
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
 <meta name="apple-mobile-web-app-capable" content="yes">
@@ -44,11 +43,22 @@ body{background:var(--bg);color:var(--text);font-family:var(--font);font-size:14
 .seg-btn.active{background:var(--bg4);color:var(--text);box-shadow:0 1px 4px rgba(0,0,0,0.4);}
 
 /* ===== HOME ===== */
-.balance-hero{background:linear-gradient(135deg,#1c1c2e 0%,#1c2e1c 100%);margin:0 16px 16px;border-radius:var(--radius);padding:20px;border:0.5px solid rgba(48,209,88,0.2);}
-.balance-label{font-size:12px;color:var(--text3);letter-spacing:0.5px;margin-bottom:6px;}
-.balance-num{font-size:40px;font-weight:700;letter-spacing:-1px;color:var(--accent);}
+.balance-hero{background:linear-gradient(135deg,#1c1c2e 0%,#1c2e1c 100%);margin:0 16px 12px;border-radius:var(--radius);padding:16px 20px;border:0.5px solid rgba(48,209,88,0.2);}
+.balance-label{font-size:12px;color:var(--text3);letter-spacing:0.5px;margin-bottom:4px;}
+.balance-num{font-size:36px;font-weight:700;letter-spacing:-1px;color:var(--accent);}
 .balance-num.neg{color:var(--red);}
-.balance-meta{font-size:11px;color:var(--text4);margin-top:6px;}
+.balance-meta{font-size:11px;color:var(--text4);margin-top:4px;}
+
+/* ===== 口座カード ===== */
+.account-row{display:flex;gap:8px;margin:0 16px 16px;overflow-x:auto;padding-bottom:2px;}
+.account-row::-webkit-scrollbar{display:none;}
+.account-card{background:var(--bg2);border-radius:var(--radius-sm);padding:12px 14px;border:0.5px solid var(--border);flex-shrink:0;min-width:130px;cursor:pointer;transition:all .15s;}
+.account-card.active-acct{border-color:var(--accent2);background:rgba(50,173,230,0.08);}
+.account-card-icon{font-size:18px;margin-bottom:4px;}
+.account-card-name{font-size:11px;color:var(--text4);margin-bottom:2px;}
+.account-card-bal{font-size:17px;font-weight:700;}
+.account-card-bal.neg{color:var(--red);}
+
 .summary-row{display:grid;grid-template-columns:1fr 1fr;gap:10px;margin:0 16px 20px;}
 .summary-card{background:var(--bg2);border-radius:var(--radius-sm);padding:14px;border:0.5px solid var(--border);}
 .summary-card-label{font-size:11px;color:var(--text4);margin-bottom:6px;}
@@ -72,6 +82,7 @@ body{background:var(--bg);color:var(--text);font-family:var(--font);font-size:14
 .tx-info{flex:1;min-width:0;}
 .tx-name{font-size:14px;font-weight:500;white-space:nowrap;overflow:hidden;text-overflow:ellipsis;}
 .tx-cat{font-size:11px;color:var(--text4);margin-top:1px;}
+.tx-acct-badge{font-size:10px;color:var(--text4);background:var(--bg3);border-radius:4px;padding:1px 5px;display:inline-block;margin-top:2px;}
 .tx-amt{font-size:15px;font-weight:600;flex-shrink:0;}
 .tx-amt.exp{color:var(--red);}
 .tx-amt.inc{color:var(--accent2);}
@@ -91,6 +102,12 @@ body{background:var(--bg);color:var(--text);font-family:var(--font);font-size:14
 .input-field-unit{font-size:15px;color:var(--text2);}
 .input-amount-big{font-size:32px;font-weight:700;color:var(--text);background:none;border:none;outline:none;font-family:var(--font);width:100%;}
 .input-amount-big::placeholder{color:var(--text4);}
+
+/* 口座選択ピル */
+.acct-pill-row{display:flex;gap:8px;padding:10px 16px;border-bottom:0.5px solid var(--border);background:var(--bg2);overflow-x:auto;}
+.acct-pill-row::-webkit-scrollbar{display:none;}
+.acct-pill{padding:6px 14px;border-radius:20px;border:1.5px solid var(--border2);background:none;color:var(--text3);font-family:var(--font);font-size:13px;cursor:pointer;white-space:nowrap;transition:all .15s;}
+.acct-pill.selected{border-color:var(--accent2);background:rgba(50,173,230,0.12);color:var(--text);}
 
 .date-nav-row{display:flex;align-items:center;gap:12px;}
 .date-nav-btn{background:none;border:none;color:var(--accent2);font-size:20px;cursor:pointer;padding:0 4px;}
@@ -134,8 +151,6 @@ body{background:var(--bg);color:var(--text);font-family:var(--font);font-size:14
 .cal-cell.saturday .cal-day-num{color:var(--teal);}
 .cal-day-amt{font-size:8px;color:var(--red);margin-top:1px;font-weight:500;}
 .cal-day-amt.inc{color:var(--accent2);}
-.cal-day-inc-line{width:3px;height:3px;border-radius:50%;background:var(--accent2);position:absolute;bottom:3px;}
-
 .cal-tx-section{margin-top:12px;padding:0 16px;}
 .cal-tx-date-header{font-size:13px;font-weight:600;color:var(--text2);padding:8px 0 4px;border-bottom:0.5px solid var(--border);display:flex;justify-content:space-between;}
 
@@ -143,24 +158,17 @@ body{background:var(--bg);color:var(--text);font-family:var(--font);font-size:14
 .report-period-nav{display:flex;align-items:center;gap:8px;padding:8px 16px;}
 .report-period-label{flex:1;background:var(--bg2);border-radius:var(--radius-sm);padding:10px 12px;text-align:center;font-size:15px;font-weight:600;border:0.5px solid var(--border);}
 .report-nav-btn{background:var(--bg3);border:none;border-radius:var(--radius-sm);padding:10px 14px;color:var(--text);cursor:pointer;font-size:16px;}
-.report-totals{display:grid;grid-template-columns:1fr 1fr;gap:8px;margin:8px 16px;}
-.report-total-card{background:var(--bg2);border-radius:var(--radius-sm);padding:12px;border:0.5px solid var(--border);}
-.report-total-label{font-size:11px;color:var(--text4);margin-bottom:4px;}
-.report-total-val{font-size:22px;font-weight:700;}
-.report-total-val.exp{color:var(--red);}
-.report-total-val.inc{color:var(--accent2);}
-.report-balance-row{margin:0 16px 16px;background:var(--bg2);border-radius:var(--radius-sm);padding:12px;border:0.5px solid var(--border);display:flex;justify-content:space-between;align-items:center;}
-.report-balance-label{font-size:14px;color:var(--text2);}
-.report-balance-val{font-size:22px;font-weight:700;}
-.donut-wrap{padding:16px;display:flex;justify-content:center;}
-.cat-list-item{display:flex;align-items:center;gap:12px;padding:12px 16px;border-bottom:0.5px solid var(--border);cursor:pointer;}
-.cat-list-item:active{background:var(--bg2);}
+.report-nav-btn.hidden-btn{visibility:hidden;pointer-events:none;}
+.report-date-range{display:flex;align-items:center;gap:8px;padding:4px 16px 12px;}
+.report-date-input{flex:1;background:var(--bg2);border:0.5px solid var(--border2);border-radius:var(--radius-sm);padding:10px 12px;color:var(--text);font-family:var(--font);font-size:14px;outline:none;}
+.report-date-input:focus{border-color:var(--accent2);}
+.report-date-sep{color:var(--text4);font-size:13px;flex-shrink:0;}
+.cat-list-item{display:flex;align-items:center;gap:12px;padding:12px 16px;border-bottom:0.5px solid var(--border);}
 .cat-list-icon{width:36px;height:36px;border-radius:50%;display:flex;align-items:center;justify-content:center;font-size:18px;flex-shrink:0;}
 .cat-list-name{flex:1;font-size:15px;}
 .cat-list-amt{font-size:15px;font-weight:600;color:var(--text);}
 .cat-list-pct{font-size:12px;color:var(--text4);text-align:right;}
 .cat-list-right{text-align:right;}
-.cat-list-chevron{color:var(--text4);margin-left:4px;}
 
 /* ===== SETTINGS ===== */
 .settings-section{margin:16px 16px 4px;}
@@ -219,14 +227,17 @@ input[type="date"]::-webkit-calendar-picker-indicator{filter:invert(0.7);}
   <div class="nav-header">
     <div class="nav-header-row">
       <span class="nav-title" id="home-month-label">2026年3月</span>
-      <button class="nav-btn-icon" onclick="showBalanceEditModal()">残高設定</button>
+      <button class="nav-btn-icon" onclick="showScreen('settings')">口座管理</button>
     </div>
   </div>
+  <!-- 残高合計 -->
   <div class="balance-hero">
-    <div class="balance-label">現在の残高</div>
+    <div class="balance-label">総残高</div>
     <div class="balance-num" id="home-balance">¥0</div>
-    <div class="balance-meta" id="home-balance-meta">タップして残高を設定</div>
+    <div class="balance-meta" id="home-balance-meta">全口座の合計</div>
   </div>
+  <!-- 口座別カード -->
+  <div class="account-row" id="home-account-row"></div>
   <div class="summary-row">
     <div class="summary-card">
       <div class="summary-card-label">今月の収入</div>
@@ -248,8 +259,10 @@ input[type="date"]::-webkit-calendar-picker-indicator{filter:invert(0.7);}
   <div class="input-type-header">
     <button class="input-type-btn active-exp" id="input-tab-exp" onclick="setInputType('expense')">支出</button>
     <button class="input-type-btn" id="input-tab-inc" onclick="setInputType('income')">収入</button>
-    <button class="input-edit-btn">✎</button>
+    <button class="input-edit-btn" onclick="openAddCatModal(null,inputType)">✎ 編集</button>
   </div>
+  <!-- 口座選択ピル -->
+  <div class="acct-pill-row" id="input-acct-row"></div>
   <div class="input-field-row" style="flex-direction:column;align-items:flex-start;gap:4px;">
     <span class="input-field-label" style="font-size:12px;color:var(--text4);" id="amount-label">支出</span>
     <div style="display:flex;align-items:baseline;gap:6px;width:100%;">
@@ -261,7 +274,7 @@ input[type="date"]::-webkit-calendar-picker-indicator{filter:invert(0.7);}
     <span class="input-field-label">日付</span>
     <div class="date-nav-row" style="flex:1;">
       <button class="date-nav-btn" onclick="shiftDate(-1)">‹</button>
-      <input type="date" class="date-nav-label" id="input-date" onchange="updateDateLabel()">
+      <input type="date" class="date-nav-label" id="input-date">
       <button class="date-nav-btn" onclick="shiftDate(1)">›</button>
     </div>
   </div>
@@ -269,7 +282,7 @@ input[type="date"]::-webkit-calendar-picker-indicator{filter:invert(0.7);}
     <span class="input-field-label">メモ</span>
     <input class="input-field-val" id="input-memo" placeholder="未入力" type="text">
   </div>
-  <div class="cat-section-title" id="cat-section-title">カテゴリー</div>
+  <div class="cat-section-title">カテゴリー</div>
   <div class="cat-grid" id="input-cat-grid"></div>
   <div class="submit-bar">
     <button class="submit-btn" id="submit-btn" onclick="submitTx()">支出を入力する</button>
@@ -283,7 +296,6 @@ input[type="date"]::-webkit-calendar-picker-indicator{filter:invert(0.7);}
   <div class="nav-header">
     <div class="nav-header-row">
       <span class="nav-title">カレンダー</span>
-      <button class="nav-btn-icon">🔍</button>
     </div>
   </div>
   <div class="cal-month-nav">
@@ -294,7 +306,7 @@ input[type="date"]::-webkit-calendar-picker-indicator{filter:invert(0.7);}
   <div class="cal-summary-strip">
     <div class="cal-summary-item"><div class="cal-summary-item-label">収入</div><div class="cal-summary-item-val" id="cal-inc" style="color:var(--accent2)">¥0</div></div>
     <div class="cal-summary-item"><div class="cal-summary-item-label">支出</div><div class="cal-summary-item-val" id="cal-exp" style="color:var(--red)">¥0</div></div>
-    <div class="cal-summary-item"><div class="cal-summary-item-label">合計</div><div class="cal-summary-item-val" id="cal-net">¥0</div></div>
+    <div class="cal-summary-item"><div class="cal-summary-item-label">収支</div><div class="cal-summary-item-val" id="cal-net">¥0</div></div>
   </div>
   <div class="cal-dow-row">
     <div class="cal-dow">日</div><div class="cal-dow">月</div><div class="cal-dow">火</div>
@@ -310,30 +322,48 @@ input[type="date"]::-webkit-calendar-picker-indicator{filter:invert(0.7);}
 <div class="screen-inner">
   <div class="nav-header">
     <div class="nav-header-row">
-      <button class="nav-btn-icon" onclick="">📷</button>
-      <div class="segment" style="margin:0;flex:1;margin-left:8px;">
-        <button class="seg-btn" id="report-tab-monthly" onclick="setReportMode('monthly')">月間レポート</button>
-        <button class="seg-btn active" id="report-tab-yearly" onclick="setReportMode('yearly')">年間レポート</button>
+      <div class="segment" style="margin:0;flex:1;">
+        <button class="seg-btn active" id="report-tab-monthly" onclick="setReportMode('monthly')">月間</button>
+        <button class="seg-btn" id="report-tab-yearly" onclick="setReportMode('yearly')">年間</button>
+        <button class="seg-btn" id="report-tab-custom" onclick="setReportMode('custom')">期間指定</button>
       </div>
-      <button class="nav-btn-icon">🔍</button>
     </div>
   </div>
-  <div class="report-period-nav">
-    <button class="report-nav-btn" onclick="reportShift(-1)">‹</button>
-    <div class="report-period-label" id="report-period-label">2026年3月</div>
-    <button class="report-nav-btn" onclick="reportShift(1)">›</button>
+
+  <!-- 月間・年間ナビ -->
+  <div id="report-nav-monthly-yearly">
+    <div class="report-period-nav">
+      <button class="report-nav-btn" onclick="reportShift(-1)">‹</button>
+      <div class="report-period-label" id="report-period-label">2026年3月</div>
+      <button class="report-nav-btn" onclick="reportShift(1)">›</button>
+    </div>
   </div>
+
+  <!-- 期間指定 -->
+  <div id="report-nav-custom" class="hidden">
+    <div class="report-date-range">
+      <input type="date" class="report-date-input" id="report-date-from" onchange="renderReport()">
+      <span class="report-date-sep">〜</span>
+      <input type="date" class="report-date-input" id="report-date-to" onchange="renderReport()">
+    </div>
+  </div>
+
   <div class="segment" id="report-type-seg">
     <button class="seg-btn active" id="report-type-exp" onclick="setReportType('expense')">支出</button>
     <button class="seg-btn" id="report-type-inc" onclick="setReportType('income')">収入</button>
   </div>
-  <div style="display:flex;justify-content:center;padding:8px 16px;">
-    <canvas id="donut-chart" width="280" height="280"></canvas>
+
+  <div style="display:flex;justify-content:center;padding:8px 16px 0;">
+    <canvas id="donut-chart" width="260" height="260"></canvas>
   </div>
-  <div style="background:var(--bg2);border-top:0.5px solid var(--border);border-bottom:0.5px solid var(--border);">
-    <div style="display:flex;justify-content:space-between;padding:14px 16px;">
+  <div style="background:var(--bg2);border-top:0.5px solid var(--border);border-bottom:0.5px solid var(--border);margin-top:8px;">
+    <div style="display:flex;justify-content:space-between;padding:14px 16px;border-bottom:0.5px solid var(--border);">
       <span style="font-size:15px;color:var(--text2);">合計</span>
       <span style="font-size:20px;font-weight:700;" id="report-total-val">¥0</span>
+    </div>
+    <div style="display:flex;justify-content:space-between;padding:12px 16px;">
+      <span style="font-size:13px;color:var(--text4);">収支バランス</span>
+      <span style="font-size:15px;font-weight:600;" id="report-balance-val">¥0</span>
     </div>
   </div>
   <div id="report-cat-list"></div>
@@ -345,16 +375,10 @@ input[type="date"]::-webkit-calendar-picker-indicator{filter:invert(0.7);}
 <div class="screen-inner">
   <div class="nav-header"><div class="nav-header-row"><span class="nav-title">設定</span></div></div>
 
+  <!-- 口座管理 -->
   <div class="settings-section">
-    <div class="settings-section-label">残高</div>
-    <div class="settings-card">
-      <div class="settings-row" onclick="showBalanceEditModal()">
-        <div class="settings-row-icon" style="background:rgba(48,209,88,0.15);">💰</div>
-        <span class="settings-row-label">現在の残高</span>
-        <span class="settings-row-val" id="settings-balance-val">¥0</span>
-        <span class="chevron-right"></span>
-      </div>
-    </div>
+    <div class="settings-section-label">口座管理</div>
+    <div class="settings-card" id="settings-account-card"></div>
   </div>
 
   <div class="settings-section">
@@ -425,20 +449,26 @@ input[type="date"]::-webkit-calendar-picker-indicator{filter:invert(0.7);}
 </nav>
 
 <!-- ===== MODALS ===== -->
-<!-- 残高編集 -->
-<div class="modal-overlay" id="modal-balance">
+
+<!-- 口座追加/編集 -->
+<div class="modal-overlay" id="modal-account">
   <div class="modal-sheet">
     <div class="modal-header">
-      <span class="modal-title">残高を設定</span>
-      <button class="modal-close" onclick="closeModal('modal-balance')">×</button>
+      <span class="modal-title" id="modal-account-title">口座を追加</span>
+      <button class="modal-close" onclick="closeModal('modal-account')">×</button>
     </div>
     <div class="modal-body">
+      <div class="modal-form-label">口座名</div>
+      <input class="modal-input" id="modal-account-name" placeholder="例：メイン口座" type="text">
+      <div class="modal-form-label">アイコン</div>
+      <div class="icon-grid" id="modal-account-icon-grid"></div>
       <div class="modal-form-label">現在の残高</div>
       <div class="balance-input-wrap" style="margin-bottom:20px;">
-        <input class="balance-input" id="modal-balance-input" type="number" placeholder="666267" inputmode="decimal">
+        <input class="balance-input" id="modal-account-balance" type="number" placeholder="0" inputmode="decimal">
         <span class="balance-unit">円</span>
       </div>
-      <button class="modal-save-btn" onclick="saveBalance()">保存</button>
+      <button class="modal-save-btn" onclick="saveAccount()">保存</button>
+      <button class="modal-delete-btn hidden" id="modal-account-delete" onclick="deleteAccount()">この口座を削除</button>
     </div>
   </div>
 </div>
@@ -482,7 +512,6 @@ input[type="date"]::-webkit-calendar-picker-indicator{filter:invert(0.7);}
 <!-- hidden file inputs -->
 <input type="file" id="simple-csv-input" accept=".csv" class="hidden" onchange="handleSimpleCSV(event)">
 <input type="file" id="backup-import-input" accept=".json" class="hidden" onchange="handleBackupImport(event)">
-
 <div id="toast"></div>
 
 <script src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/4.4.1/chart.umd.js"></script>
@@ -491,7 +520,13 @@ input[type="date"]::-webkit-calendar-picker-indicator{filter:invert(0.7);}
 // DATA
 // ============================================================
 const ICONS = ['🛒','🍔','🍜','🍺','☕','🎮','👕','💄','🚗','✈️','🏠','💊','📱','💡','⛽','🎵','🎬','⛳','🏋️','💇','💈','🎁','💰','📚','🎓','🐾','🌿','🧴','🧹','💳'];
+const ACCT_ICONS = ['🏦','💳','👛','📒','🏧','💼','🏠','✈️','💰','🎒'];
 const COLORS = ['#ffd60a','#ff9f0a','#ff6b35','#ff453a','#ff375f','#ff2d55','#bf5af2','#9b59b6','#5ac8fa','#32ade6','#30d158','#32d74b','#2ecc71','#1abc9c','#34c759','#00c7be','#636366','#8e8e93','#c7c7cc','#ffb74d'];
+
+const DEFAULT_ACCOUNTS = [
+  {id:1, name:'メイン通帳', icon:'🏦', balance:0, lastUpdated:null},
+  {id:2, name:'旅費精算用', icon:'✈️', balance:0, lastUpdated:null},
+];
 
 const DEFAULT_CATS = [
   {id:1,name:'食費',icon:'🍔',color:'#ffd60a',type:'expense'},
@@ -518,9 +553,27 @@ const DEFAULT_CATS = [
   {id:17,name:'臨時収入',icon:'🎵',color:'#ff375f',type:'income'},
 ];
 
-let S = {balance:0,transactions:[],categories:[...DEFAULT_CATS],lastUpdated:null};
-function save(){localStorage.setItem('kakebo2',JSON.stringify(S));}
-function load(){const d=localStorage.getItem('kakebo2');if(d)S=JSON.parse(d);}
+let S = {
+  accounts: DEFAULT_ACCOUNTS.map(a=>({...a})),
+  transactions: [],
+  categories: [...DEFAULT_CATS],
+};
+
+function save(){localStorage.setItem('kakebo3',JSON.stringify(S));}
+function load(){
+  const d=localStorage.getItem('kakebo3');
+  if(d){
+    S=JSON.parse(d);
+    // 旧データ互換: accountsがなければ移行
+    if(!S.accounts){
+      S.accounts=DEFAULT_ACCOUNTS.map(a=>({...a}));
+      if(typeof S.balance==='number') S.accounts[0].balance=S.balance;
+      delete S.balance; delete S.lastUpdated;
+    }
+    // 旧txにacctIdがなければデフォルト口座に割り当て
+    S.transactions.forEach(t=>{ if(!t.acctId) t.acctId=1; });
+  }
+}
 
 // ============================================================
 // UTILS
@@ -529,6 +582,8 @@ function fmt(n){return '¥'+Math.abs(n).toLocaleString();}
 function fmtSigned(n){return (n>=0?'+¥':'-¥')+Math.abs(n).toLocaleString();}
 function todayStr(){return new Date().toISOString().slice(0,10);}
 function getCat(id){return S.categories.find(c=>c.id==id)||{name:'その他',icon:'📋',color:'#636366',type:'expense'};}
+function getAcct(id){return S.accounts.find(a=>a.id==id)||S.accounts[0];}
+function totalBalance(){return S.accounts.reduce((s,a)=>s+a.balance,0);}
 function toast(msg,ms=2200){const t=document.getElementById('toast');t.textContent=msg;t.classList.add('show');setTimeout(()=>t.classList.remove('show'),ms);}
 function openModal(id){document.getElementById(id).classList.add('open');}
 function closeModal(id){document.getElementById(id).classList.remove('open');}
@@ -544,7 +599,7 @@ function showScreen(name, fromCal){
   document.getElementById('tab-'+name).classList.add('active');
   currentScreen=name;
   if(name==='home') renderHome();
-  if(name==='input' && !fromCal) { resetInputForm(); renderInputCats(); }
+  if(name==='input' && !fromCal){ resetInputForm(); renderInputCats(); renderInputAccts(); }
   if(name==='calendar') renderCalendar();
   if(name==='report') renderReport();
   if(name==='settings') renderSettings();
@@ -556,15 +611,28 @@ function showScreen(name, fromCal){
 function renderHome(){
   const now=new Date();
   document.getElementById('home-month-label').textContent=now.getFullYear()+'年'+(now.getMonth()+1)+'月';
+
+  // 総残高
+  const total=totalBalance();
   const b=document.getElementById('home-balance');
-  b.textContent=fmt(S.balance);
-  b.className='balance-num'+(S.balance<0?' neg':'');
-  document.getElementById('home-balance-meta').textContent=S.lastUpdated?'最終更新: '+S.lastUpdated:'タップして残高を設定';
+  b.textContent=fmt(total);
+  b.className='balance-num'+(total<0?' neg':'');
+
+  // 口座カード
+  const row=document.getElementById('home-account-row');
+  row.innerHTML=S.accounts.map(a=>`
+    <div class="account-card">
+      <div class="account-card-icon">${a.icon}</div>
+      <div class="account-card-name">${a.name}</div>
+      <div class="account-card-bal${a.balance<0?' neg':''}">${fmt(a.balance)}</div>
+    </div>
+  `).join('');
+
   const ym=now.toISOString().slice(0,7);
   const monthTx=S.transactions.filter(t=>t.date.startsWith(ym));
   document.getElementById('home-month-inc').textContent=fmt(monthTx.filter(t=>t.type==='income').reduce((s,t)=>s+t.amount,0));
   document.getElementById('home-month-exp').textContent=fmt(monthTx.filter(t=>t.type==='expense').reduce((s,t)=>s+t.amount,0));
-  renderTxList('home-tx-list', [...S.transactions].sort((a,b)=>b.date.localeCompare(a.date)||b.id-a.id).slice(0,30));
+  renderTxList('home-tx-list',[...S.transactions].sort((a,b)=>b.date.localeCompare(a.date)||b.id-a.id).slice(0,30));
 }
 
 function renderTxList(containerId, txs){
@@ -581,13 +649,19 @@ function renderTxList(containerId, txs){
     const dLabel=d.getFullYear()+'年'+(d.getMonth()+1)+'月'+d.getDate()+'日('+['日','月','火','水','木','金','土'][d.getDay()]+')';
     return `<div class="tx-group">
       <div class="tx-group-date"><span>${dLabel}</span><span class="tx-group-date-sum ${net>=0?'plus':'minus'}">${fmtSigned(net)}</span></div>
-      <div class="tx-card">${gtxs.map(t=>{const c=getCat(t.catId);return `
-        <div class="tx-row" onclick="showTxModal(${t.id})">
+      <div class="tx-card">${gtxs.map(t=>{
+        const c=getCat(t.catId);
+        const ac=getAcct(t.acctId);
+        return `<div class="tx-row" onclick="showTxModal(${t.id})">
           <div class="tx-icon" style="background:${c.color}22;">${c.icon}</div>
-          <div class="tx-info"><div class="tx-name">${t.memo||c.name}</div><div class="tx-cat">${c.name}</div></div>
+          <div class="tx-info">
+            <div class="tx-name">${t.memo||c.name}</div>
+            <div class="tx-cat">${c.name}<span class="tx-acct-badge">${ac.icon} ${ac.name}</span></div>
+          </div>
           <div class="tx-amt ${t.type==='expense'?'exp':'inc'}">${t.type==='expense'?'-':'+'}${fmt(t.amount)}</div>
           <svg class="tx-chevron" width="7" height="12" viewBox="0 0 7 12"><path d="M1 1l5 5-5 5" stroke="currentColor" stroke-width="1.5" fill="none" stroke-linecap="round"/></svg>
-        </div>`}).join('')}</div>
+        </div>`;
+      }).join('')}</div>
     </div>`;
   }).join('');
 }
@@ -597,12 +671,12 @@ function renderTxList(containerId, txs){
 // ============================================================
 let inputType='expense';
 let selectedCatId=1;
-let editingTxId=null;
+let selectedAcctId=1;
 
 function resetInputForm(){
-  editingTxId=null;
   inputType='expense';
   selectedCatId=1;
+  selectedAcctId=S.accounts[0]?.id||1;
   document.getElementById('input-amount').value='';
   document.getElementById('input-date').value=todayStr();
   document.getElementById('input-memo').value='';
@@ -633,6 +707,15 @@ function updateSubmitBtn(){
   else{btn.className='submit-btn';}
 }
 
+function renderInputAccts(){
+  const row=document.getElementById('input-acct-row');
+  row.innerHTML=S.accounts.map(a=>`
+    <button class="acct-pill ${a.id===selectedAcctId?'selected':''}" onclick="selectAcct(${a.id})">${a.icon} ${a.name}</button>
+  `).join('');
+}
+
+function selectAcct(id){selectedAcctId=id;renderInputAccts();}
+
 function renderInputCats(){
   const cats=S.categories.filter(c=>c.type===inputType);
   const grid=document.getElementById('input-cat-grid');
@@ -654,7 +737,6 @@ function shiftDate(d){
   dt.setDate(dt.getDate()+d);
   document.getElementById('input-date').value=dt.toISOString().slice(0,10);
 }
-function updateDateLabel(){}
 
 function submitTx(){
   const amt=parseFloat(document.getElementById('input-amount').value);
@@ -662,24 +744,24 @@ function submitTx(){
   const memo=document.getElementById('input-memo').value.trim();
   if(!amt||amt<=0){toast('金額を入力してください');return;}
   if(!date){toast('日付を選択してください');return;}
-  const tx={id:Date.now(),amount:amt,date,memo,type:inputType,catId:selectedCatId};
+  const acct=getAcct(selectedAcctId);
+  const tx={id:Date.now(),amount:amt,date,memo,type:inputType,catId:selectedCatId,acctId:selectedAcctId};
   S.transactions.push(tx);
-  if(inputType==='expense') S.balance-=amt;
-  else S.balance+=amt;
-  S.lastUpdated=date;
+  if(inputType==='expense') acct.balance-=amt;
+  else acct.balance+=amt;
+  acct.lastUpdated=date;
   save();
-  toast(inputType==='expense'?'支出を登録しました ✓':'収入を登録しました ✓');
+  toast((inputType==='expense'?'支出':'収入')+'を登録しました ✓');
   resetInputForm();
-  renderInputCats();
   showScreen('home');
 }
 
-// カレンダーの日付タップ→入力画面
 function openInputForDate(dateStr){
   resetInputForm();
   document.getElementById('input-date').value=dateStr;
   renderInputCats();
-  showScreen('input', true);
+  renderInputAccts();
+  showScreen('input',true);
 }
 
 // ============================================================
@@ -705,9 +787,6 @@ function renderCalendar(){
   const firstDow=new Date(y,m,1).getDay();
   const daysInMonth=new Date(y,m+1,0).getDate();
   const todayS=todayStr();
-  const grid=document.getElementById('cal-grid');
-
-  // build daily sums
   const dailyExp={},dailyInc={};
   monthTx.forEach(t=>{
     if(t.type==='expense') dailyExp[t.date]=(dailyExp[t.date]||0)+t.amount;
@@ -719,18 +798,15 @@ function renderCalendar(){
   for(let d=1;d<=daysInMonth;d++){
     const ds=y+'-'+String(m+1).padStart(2,'0')+'-'+String(d).padStart(2,'0');
     const dow=(firstDow+d-1)%7;
-    const isToday=ds===todayS;
-    const isSel=ds===selectedCalDate;
-    const exp=dailyExp[ds]||0;
-    const inc=dailyInc[ds]||0;
+    const exp2=dailyExp[ds]||0, inc2=dailyInc[ds]||0;
     let amtHtml='';
-    if(exp) amtHtml+=`<div class="cal-day-amt">-${exp>=10000?(exp/10000).toFixed(1)+'万':(exp/1000).toFixed(0)+'k'}</div>`;
-    if(inc) amtHtml+=`<div class="cal-day-amt inc">+${inc>=10000?(inc/10000).toFixed(1)+'万':(inc/1000).toFixed(0)+'k'}</div>`;
-    html+=`<div class="cal-cell ${isToday?'today':''} ${isSel?'selected':''} ${dow===0?'sunday':dow===6?'saturday':''}" onclick="calDayClick('${ds}')">
+    if(exp2) amtHtml+=`<div class="cal-day-amt">-${exp2>=10000?(exp2/10000).toFixed(1)+'万':exp2>=1000?(exp2/1000).toFixed(0)+'k':exp2}</div>`;
+    if(inc2) amtHtml+=`<div class="cal-day-amt inc">+${inc2>=10000?(inc2/10000).toFixed(1)+'万':inc2>=1000?(inc2/1000).toFixed(0)+'k':inc2}</div>`;
+    html+=`<div class="cal-cell ${ds===todayS?'today':''} ${ds===selectedCalDate?'selected':''} ${dow===0?'sunday':dow===6?'saturday':''}" onclick="calDayClick('${ds}')">
       <div class="cal-day-num">${d}</div>${amtHtml}
     </div>`;
   }
-  grid.innerHTML=html;
+  document.getElementById('cal-grid').innerHTML=html;
   if(selectedCalDate) renderCalDayTx(selectedCalDate);
 }
 
@@ -739,14 +815,9 @@ function calShift(d){calMonth+=d;if(calMonth<0){calMonth=11;calYear--;}if(calMon
 function calDayClick(ds){
   selectedCalDate=ds;
   renderCalendar();
-  // 記録がなければ入力画面へ、あれば一覧表示
   const txs=S.transactions.filter(t=>t.date===ds);
-  if(txs.length===0){
-    openInputForDate(ds);
-  } else {
-    renderCalDayTx(ds);
-    document.getElementById('cal-tx-section').scrollIntoView({behavior:'smooth'});
-  }
+  if(txs.length===0) openInputForDate(ds);
+  else{ renderCalDayTx(ds); document.getElementById('cal-tx-section').scrollIntoView({behavior:'smooth'}); }
 }
 
 function renderCalDayTx(ds){
@@ -762,14 +833,18 @@ function renderCalDayTx(ds){
     <span style="color:${net>=0?'var(--accent2)':'var(--red)'}">${fmtSigned(net)}</span>
   </div>
   <div style="margin-top:6px;">
-    <div class="tx-card">${txs.map(t=>{const c=getCat(t.catId);return `
-      <div class="tx-row" onclick="showTxModal(${t.id})">
+    <div class="tx-card">${txs.map(t=>{
+      const c=getCat(t.catId); const ac=getAcct(t.acctId);
+      return `<div class="tx-row" onclick="showTxModal(${t.id})">
         <div class="tx-icon" style="background:${c.color}22;">${c.icon}</div>
-        <div class="tx-info"><div class="tx-name">${t.memo||c.name}</div><div class="tx-cat">${c.name}</div></div>
+        <div class="tx-info">
+          <div class="tx-name">${t.memo||c.name}</div>
+          <div class="tx-cat">${c.name}<span class="tx-acct-badge">${ac.icon} ${ac.name}</span></div>
+        </div>
         <div class="tx-amt ${t.type==='expense'?'exp':'inc'}">${t.type==='expense'?'-':'+'}${fmt(t.amount)}</div>
         <svg class="tx-chevron" width="7" height="12" viewBox="0 0 7 12"><path d="M1 1l5 5-5 5" stroke="currentColor" stroke-width="1.5" fill="none" stroke-linecap="round"/></svg>
-      </div>`}).join('')}
-    </div>
+      </div>`;
+    }).join('')}</div>
   </div>
   <button style="width:100%;margin-top:10px;padding:13px;background:var(--bg2);border:0.5px solid var(--border2);border-radius:var(--radius);color:var(--accent2);font-size:14px;font-family:var(--font);cursor:pointer;" onclick="openInputForDate('${ds}')">
     + この日に追加
@@ -785,19 +860,24 @@ let donutChart=null;
 
 function setReportMode(m){
   reportMode=m;
-  document.getElementById('report-tab-monthly').className='seg-btn'+(m==='monthly'?' active':'');
-  document.getElementById('report-tab-yearly').className='seg-btn'+(m==='yearly'?' active':'');
+  ['monthly','yearly','custom'].forEach(k=>{
+    document.getElementById('report-tab-'+k).className='seg-btn'+(m===k?' active':'');
+  });
+  document.getElementById('report-nav-monthly-yearly').classList.toggle('hidden', m==='custom');
+  document.getElementById('report-nav-custom').classList.toggle('hidden', m!=='custom');
   renderReport();
 }
+
 function setReportType(t){
   reportType=t;
   document.getElementById('report-type-exp').className='seg-btn'+(t==='expense'?' active':'');
   document.getElementById('report-type-inc').className='seg-btn'+(t==='income'?' active':'');
   renderReport();
 }
+
 function reportShift(d){
   if(reportMode==='monthly'){reportMonth+=d;if(reportMonth<0){reportMonth=11;reportYear--;}if(reportMonth>11){reportMonth=0;reportYear++;}}
-  else{reportYear+=d;}
+  else if(reportMode==='yearly'){reportYear+=d;}
   renderReport();
 }
 
@@ -806,35 +886,54 @@ function renderReport(){
   if(reportMode==='monthly'){
     const ym=reportYear+'-'+String(reportMonth+1).padStart(2,'0');
     txs=S.transactions.filter(t=>t.date.startsWith(ym));
-    label=reportYear+'年'+(reportMonth+1)+'月 ('+getPeriodSub(ym)+')';
-  } else {
+    label=reportYear+'年'+(reportMonth+1)+'月';
+    document.getElementById('report-period-label').textContent=label;
+  } else if(reportMode==='yearly'){
     txs=S.transactions.filter(t=>t.date.startsWith(String(reportYear)));
-    label=reportYear+'年 (1月1日〜12月31日)';
+    label=reportYear+'年';
+    document.getElementById('report-period-label').textContent=label;
+  } else {
+    // custom
+    const from=document.getElementById('report-date-from').value;
+    const to=document.getElementById('report-date-to').value;
+    if(!from||!to){ document.getElementById('report-cat-list').innerHTML='<div class="empty-state"><div class="empty-state-emoji">📅</div><div class="empty-state-text">開始日と終了日を選択してください</div></div>'; return; }
+    if(from>to){ document.getElementById('report-cat-list').innerHTML='<div class="empty-state"><div class="empty-state-emoji">⚠️</div><div class="empty-state-text">開始日は終了日より前にしてください</div></div>'; return; }
+    txs=S.transactions.filter(t=>t.date>=from && t.date<=to);
   }
-  document.getElementById('report-period-label').textContent=label;
+
   const filtered=txs.filter(t=>t.type===reportType);
   const total=filtered.reduce((s,t)=>s+t.amount,0);
   document.getElementById('report-total-val').textContent=fmt(total);
   document.getElementById('report-total-val').style.color=reportType==='expense'?'var(--red)':'var(--accent2)';
 
-  // category breakdown
+  // 収支バランス
+  const allInc=txs.filter(t=>t.type==='income').reduce((s,t)=>s+t.amount,0);
+  const allExp=txs.filter(t=>t.type==='expense').reduce((s,t)=>s+t.amount,0);
+  const balEl=document.getElementById('report-balance-val');
+  const net=allInc-allExp;
+  balEl.textContent=fmtSigned(net);
+  balEl.style.color=net>=0?'var(--accent2)':'var(--red)';
+
+  // カテゴリ集計
   const catMap={};
   filtered.forEach(t=>{catMap[t.catId]=(catMap[t.catId]||0)+t.amount;});
   const sorted=Object.entries(catMap).sort((a,b)=>b[1]-a[1]);
 
-  // donut
-  if(donutChart) donutChart.destroy();
-  const labels=sorted.map(([id])=>getCat(id).name);
-  const data=sorted.map(([,v])=>v);
-  const colors=sorted.map(([id])=>getCat(id).color);
+  // ドーナツチャート
+  if(donutChart){donutChart.destroy();donutChart=null;}
   const ctx=document.getElementById('donut-chart').getContext('2d');
-  donutChart=new Chart(ctx,{
-    type:'doughnut',
-    data:{labels,datasets:[{data,backgroundColor:colors,borderWidth:2,borderColor:'#111',hoverOffset:4}]},
-    options:{responsive:false,cutout:'65%',plugins:{legend:{display:false},tooltip:{callbacks:{label:ctx=>' '+fmt(ctx.parsed)+' ('+Math.round(ctx.parsed/total*100)+'%)'}}}}
-  });
+  if(sorted.length){
+    donutChart=new Chart(ctx,{
+      type:'doughnut',
+      data:{
+        labels:sorted.map(([id])=>getCat(id).name),
+        datasets:[{data:sorted.map(([,v])=>v),backgroundColor:sorted.map(([id])=>getCat(id).color),borderWidth:2,borderColor:'#111',hoverOffset:4}]
+      },
+      options:{responsive:false,cutout:'65%',plugins:{legend:{display:false},tooltip:{callbacks:{label:ctx=>' '+fmt(ctx.parsed)+(total?' ('+Math.round(ctx.parsed/total*100)+'%)':'')}}}}
+    });
+  }
 
-  // cat list
+  // カテゴリリスト
   document.getElementById('report-cat-list').innerHTML=sorted.map(([id,amt])=>{
     const c=getCat(id);
     return `<div class="cat-list-item">
@@ -844,24 +943,40 @@ function renderReport(){
         <div class="cat-list-amt">${fmt(amt)}</div>
         <div class="cat-list-pct">${total?Math.round(amt/total*100):0}%</div>
       </div>
-      <svg class="cat-list-chevron" width="7" height="12" viewBox="0 0 7 12"><path d="M1 1l5 5-5 5" stroke="currentColor" stroke-width="1.5" fill="none" stroke-linecap="round"/></svg>
     </div>`;
   }).join('')||'<div class="empty-state"><div class="empty-state-emoji">📊</div><div class="empty-state-text">データがありません</div></div>';
 }
 
-function getPeriodSub(ym){return ym.slice(5)+'月20日〜'+String(parseInt(ym.slice(5))+1).padStart(2,'0')+'月19日';}
+// ============================================================
+// SETTINGS / ACCOUNTS
+// ============================================================
+let editingAcctId=null, selectedAcctIcon=ACCT_ICONS[0];
 
-// ============================================================
-// SETTINGS / CATEGORIES
-// ============================================================
 function renderSettings(){
-  document.getElementById('settings-balance-val').textContent=fmt(S.balance);
+  // 口座カード
+  const ac=document.getElementById('settings-account-card');
+  ac.innerHTML=S.accounts.map(a=>`
+    <div class="settings-row" onclick="openAccountModal(${a.id})">
+      <div class="settings-row-icon" style="background:var(--bg3);">${a.icon}</div>
+      <div style="flex:1;">
+        <div class="settings-row-label">${a.name}</div>
+        <div style="font-size:12px;color:var(--text4);margin-top:1px;">残高 ${fmt(a.balance)}</div>
+      </div>
+      <span class="chevron-right"></span>
+    </div>
+  `).join('')+`
+    <div class="settings-row" onclick="openAccountModal(null)">
+      <div class="settings-row-icon" style="background:var(--bg3);">＋</div>
+      <span class="settings-row-label" style="color:var(--accent2);">口座を追加</span>
+    </div>`;
+
+  // カテゴリカード
   const card=document.getElementById('settings-cat-card');
   card.innerHTML=S.categories.map(c=>`
     <div class="settings-row" onclick="openAddCatModal(${c.id},null)">
       <div class="settings-row-icon" style="background:${c.color}22;">${c.icon}</div>
       <span class="settings-row-label">${c.name}</span>
-      <span class="settings-row-val" style="font-size:11px;color:var(--text4);">${c.type==='expense'?'支出':'収入'}</span>
+      <span class="settings-row-val" style="font-size:11px;">${c.type==='expense'?'支出':'収入'}</span>
       <span class="chevron-right"></span>
     </div>
   `).join('')+`
@@ -871,8 +986,53 @@ function renderSettings(){
     </div>`;
 }
 
-// モーダル内カテゴリ編集
+function openAccountModal(acctId){
+  editingAcctId=acctId;
+  const a=acctId?getAcct(acctId):null;
+  document.getElementById('modal-account-title').textContent=acctId?'口座を編集':'口座を追加';
+  document.getElementById('modal-account-name').value=a?a.name:'';
+  document.getElementById('modal-account-balance').value=a?a.balance:'';
+  selectedAcctIcon=a?a.icon:ACCT_ICONS[0];
+  document.getElementById('modal-account-delete').classList.toggle('hidden',!acctId||S.accounts.length<=1);
+  renderAccountIconGrid();
+  openModal('modal-account');
+}
+
+function renderAccountIconGrid(){
+  document.getElementById('modal-account-icon-grid').innerHTML=ACCT_ICONS.map(ic=>`
+    <div class="icon-option ${ic===selectedAcctIcon?'selected':''}" onclick="selectAcctIcon('${ic}')">${ic}</div>
+  `).join('');
+}
+function selectAcctIcon(ic){selectedAcctIcon=ic;renderAccountIconGrid();}
+
+function saveAccount(){
+  const name=document.getElementById('modal-account-name').value.trim();
+  const bal=parseFloat(document.getElementById('modal-account-balance').value)||0;
+  if(!name){toast('口座名を入力してください');return;}
+  if(editingAcctId){
+    const a=S.accounts.find(a=>a.id==editingAcctId);
+    if(a){a.name=name;a.icon=selectedAcctIcon;a.balance=bal;}
+  } else {
+    const maxId=Math.max(...S.accounts.map(a=>a.id),0);
+    S.accounts.push({id:maxId+1,name,icon:selectedAcctIcon,balance:bal,lastUpdated:todayStr()});
+  }
+  save(); closeModal('modal-account'); renderSettings(); renderHome();
+  toast('保存しました ✓');
+}
+
+function deleteAccount(){
+  if(!editingAcctId||S.accounts.length<=1){toast('口座は1つ以上必要です');return;}
+  if(!confirm('この口座を削除しますか？\n記録は残りますが口座情報が失われます。')) return;
+  S.accounts=S.accounts.filter(a=>a.id!=editingAcctId);
+  save(); closeModal('modal-account'); renderSettings(); renderHome();
+  toast('削除しました');
+}
+
+// ============================================================
+// CATEGORIES
+// ============================================================
 let editingCatId=null, selectedIcon=ICONS[0], selectedColor=COLORS[0], modalCatType='expense';
+
 function openAddCatModal(catId, forceType){
   editingCatId=catId;
   const cat=catId?getCat(catId):null;
@@ -892,6 +1052,7 @@ function renderModalIcons(){document.getElementById('modal-icon-grid').innerHTML
 function renderModalColors(){document.getElementById('modal-color-grid').innerHTML=COLORS.map(c=>`<div class="color-option ${c===selectedColor?'selected':''}" style="background:${c}" onclick="selectColor('${c}')"></div>`).join('');}
 function selectIcon(ic){selectedIcon=ic;renderModalIcons();}
 function selectColor(c){selectedColor=c;renderModalColors();}
+
 function saveCat(){
   const name=document.getElementById('modal-cat-name').value.trim();
   if(!name){toast('名前を入力してください');return;}
@@ -913,24 +1074,14 @@ function deleteCat(){
   toast('削除しました');
 }
 
-// 残高
-function showBalanceEditModal(){
-  document.getElementById('modal-balance-input').value=S.balance||'';
-  openModal('modal-balance');
-}
-function saveBalance(){
-  const v=parseFloat(document.getElementById('modal-balance-input').value);
-  if(isNaN(v)){toast('正しい金額を入力してください');return;}
-  S.balance=v; S.lastUpdated=todayStr(); save();
-  closeModal('modal-balance'); renderHome(); renderSettings();
-  toast('残高を保存しました ✓');
-}
-
-// TX詳細モーダル
+// ============================================================
+// TX MODAL
+// ============================================================
 function showTxModal(id){
   const tx=S.transactions.find(t=>t.id==id);
   if(!tx) return;
   const c=getCat(tx.catId);
+  const ac=getAcct(tx.acctId);
   document.getElementById('modal-tx-body').innerHTML=`
     <div style="display:flex;align-items:center;gap:14px;margin-bottom:20px;">
       <div style="width:56px;height:56px;border-radius:50%;background:${c.color}22;display:flex;align-items:center;justify-content:center;font-size:28px;flex-shrink:0;">${c.icon}</div>
@@ -941,6 +1092,7 @@ function showTxModal(id){
     </div>
     <div style="background:var(--bg3);border-radius:var(--radius-sm);overflow:hidden;margin-bottom:16px;">
       <div style="display:flex;padding:12px 14px;border-bottom:0.5px solid var(--border);"><span style="color:var(--text4);width:80px;">カテゴリー</span><span>${c.name}</span></div>
+      <div style="display:flex;padding:12px 14px;border-bottom:0.5px solid var(--border);"><span style="color:var(--text4);width:80px;">口座</span><span>${ac.icon} ${ac.name}</span></div>
       <div style="display:flex;padding:12px 14px;border-bottom:0.5px solid var(--border);"><span style="color:var(--text4);width:80px;">日付</span><span>${tx.date}</span></div>
       <div style="display:flex;padding:12px 14px;"><span style="color:var(--text4);width:80px;">メモ</span><span>${tx.memo||'—'}</span></div>
     </div>
@@ -948,12 +1100,14 @@ function showTxModal(id){
   `;
   openModal('modal-tx');
 }
+
 function deleteTx(id){
   const tx=S.transactions.find(t=>t.id==id);
   if(!tx) return;
   if(!confirm('この記録を削除しますか？')) return;
-  if(tx.type==='expense') S.balance+=tx.amount;
-  else S.balance-=tx.amount;
+  const acct=getAcct(tx.acctId);
+  if(tx.type==='expense') acct.balance+=tx.amount;
+  else acct.balance-=tx.amount;
   S.transactions=S.transactions.filter(t=>t.id!=id);
   save(); closeModal('modal-tx');
   toast('削除しました');
@@ -964,23 +1118,17 @@ function deleteTx(id){
 // ============================================================
 // CSV / BACKUP
 // ============================================================
-// シンプル家計簿CSV取り込み
 function triggerSimpleCSV(){document.getElementById('simple-csv-input').click();}
 function handleSimpleCSV(e){
   const file=e.target.files[0]; if(!file) return;
   const reader=new FileReader();
   reader.onload=ev=>{
-    const text=ev.target.result;
-    const lines=text.split('\n');
-    // カテゴリIDマッピング
-    const catIdMap={};
-    S.categories.forEach(c=>{ catIdMap[c.id]=c.id; });
+    const lines=ev.target.result.split('\n');
     const existing=new Set(S.transactions.map(t=>t.date+'_'+t.amount+'_'+t.memo+'_'+t.type));
     let imported=0;
     for(let i=1;i<lines.length;i++){
       const line=lines[i].trim();
       if(!line||!line.includes(',')) continue;
-      // CSVパース（カンマ区切り・ダブルクォート対応簡易版）
       const cols=line.split(',');
       if(cols.length<5) continue;
       try{
@@ -996,14 +1144,12 @@ function handleSimpleCSV(e){
         const type=typeNum==='1'?'income':'expense';
         const key=date+'_'+amount+'_'+memo+'_'+type;
         if(existing.has(key)) continue;
-        // カテゴリが存在しなければデフォルトに追加
         if(!S.categories.find(c=>c.id===catId)){
           const defCat=DEFAULT_CATS.find(c=>c.id===catId);
           if(defCat) S.categories.push({...defCat});
         }
-        S.transactions.push({id:Date.now()*1000+i,amount,date,memo,type,catId});
-        existing.add(key);
-        imported++;
+        S.transactions.push({id:Date.now()*1000+i,amount,date,memo,type,catId,acctId:S.accounts[0].id});
+        existing.add(key); imported++;
       } catch(err){}
     }
     save(); e.target.value='';
@@ -1013,23 +1159,20 @@ function handleSimpleCSV(e){
   reader.readAsText(file,'UTF-8');
 }
 
-// CSVエクスポート（自分のデータ）
 function exportMyCSV(){
-  const rows=[['日付','金額','メモ','カテゴリー','種類']];
+  const rows=[['日付','金額','メモ','カテゴリー','口座','種類']];
   [...S.transactions].sort((a,b)=>a.date.localeCompare(b.date)).forEach(t=>{
-    const c=getCat(t.catId);
-    rows.push([t.date,t.amount,t.memo||'',c.name,t.type==='expense'?'支出':'収入']);
+    const c=getCat(t.catId); const ac=getAcct(t.acctId);
+    rows.push([t.date,t.amount,t.memo||'',c.name,ac.name,t.type==='expense'?'支出':'収入']);
   });
   const csv=rows.map(r=>r.map(v=>`"${v}"`).join(',')).join('\n');
-  const bom='\uFEFF';
-  const blob=new Blob([bom+csv],{type:'text/csv;charset=utf-8'});
+  const blob=new Blob(['\uFEFF'+csv],{type:'text/csv;charset=utf-8'});
   const url=URL.createObjectURL(blob);
   const a=document.createElement('a'); a.href=url; a.download='kakebo_export_'+todayStr()+'.csv'; a.click();
   URL.revokeObjectURL(url);
   toast('CSVをエクスポートしました ✓');
 }
 
-// バックアップ
 function exportBackup(){
   const blob=new Blob([JSON.stringify(S,null,2)],{type:'application/json'});
   const url=URL.createObjectURL(blob);
@@ -1050,10 +1193,9 @@ function handleBackupImport(e){
   reader.readAsText(file);
 }
 
-// リセット
 function confirmReset(){
   if(!confirm('全データを削除しますか？この操作は取り消せません。')) return;
-  S={balance:0,transactions:[],categories:[...DEFAULT_CATS],lastUpdated:null};
+  S={accounts:DEFAULT_ACCOUNTS.map(a=>({...a})),transactions:[],categories:[...DEFAULT_CATS]};
   save(); toast('データを削除しました'); renderHome(); renderSettings();
 }
 
@@ -1064,6 +1206,11 @@ load();
 renderHome();
 resetInputForm();
 renderInputCats();
+renderInputAccts();
+// 期間指定の初期値
+document.getElementById('report-date-to').value=todayStr();
+const firstDay=new Date(); firstDay.setDate(1);
+document.getElementById('report-date-from').value=firstDay.toISOString().slice(0,10);
 </script>
 </body>
 </html>
