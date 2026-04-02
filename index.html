@@ -16,39 +16,27 @@
   --text:#fff;--text2:#ebebf5cc;--text3:#ebebf599;--text4:#636366;
   --border:rgba(255,255,255,0.1);--border2:rgba(255,255,255,0.18);
   --accent:#30d158;--accent2:#32ade6;--red:#ff453a;--orange:#ff9f0a;
-  --pink:#ff375f;--purple:#bf5af2;--teal:#5ac8fa;--yellow:#ffd60a;
+  --pink:#ff375f;--purple:#bf5af2;--teal:#5ac8fa;
   --radius:12px;--radius-sm:8px;--nav-h:83px;
   --font:'Noto Sans JP',sans-serif;
 }
 html,body{height:100%;overflow:hidden;}
 body{background:var(--bg);color:var(--text);font-family:var(--font);font-size:14px;}
-
-/* ===== SCREENS ===== */
 .screen{display:none;position:fixed;inset:0;bottom:var(--nav-h);}
 .screen.active{display:flex;flex-direction:column;}
-
-/* ===== NAV ===== */
 .tab-bar{position:fixed;bottom:0;left:0;right:0;height:var(--nav-h);background:rgba(28,28,30,0.94);backdrop-filter:blur(20px);-webkit-backdrop-filter:blur(20px);border-top:0.5px solid var(--border);display:flex;align-items:flex-start;padding-top:8px;z-index:1000;}
 .tab-btn{flex:1;display:flex;flex-direction:column;align-items:center;gap:4px;background:none;border:none;cursor:pointer;padding:4px 2px;color:var(--text4);font-size:10px;font-family:var(--font);}
 .tab-btn.active{color:var(--accent2);}
 .tab-btn svg{width:24px;height:24px;}
-
-/* ===== HEADER ===== */
 .nav-header{flex-shrink:0;padding:12px 16px 8px;background:rgba(17,17,17,0.92);backdrop-filter:blur(20px);-webkit-backdrop-filter:blur(20px);z-index:50;border-bottom:0.5px solid var(--border);}
 .nav-header-row{display:flex;align-items:center;justify-content:space-between;}
 .nav-title{font-size:17px;font-weight:700;letter-spacing:-0.3px;}
 .nav-btn-icon{background:none;border:none;color:var(--accent2);font-size:14px;cursor:pointer;padding:4px;}
-
-/* ===== SCROLL AREA ===== */
 .scroll-area{flex:1;overflow-y:auto;-webkit-overflow-scrolling:touch;}
 .scroll-area-inner{padding-bottom:20px;}
-
-/* ===== SEGMENT ===== */
 .segment{display:flex;background:var(--bg3);border-radius:var(--radius-sm);padding:2px;margin:0 16px 16px;}
 .seg-btn{flex:1;padding:7px;border:none;border-radius:6px;background:none;color:var(--text3);font-family:var(--font);font-size:13px;font-weight:500;cursor:pointer;transition:all .15s;}
 .seg-btn.active{background:var(--bg4);color:var(--text);box-shadow:0 1px 4px rgba(0,0,0,0.4);}
-
-/* ===== HOME ===== */
 .balance-hero{background:linear-gradient(135deg,#1c1c2e 0%,#1c2e1c 100%);margin:0 16px 12px;border-radius:var(--radius);padding:16px 20px;border:0.5px solid rgba(48,209,88,0.2);}
 .balance-label{font-size:12px;color:var(--text3);letter-spacing:0.5px;margin-bottom:4px;}
 .balance-num{font-size:36px;font-weight:700;letter-spacing:-1px;color:var(--accent);}
@@ -69,8 +57,6 @@ body{background:var(--bg);color:var(--text);font-family:var(--font);font-size:14
 .summary-card-val.inc{color:var(--accent2);}
 .section-header{display:flex;align-items:center;justify-content:space-between;padding:0 16px;margin-bottom:8px;}
 .section-label{font-size:13px;font-weight:600;color:var(--text2);}
-
-/* ===== TX LIST ===== */
 .tx-group{margin:0 16px 6px;}
 .tx-group-date{font-size:12px;color:var(--text4);padding:8px 0 4px;display:flex;justify-content:space-between;}
 .tx-group-date-sum.minus{color:var(--red);}
@@ -88,8 +74,7 @@ body{background:var(--bg);color:var(--text);font-family:var(--font);font-size:14
 .tx-amt.exp{color:var(--red);}
 .tx-amt.inc{color:var(--accent2);}
 .tx-chevron{color:var(--text4);flex-shrink:0;}
-
-/* ===== INPUT - 上部固定 ===== */
+/* INPUT */
 .input-fixed{flex-shrink:0;}
 .input-type-header{display:flex;background:var(--bg2);border-bottom:0.5px solid var(--border);}
 .input-type-btn{flex:1;padding:12px;border:none;background:none;color:var(--text3);font-family:var(--font);font-size:15px;font-weight:500;cursor:pointer;border-bottom:2px solid transparent;}
@@ -110,7 +95,6 @@ body{background:var(--bg);color:var(--text);font-family:var(--font);font-size:14
 .date-nav-row{display:flex;align-items:center;gap:12px;}
 .date-nav-btn{background:none;border:none;color:var(--accent2);font-size:20px;cursor:pointer;padding:0 4px;}
 .date-nav-label{flex:1;text-align:center;font-size:15px;background:var(--bg3);border:none;border-radius:var(--radius-sm);padding:8px;color:var(--text);font-family:var(--font);}
-/* カテゴリスクロール部分 */
 .input-scroll{flex:1;overflow-y:auto;-webkit-overflow-scrolling:touch;}
 .cat-section-title{font-size:13px;font-weight:600;color:var(--text2);padding:12px 16px 8px;}
 .cat-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:10px;padding:0 16px 16px;}
@@ -124,8 +108,7 @@ body{background:var(--bg);color:var(--text);font-family:var(--font);font-size:14
 .submit-btn.ready.exp{background:var(--red);color:#fff;cursor:pointer;}
 .submit-btn.ready.inc{background:var(--accent2);color:#fff;cursor:pointer;}
 .submit-btn:active:not([disabled]){opacity:0.8;transform:scale(0.99);}
-
-/* ===== CALENDAR - カレンダー部分固定 ===== */
+/* CALENDAR */
 .cal-fixed{flex-shrink:0;}
 .cal-month-nav{display:flex;align-items:center;gap:10px;padding:8px 16px;}
 .cal-month-btn{background:var(--bg3);border:none;border-radius:var(--radius-sm);padding:8px 14px;color:var(--text);font-family:var(--font);cursor:pointer;font-size:18px;line-height:1;}
@@ -139,9 +122,8 @@ body{background:var(--bg);color:var(--text);font-family:var(--font);font-size:14
 .cal-summary-item-val{font-size:13px;font-weight:700;}
 .cal-dow-row{display:grid;grid-template-columns:repeat(7,1fr);padding:2px 16px;margin-bottom:2px;}
 .cal-dow{text-align:center;font-size:11px;color:var(--text4);padding:3px 0;}
-.cal-dow:first-child{color:var(--red);}
-.cal-dow:last-child{color:var(--teal);}
-/* スワイプ対応グリッド */
+.cal-dow.sun{color:var(--red);}
+.cal-dow.sat{color:var(--teal);}
 .cal-swipe-wrap{overflow:hidden;touch-action:pan-y;padding:0 16px;}
 .cal-grid{display:grid;grid-template-columns:repeat(7,1fr);gap:1px;}
 .cal-cell{aspect-ratio:1;display:flex;flex-direction:column;align-items:center;justify-content:flex-start;padding-top:3px;border-radius:6px;cursor:pointer;transition:background .1s;}
@@ -152,14 +134,16 @@ body{background:var(--bg);color:var(--text);font-family:var(--font);font-size:14
 .cal-cell.today .cal-day-num{background:var(--accent2);color:#fff;font-weight:700;}
 .cal-cell.sunday .cal-day-num{color:var(--red);}
 .cal-cell.saturday .cal-day-num{color:var(--teal);}
-.cal-day-amt{font-size:7.5px;color:var(--red);margin-top:1px;font-weight:500;line-height:1.2;text-align:center;}
+.cal-day-amt{font-size:7px;color:var(--red);margin-top:1px;font-weight:500;line-height:1.2;text-align:center;}
 .cal-day-amt.inc{color:var(--accent2);}
-/* TX一覧スクロール */
 .cal-scroll{flex:1;overflow-y:auto;-webkit-overflow-scrolling:touch;}
 .cal-tx-section{padding:8px 16px 0;}
-.cal-tx-date-header{font-size:13px;font-weight:600;color:var(--text2);padding:8px 0 4px;border-bottom:0.5px solid var(--border);display:flex;justify-content:space-between;}
-
-/* ===== REPORT ===== */
+.cal-period-header{font-size:13px;font-weight:600;color:var(--text2);padding:8px 0 6px;border-bottom:0.5px solid var(--border);display:flex;justify-content:space-between;margin-bottom:6px;}
+.cal-date-group{margin-bottom:8px;}
+.cal-date-group-header{font-size:11px;color:var(--text4);padding:4px 0;display:flex;justify-content:space-between;margin-bottom:3px;}
+.cal-date-group-sum.minus{color:var(--red);}
+.cal-date-group-sum.plus{color:var(--accent2);}
+/* REPORT */
 .report-period-nav{display:flex;align-items:center;gap:8px;padding:8px 16px;}
 .report-period-label{flex:1;background:var(--bg2);border-radius:var(--radius-sm);padding:10px 12px;text-align:center;font-size:14px;font-weight:600;border:0.5px solid var(--border);}
 .report-nav-btn{background:var(--bg3);border:none;border-radius:var(--radius-sm);padding:10px 14px;color:var(--text);cursor:pointer;font-size:16px;}
@@ -173,8 +157,7 @@ body{background:var(--bg);color:var(--text);font-family:var(--font);font-size:14
 .cat-list-right{text-align:right;}
 .cat-list-amt{font-size:15px;font-weight:600;}
 .cat-list-pct{font-size:12px;color:var(--text4);}
-
-/* ===== SETTINGS ===== */
+/* SETTINGS */
 .settings-section{margin:16px 16px 4px;}
 .settings-section-label{font-size:12px;color:var(--text4);letter-spacing:0.5px;text-transform:uppercase;margin-bottom:6px;padding:0 4px;}
 .settings-card{background:var(--bg2);border-radius:var(--radius);overflow:hidden;border:0.5px solid var(--border);}
@@ -187,8 +170,7 @@ body{background:var(--bg);color:var(--text);font-family:var(--font);font-size:14
 .balance-input-wrap{display:flex;align-items:center;gap:8px;background:var(--bg3);border-radius:var(--radius-sm);padding:10px 14px;}
 .balance-input{flex:1;background:none;border:none;font-size:22px;font-weight:700;color:var(--text);font-family:var(--font);outline:none;width:100%;}
 .balance-unit{font-size:15px;color:var(--text3);}
-
-/* ===== MODAL ===== */
+/* MODAL */
 .modal-overlay{position:fixed;inset:0;background:rgba(0,0,0,0.6);z-index:2000;display:flex;align-items:flex-end;opacity:0;pointer-events:none;transition:opacity .2s;}
 .modal-overlay.open{opacity:1;pointer-events:all;}
 .modal-sheet{background:var(--bg2);border-radius:20px 20px 0 0;width:100%;max-height:92vh;overflow-y:auto;transform:translateY(30px);transition:transform .25s cubic-bezier(0.32,0.72,0,1);padding-bottom:env(safe-area-inset-bottom);}
@@ -207,17 +189,21 @@ body{background:var(--bg);color:var(--text);font-family:var(--font);font-size:14
 .color-grid{display:grid;grid-template-columns:repeat(5,1fr);gap:8px;margin-bottom:20px;}
 .color-option{aspect-ratio:1;border-radius:var(--radius-sm);cursor:pointer;border:3px solid transparent;transition:all .15s;position:relative;}
 .color-option.selected::after{content:'✓';position:absolute;inset:0;display:flex;align-items:center;justify-content:center;font-size:16px;font-weight:700;color:#fff;}
-.modal-save-btn{width:100%;padding:15px;background:var(--accent2);border:none;border-radius:var(--radius);font-size:16px;font-weight:600;color:#fff;font-family:var(--font);cursor:pointer;}
+.modal-save-btn{width:100%;padding:15px;background:var(--accent2);border:none;border-radius:var(--radius);font-size:16px;font-weight:600;color:#fff;font-family:var(--font);cursor:pointer;margin-bottom:8px;}
 .modal-save-btn:active{opacity:0.85;}
-.modal-delete-btn{width:100%;padding:15px;background:rgba(255,69,58,0.12);border:1px solid var(--red);border-radius:var(--radius);font-size:16px;font-weight:600;color:var(--red);font-family:var(--font);cursor:pointer;margin-top:8px;}
+.modal-delete-btn{width:100%;padding:15px;background:rgba(255,69,58,0.12);border:1px solid var(--red);border-radius:var(--radius);font-size:16px;font-weight:600;color:var(--red);font-family:var(--font);cursor:pointer;}
 .acct-select-list{display:flex;flex-direction:column;gap:8px;margin-bottom:20px;}
 .acct-select-item{display:flex;align-items:center;gap:12px;padding:14px;background:var(--bg3);border-radius:var(--radius-sm);cursor:pointer;border:2px solid transparent;transition:all .15s;}
 .acct-select-item.selected{border-color:var(--accent2);background:rgba(50,173,230,0.1);}
 .acct-select-icon{font-size:22px;}
 .acct-select-name{flex:1;font-size:15px;font-weight:500;}
 .acct-select-bal{font-size:13px;color:var(--text4);}
-
-/* ===== TOAST ===== */
+/* TX編集モーダル内のカテゴリグリッド */
+.edit-cat-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:8px;margin-bottom:16px;max-height:200px;overflow-y:auto;}
+.edit-cat-tile{background:var(--bg3);border-radius:var(--radius-sm);padding:10px 6px;display:flex;flex-direction:column;align-items:center;gap:4px;cursor:pointer;border:2px solid transparent;transition:all .15s;}
+.edit-cat-tile.selected{border-color:var(--accent2);background:rgba(50,173,230,0.1);}
+.edit-cat-icon{font-size:20px;}
+.edit-cat-label{font-size:10px;color:var(--text2);text-align:center;}
 #toast{position:fixed;bottom:calc(var(--nav-h)+16px);left:50%;transform:translateX(-50%) translateY(10px);background:rgba(44,44,46,0.95);backdrop-filter:blur(10px);border:0.5px solid var(--border2);border-radius:20px;padding:10px 20px;font-size:13px;z-index:3000;opacity:0;transition:all .25s;pointer-events:none;white-space:nowrap;font-weight:500;}
 #toast.show{opacity:1;transform:translateX(-50%) translateY(0);}
 .empty-state{text-align:center;padding:48px 20px;color:var(--text4);}
@@ -311,10 +297,7 @@ input[type="date"]::-webkit-calendar-picker-indicator{filter:invert(0.7);}
       <div class="cal-summary-item"><div class="cal-summary-item-label">支出</div><div class="cal-summary-item-val" id="cal-exp" style="color:var(--red)">¥0</div></div>
       <div class="cal-summary-item"><div class="cal-summary-item-label">収支</div><div class="cal-summary-item-val" id="cal-net">¥0</div></div>
     </div>
-    <div class="cal-dow-row">
-      <div class="cal-dow">日</div><div class="cal-dow">月</div><div class="cal-dow">火</div>
-      <div class="cal-dow">水</div><div class="cal-dow">木</div><div class="cal-dow">金</div><div class="cal-dow">土</div>
-    </div>
+    <div class="cal-dow-row" id="cal-dow-row"></div>
     <div class="cal-swipe-wrap" id="cal-swipe-wrap">
       <div class="cal-grid" id="cal-grid"></div>
     </div>
@@ -486,9 +469,13 @@ input[type="date"]::-webkit-calendar-picker-indicator{filter:invert(0.7);}
   </div>
 </div>
 
+<!-- TX 詳細・編集モーダル -->
 <div class="modal-overlay" id="modal-tx">
   <div class="modal-sheet">
-    <div class="modal-header"><span class="modal-title">詳細</span><button class="modal-close" onclick="closeModal('modal-tx')">×</button></div>
+    <div class="modal-header">
+      <span class="modal-title" id="modal-tx-title">詳細</span>
+      <button class="modal-close" onclick="closeModal('modal-tx')">×</button>
+    </div>
     <div class="modal-body" id="modal-tx-body"></div>
   </div>
 </div>
@@ -565,12 +552,8 @@ function toast(msg,ms=2200){const t=document.getElementById('toast');t.textConte
 function openModal(id){document.getElementById(id).classList.add('open');}
 function closeModal(id){document.getElementById(id).classList.remove('open');}
 
-// カレンダー金額: 70000→"7.0万" 2100→"2.1k" 500→"500"
-function fmtCalAmt(n){
-  if(n>=10000)return (n/10000).toFixed(1)+'万';
-  if(n>=1000)return (n/1000).toFixed(1)+'k';
-  return String(n);
-}
+// カレンダー金額: カンマ区切りフル表示
+function fmtCalAmt(n){return n.toLocaleString();}
 
 // 月度期間
 function getCurrentPeriod(){
@@ -587,11 +570,15 @@ function getPeriodLabel(){
   const fd=new Date(from+'T00:00:00'),td=new Date(to+'T00:00:00');
   return `${fd.getMonth()+1}/${fd.getDate()}〜${td.getMonth()+1}/${td.getDate()}`;
 }
-function getCalPeriodSub(y,m){
+// カレンダーの月度期間（表示月の開始日〜終了日）
+function getCalPeriod(y,m){
   const sd=S.settings.monthStartDay;
+  const from=`${y}-${String(m).padStart(2,'0')}-${String(sd).padStart(2,'0')}`;
   let toM=m+1,toY=y;if(toM>12){toM=1;toY++;}
-  const toDate=new Date(toY,toM-1,sd-1);
-  return `(${y}/${m}/${sd}〜${toDate.getFullYear()}/${toDate.getMonth()+1}/${toDate.getDate()})`;
+  const to=new Date(toY,toM-1,sd-1).toISOString().slice(0,10);
+  const fromD=new Date(from+'T00:00:00'),toD=new Date(to+'T00:00:00');
+  const sub=`(${y}/${m}/${sd}〜${toD.getFullYear()}/${toD.getMonth()+1}/${toD.getDate()})`;
+  return {from,to,sub};
 }
 
 let currentScreen='home';
@@ -632,6 +619,16 @@ function renderHome(){
 }
 
 const DOW='日月火水木金土';
+function makeTxRow(t){
+  const c=getCat(t.catId),ac=getAcct(t.acctId);
+  return `<div class="tx-row" onclick="showTxModal(${t.id})">
+    <div class="tx-icon" style="background:${c.color}22;">${c.icon}</div>
+    <div class="tx-info"><div class="tx-name">${t.memo||c.name}</div><div class="tx-cat">${c.name}<span class="tx-acct-badge">${ac.icon} ${ac.name}</span></div></div>
+    <div class="tx-amt ${t.type==='expense'?'exp':'inc'}">${t.type==='expense'?'-':'+'}${fmt(t.amount)}</div>
+    <svg class="tx-chevron" width="7" height="12" viewBox="0 0 7 12"><path d="M1 1l5 5-5 5" stroke="currentColor" stroke-width="1.5" fill="none" stroke-linecap="round"/></svg>
+  </div>`;
+}
+
 function renderTxList(id,txs){
   const el=document.getElementById(id);
   if(!txs.length){el.innerHTML='<div class="empty-state"><div class="empty-state-emoji">📋</div><div class="empty-state-text">記録がありません</div></div>';return;}
@@ -644,14 +641,7 @@ function renderTxList(id,txs){
     const dLabel=`${d.getFullYear()}年${d.getMonth()+1}月${d.getDate()}日(${DOW[d.getDay()]})`;
     return `<div class="tx-group">
       <div class="tx-group-date"><span>${dLabel}</span><span class="tx-group-date-sum ${net>=0?'plus':'minus'}">${fmtSigned(net)}</span></div>
-      <div class="tx-card">${gtxs.map(t=>{
-        const c=getCat(t.catId),ac=getAcct(t.acctId);
-        return `<div class="tx-row" onclick="showTxModal(${t.id})">
-          <div class="tx-icon" style="background:${c.color}22;">${c.icon}</div>
-          <div class="tx-info"><div class="tx-name">${t.memo||c.name}</div><div class="tx-cat">${c.name}<span class="tx-acct-badge">${ac.icon} ${ac.name}</span></div></div>
-          <div class="tx-amt ${t.type==='expense'?'exp':'inc'}">${t.type==='expense'?'-':'+'}${fmt(t.amount)}</div>
-          <svg class="tx-chevron" width="7" height="12" viewBox="0 0 7 12"><path d="M1 1l5 5-5 5" stroke="currentColor" stroke-width="1.5" fill="none" stroke-linecap="round"/></svg>
-        </div>`;}).join('')}</div></div>`;
+      <div class="tx-card">${gtxs.map(t=>makeTxRow(t)).join('')}</div></div>`;
   }).join('');
 }
 
@@ -720,9 +710,10 @@ function openInputForDate(ds){
   showScreen('input',{fromCal:true});
 }
 
-// CALENDAR + SWIPE
-let calYear=new Date().getFullYear(),calMonth=new Date().getMonth(),selectedCalDate=null;
+// CALENDAR
+let calYear=new Date().getFullYear(),calMonth=new Date().getMonth()+1; // 1-indexed month
 let swipeStartX=0,swipeStartY=0;
+
 function initCalSwipe(){
   const wrap=document.getElementById('cal-swipe-wrap');
   wrap.addEventListener('touchstart',e=>{swipeStartX=e.touches[0].clientX;swipeStartY=e.touches[0].clientY;},{passive:true});
@@ -732,15 +723,17 @@ function initCalSwipe(){
     if(Math.abs(dx)>Math.abs(dy)&&Math.abs(dx)>40){if(dx<0)calShift(1);else calShift(-1);}
   },{passive:true});
 }
+
 function renderCalendar(){
-  const y=calYear,m=calMonth;
-  document.getElementById('cal-month-label').textContent=`${y}年${m+1}月`;
-  document.getElementById('cal-month-sub').textContent=getCalPeriodSub(y,m+1);
+  const y=calYear,m=calMonth; // m is 1-indexed
   const sd=S.settings.monthStartDay;
-  const periodFrom=`${y}-${String(m+1).padStart(2,'0')}-${String(sd).padStart(2,'0')}`;
-  let toM=m+2,toY=y;if(toM>12){toM=1;toY++;}
-  const periodTo=new Date(toY,toM-1,sd-1).toISOString().slice(0,10);
-  const periodTx=S.transactions.filter(t=>t.date>=periodFrom&&t.date<=periodTo);
+  const {from,to,sub}=getCalPeriod(y,m);
+
+  document.getElementById('cal-month-label').textContent=`${y}年${m}月`;
+  document.getElementById('cal-month-sub').textContent=sub;
+
+  // 月度期間内のTX
+  const periodTx=S.transactions.filter(t=>t.date>=from&&t.date<=to);
   const inc=periodTx.filter(t=>t.type==='income').reduce((s,t)=>s+t.amount,0);
   const exp=periodTx.filter(t=>t.type==='expense').reduce((s,t)=>s+t.amount,0);
   document.getElementById('cal-inc').textContent=fmt(inc);
@@ -748,55 +741,101 @@ function renderCalendar(){
   const net=inc-exp;
   const netEl=document.getElementById('cal-net');
   netEl.textContent=fmtSigned(net);netEl.style.color=net>=0?'var(--accent2)':'var(--red)';
-  const firstDow=new Date(y,m,1).getDay();
-  const daysInMonth=new Date(y,m+1,0).getDate();
+
+  // 月度開始日の曜日を基準にカレンダーを構築
+  // 表示: from(開始日)からto(終了日)まで
+  const fromDate=new Date(from+'T00:00:00');
+  const toDate=new Date(to+'T00:00:00');
+
+  // 曜日ヘッダー（開始曜日を月度の最初の列に）
+  const startDow=fromDate.getDay(); // 0=日, 6=土
+  const dowLabels=['日','月','火','水','木','金','土'];
+  // 開始曜日に合わせて並び替え
+  const orderedDow=[];
+  for(let i=0;i<7;i++) orderedDow.push(dowLabels[(startDow+i)%7]);
+  document.getElementById('cal-dow-row').innerHTML=orderedDow.map((d,i)=>{
+    const cls=i===0?'cal-dow sun':i===6?'cal-dow sat':'cal-dow';
+    return `<div class="${cls}">${d}</div>`;
+  }).join('');
+
+  // 日付グリッド
   const todayS=todayStr();
-  const ymStr=`${y}-${String(m+1).padStart(2,'0')}`;
   const dailyExp={},dailyInc={};
-  S.transactions.forEach(t=>{
-    if(!t.date.startsWith(ymStr))return;
+  periodTx.forEach(t=>{
     if(t.type==='expense')dailyExp[t.date]=(dailyExp[t.date]||0)+t.amount;
     else dailyInc[t.date]=(dailyInc[t.date]||0)+t.amount;
   });
+
+  // 月度期間の全日付を列挙
   let html='';
-  for(let i=0;i<firstDow;i++)html+='<div class="cal-cell empty"></div>';
-  for(let d=1;d<=daysInMonth;d++){
-    const ds=`${ymStr}-${String(d).padStart(2,'0')}`;
-    const dow=(firstDow+d-1)%7;
+  let cur=new Date(fromDate);
+  while(cur<=toDate){
+    const ds=cur.toISOString().slice(0,10);
+    const dow=cur.getDay();
+    // 列位置は開始日曜日からの相対位置
+    const colIdx=(dow-startDow+7)%7;
     const e2=dailyExp[ds]||0,i2=dailyInc[ds]||0;
     let amtH='';
     if(e2)amtH+=`<div class="cal-day-amt">-${fmtCalAmt(e2)}</div>`;
     if(i2)amtH+=`<div class="cal-day-amt inc">+${fmtCalAmt(i2)}</div>`;
-    html+=`<div class="cal-cell ${ds===todayS?'today':''} ${ds===selectedCalDate?'selected':''} ${dow===0?'sunday':dow===6?'saturday':''}" onclick="calDayClick('${ds}')">
-      <div class="cal-day-num">${d}</div>${amtH}</div>`;
+    const isToday=ds===todayS;
+    const sunCls=colIdx===0?'sunday':'';
+    const satCls=colIdx===6?'saturday':'';
+    html+=`<div class="cal-cell ${isToday?'today':''} ${sunCls} ${satCls}" onclick="calDayClick('${ds}')">
+      <div class="cal-day-num">${cur.getDate()}</div>${amtH}</div>`;
+    cur.setDate(cur.getDate()+1);
   }
   document.getElementById('cal-grid').innerHTML=html;
-  if(selectedCalDate&&selectedCalDate.startsWith(ymStr))renderCalDayTx(selectedCalDate);
-  else document.getElementById('cal-tx-section').innerHTML='';
+
+  // 常時TX一覧を表示
+  renderCalAllTx(from,to,periodTx);
 }
-function calShift(d){calMonth+=d;if(calMonth<0){calMonth=11;calYear--;}if(calMonth>11){calMonth=0;calYear++;}selectedCalDate=null;renderCalendar();}
+
+function renderCalAllTx(from,to,periodTx){
+  const sorted=[...periodTx].sort((a,b)=>b.date.localeCompare(a.date)||b.id-a.id);
+  if(!sorted.length){
+    document.getElementById('cal-tx-section').innerHTML='<div class="empty-state"><div class="empty-state-emoji">📋</div><div class="empty-state-text">この期間の記録はありません</div></div>';
+    return;
+  }
+  const groups={};
+  sorted.forEach(t=>{if(!groups[t.date])groups[t.date]=[];groups[t.date].push(t);});
+
+  let html='';
+  Object.keys(groups).sort((a,b)=>b.localeCompare(a)).forEach(date=>{
+    const gtxs=groups[date];
+    const net=gtxs.reduce((s,t)=>s+(t.type==='income'?t.amount:-t.amount),0);
+    const d=new Date(date+'T00:00:00');
+    const dLabel=`${d.getFullYear()}年${d.getMonth()+1}月${d.getDate()}日(${DOW[d.getDay()]})`;
+    html+=`<div class="cal-date-group">
+      <div class="cal-date-group-header">
+        <span style="cursor:pointer;color:var(--accent2);" onclick="openInputForDate('${date}')">${dLabel} ＋</span>
+        <span class="cal-date-group-sum ${net>=0?'plus':'minus'}">${fmtSigned(net)}</span>
+      </div>
+      <div class="tx-card">${gtxs.map(t=>makeTxRow(t)).join('')}</div>
+    </div>`;
+  });
+
+  // 追加ボタン
+  html+=`<button style="width:100%;margin:10px 0 16px;padding:13px;background:var(--bg2);border:0.5px solid var(--border2);border-radius:var(--radius);color:var(--accent2);font-size:14px;font-family:var(--font);cursor:pointer;" onclick="openInputForDate('${todayStr()}')">+ 今日の記録を追加</button>`;
+
+  document.getElementById('cal-tx-section').innerHTML=html;
+}
+
+function calShift(d){
+  calMonth+=d;
+  if(calMonth<1){calMonth=12;calYear--;}
+  if(calMonth>12){calMonth=1;calYear++;}
+  renderCalendar();
+}
+
 function calDayClick(ds){
-  selectedCalDate=ds;
+  // その日の記録があれば詳細モーダル、なければ入力へ
   const txs=S.transactions.filter(t=>t.date===ds);
   if(txs.length===0){openInputForDate(ds);}
-  else{renderCalendar();renderCalDayTx(ds);}
-}
-function renderCalDayTx(ds){
-  const txs=S.transactions.filter(t=>t.date===ds).sort((a,b)=>b.id-a.id);
-  const d=new Date(ds+'T00:00:00');
-  const dLabel=`${d.getFullYear()}年${d.getMonth()+1}月${d.getDate()}日(${DOW[d.getDay()]})`;
-  const net=txs.reduce((s,t)=>s+(t.type==='income'?t.amount:-t.amount),0);
-  document.getElementById('cal-tx-section').innerHTML=`
-    <div class="cal-tx-date-header"><span>${dLabel}</span><span style="color:${net>=0?'var(--accent2)':'var(--red)'}">${fmtSigned(net)}</span></div>
-    <div style="margin-top:6px;"><div class="tx-card">${txs.map(t=>{
-      const c=getCat(t.catId),ac=getAcct(t.acctId);
-      return `<div class="tx-row" onclick="showTxModal(${t.id})">
-        <div class="tx-icon" style="background:${c.color}22;">${c.icon}</div>
-        <div class="tx-info"><div class="tx-name">${t.memo||c.name}</div><div class="tx-cat">${c.name}<span class="tx-acct-badge">${ac.icon} ${ac.name}</span></div></div>
-        <div class="tx-amt ${t.type==='expense'?'exp':'inc'}">${t.type==='expense'?'-':'+'}${fmt(t.amount)}</div>
-        <svg class="tx-chevron" width="7" height="12" viewBox="0 0 7 12"><path d="M1 1l5 5-5 5" stroke="currentColor" stroke-width="1.5" fill="none" stroke-linecap="round"/></svg>
-      </div>`;}).join('')}</div></div>
-    <button style="width:100%;margin-top:10px;padding:13px;background:var(--bg2);border:0.5px solid var(--border2);border-radius:var(--radius);color:var(--accent2);font-size:14px;font-family:var(--font);cursor:pointer;" onclick="openInputForDate('${ds}')">+ この日に追加</button>`;
+  else{
+    // その日の最初のTXの詳細を開く
+    showTxModal(txs[txs.length-1].id);
+  }
 }
 
 // REPORT
@@ -962,24 +1001,101 @@ function savePeriodSettings(){
   save();closeModal('modal-period');renderSettings();renderHome();toast('期間設定を保存しました ✓');
 }
 
-// TX詳細
+// TX詳細・編集モーダル
+let editingTxId=null,editTxCatId=1,editTxAcctId=1,editTxType='expense';
+
 function showTxModal(id){
   const tx=S.transactions.find(t=>t.id==id);if(!tx)return;
+  editingTxId=id;
+  editTxType=tx.type;
+  editTxCatId=tx.catId;
+  editTxAcctId=tx.acctId;
   const c=getCat(tx.catId),ac=getAcct(tx.acctId);
+  document.getElementById('modal-tx-title').textContent='詳細・編集';
+
+  const catsHtml=S.categories.filter(cat=>cat.type===tx.type).map(cat=>`
+    <div class="edit-cat-tile ${cat.id===editTxCatId?'selected':''}" onclick="selectEditCat(${cat.id})">
+      <div class="edit-cat-icon">${cat.icon}</div>
+      <div class="edit-cat-label">${cat.name}</div>
+    </div>`).join('');
+
+  const acctsHtml=S.accounts.length>1?`
+    <div class="modal-form-label">口座</div>
+    <div style="display:flex;gap:8px;flex-wrap:wrap;margin-bottom:16px;" id="edit-acct-pills">
+      ${S.accounts.map(a=>`<button class="acct-pill ${a.id===editTxAcctId?'selected':''}" onclick="selectEditAcct(${a.id})">${a.icon} ${a.name}</button>`).join('')}
+    </div>`:'';
+
   document.getElementById('modal-tx-body').innerHTML=`
-    <div style="display:flex;align-items:center;gap:14px;margin-bottom:20px;">
-      <div style="width:56px;height:56px;border-radius:50%;background:${c.color}22;display:flex;align-items:center;justify-content:center;font-size:28px;">${c.icon}</div>
-      <div><div style="font-size:22px;font-weight:700;color:${tx.type==='expense'?'var(--red)':'var(--accent2)'};">${tx.type==='expense'?'-':'+'}${fmt(tx.amount)}</div><div style="font-size:14px;color:var(--text2);margin-top:2px;">${tx.memo||c.name}</div></div>
+    <div style="display:flex;align-items:center;gap:12px;margin-bottom:16px;">
+      <div style="width:48px;height:48px;border-radius:50%;background:${c.color}22;display:flex;align-items:center;justify-content:center;font-size:24px;">${c.icon}</div>
+      <div>
+        <div style="font-size:20px;font-weight:700;color:${tx.type==='expense'?'var(--red)':'var(--accent2)'};">${tx.type==='expense'?'-':'+'}${fmt(tx.amount)}</div>
+        <div style="font-size:12px;color:var(--text4);">${tx.date} · ${c.name} · ${ac.name}</div>
+      </div>
     </div>
-    <div style="background:var(--bg3);border-radius:var(--radius-sm);overflow:hidden;margin-bottom:16px;">
-      <div style="display:flex;padding:12px 14px;border-bottom:0.5px solid var(--border);"><span style="color:var(--text4);width:80px;">カテゴリー</span><span>${c.name}</span></div>
-      <div style="display:flex;padding:12px 14px;border-bottom:0.5px solid var(--border);"><span style="color:var(--text4);width:80px;">口座</span><span>${ac.icon} ${ac.name}</span></div>
-      <div style="display:flex;padding:12px 14px;border-bottom:0.5px solid var(--border);"><span style="color:var(--text4);width:80px;">日付</span><span>${tx.date}</span></div>
-      <div style="display:flex;padding:12px 14px;"><span style="color:var(--text4);width:80px;">メモ</span><span>${tx.memo||'—'}</span></div>
+    <div class="modal-form-label">金額</div>
+    <div style="display:flex;align-items:center;background:var(--bg3);border:1px solid var(--border2);border-radius:var(--radius-sm);padding:10px 14px;margin-bottom:16px;">
+      <input id="edit-amount" type="number" value="${tx.amount}" inputmode="decimal" style="flex:1;background:none;border:none;outline:none;font-size:22px;font-weight:700;color:var(--text);font-family:var(--font);">
+      <span style="color:var(--text3);">円</span>
     </div>
-    <button onclick="deleteTx(${tx.id})" class="modal-delete-btn">この記録を削除</button>`;
+    <div class="modal-form-label">日付</div>
+    <input class="modal-input" id="edit-date" type="date" value="${tx.date}">
+    <div class="modal-form-label">メモ</div>
+    <input class="modal-input" id="edit-memo" type="text" value="${tx.memo||''}" placeholder="未入力">
+    <div class="modal-form-label">カテゴリー</div>
+    <div class="edit-cat-grid" id="edit-cat-grid">${catsHtml}</div>
+    ${acctsHtml}
+    <button class="modal-save-btn" onclick="saveEditTx()">変更を保存</button>
+    <button class="modal-delete-btn" onclick="deleteTx(${tx.id})">この記録を削除</button>`;
   openModal('modal-tx');
 }
+
+function selectEditCat(id){
+  editTxCatId=id;
+  document.querySelectorAll('#edit-cat-grid .edit-cat-tile').forEach(el=>{
+    const elId=parseInt(el.getAttribute('onclick').match(/\d+/)[0]);
+    el.className='edit-cat-tile'+(elId===id?' selected':'');
+  });
+}
+
+function selectEditAcct(id){
+  editTxAcctId=id;
+  document.querySelectorAll('#edit-acct-pills .acct-pill').forEach(el=>{
+    const elId=parseInt(el.getAttribute('onclick').match(/\d+/)[0]);
+    el.className='acct-pill'+(elId===id?' selected':'');
+  });
+}
+
+function saveEditTx(){
+  const tx=S.transactions.find(t=>t.id==editingTxId);if(!tx)return;
+  const newAmt=parseFloat(document.getElementById('edit-amount').value);
+  const newDate=document.getElementById('edit-date').value;
+  const newMemo=document.getElementById('edit-memo').value.trim();
+  if(!newAmt||newAmt<=0){toast('金額を入力してください');return;}
+  if(!newDate){toast('日付を選択してください');return;}
+
+  // 残高を元に戻す
+  const oldAcct=getAcct(tx.acctId);
+  if(tx.type==='expense')oldAcct.balance=(oldAcct.balance||0)+tx.amount;
+  else oldAcct.balance=(oldAcct.balance||0)-tx.amount;
+
+  // 更新
+  tx.amount=newAmt;
+  tx.date=newDate;
+  tx.memo=newMemo;
+  tx.catId=editTxCatId;
+  tx.acctId=editTxAcctId;
+
+  // 新しい残高を反映
+  const newAcct=getAcct(editTxAcctId);
+  if(tx.type==='expense')newAcct.balance=(newAcct.balance||0)-newAmt;
+  else newAcct.balance=(newAcct.balance||0)+newAmt;
+
+  save();closeModal('modal-tx');toast('変更を保存しました ✓');
+  if(currentScreen==='home')renderHome();
+  if(currentScreen==='calendar')renderCalendar();
+}
+
 function deleteTx(id){
   const tx=S.transactions.find(t=>t.id==id);if(!tx)return;
   if(!confirm('この記録を削除しますか？'))return;
@@ -992,7 +1108,7 @@ function deleteTx(id){
   if(currentScreen==='calendar')renderCalendar();
 }
 
-// CSV インポート (口座選択)
+// CSV
 let pendingCSVText='',csvImportAcctId=1;
 function triggerSimpleCSV(){document.getElementById('simple-csv-input').click();}
 function handleSimpleCSVFile(e){
@@ -1043,7 +1159,6 @@ function executeCSVImport(){
   toast(`${imported}件を「${getAcct(csvImportAcctId).name}」に取り込みました ✓`);
   if(currentScreen==='home')renderHome();
 }
-
 function exportMyCSV(){
   const rows=[['日付','金額','メモ','カテゴリー','口座','種類']];
   [...S.transactions].sort((a,b)=>a.date.localeCompare(b.date)).forEach(t=>{
