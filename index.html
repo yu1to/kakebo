@@ -20,9 +20,9 @@
   --radius:12px;--radius-sm:8px;--nav-h:83px;
   --font:'Noto Sans JP',sans-serif;
 }
-html,body{height:100%;overflow:hidden;}
+html,body{height:100%;overflow:hidden;max-width:100vw;}
 body{background:var(--bg);color:var(--text);font-family:var(--font);font-size:14px;}
-.screen{display:none;position:fixed;inset:0;bottom:var(--nav-h);}
+.screen{display:none;position:fixed;inset:0;bottom:var(--nav-h);overflow:hidden;}
 .screen.active{display:flex;flex-direction:column;}
 .tab-bar{position:fixed;bottom:0;left:0;right:0;height:var(--nav-h);background:rgba(28,28,30,0.94);backdrop-filter:blur(20px);-webkit-backdrop-filter:blur(20px);border-top:0.5px solid var(--border);display:flex;align-items:flex-start;padding-top:8px;z-index:1000;}
 .tab-btn{flex:1;display:flex;flex-direction:column;align-items:center;gap:4px;background:none;border:none;cursor:pointer;padding:4px 2px;color:var(--text4);font-size:10px;font-family:var(--font);}
@@ -32,7 +32,7 @@ body{background:var(--bg);color:var(--text);font-family:var(--font);font-size:14
 .nav-header-row{display:flex;align-items:center;justify-content:space-between;}
 .nav-title{font-size:17px;font-weight:700;letter-spacing:-0.3px;}
 .nav-btn-icon{background:none;border:none;color:var(--accent2);font-size:14px;cursor:pointer;padding:4px;}
-.scroll-area{flex:1;overflow-y:auto;-webkit-overflow-scrolling:touch;}
+.scroll-area{flex:1;overflow-y:auto;-webkit-overflow-scrolling:touch;overflow-x:hidden;}
 .scroll-area-inner{padding-bottom:20px;}
 .segment{display:flex;background:var(--bg3);border-radius:var(--radius-sm);padding:2px;margin:0 16px 16px;}
 .seg-btn{flex:1;padding:7px;border:none;border-radius:6px;background:none;color:var(--text3);font-family:var(--font);font-size:13px;font-weight:500;cursor:pointer;transition:all .15s;}
@@ -95,7 +95,7 @@ body{background:var(--bg);color:var(--text);font-family:var(--font);font-size:14
 .date-nav-row{display:flex;align-items:center;gap:12px;}
 .date-nav-btn{background:none;border:none;color:var(--accent2);font-size:20px;cursor:pointer;padding:0 4px;}
 .date-nav-label{flex:1;text-align:center;font-size:15px;background:var(--bg3);border:none;border-radius:var(--radius-sm);padding:8px;color:var(--text);font-family:var(--font);}
-.input-scroll{flex:1;overflow-y:auto;-webkit-overflow-scrolling:touch;}
+.input-scroll{flex:1;overflow-y:auto;-webkit-overflow-scrolling:touch;overflow-x:hidden;}
 .cat-section-title{font-size:13px;font-weight:600;color:var(--text2);padding:12px 16px 8px;}
 .cat-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:10px;padding:0 16px 16px;}
 .cat-tile{background:var(--bg2);border-radius:var(--radius-sm);padding:14px 8px;display:flex;flex-direction:column;align-items:center;gap:6px;cursor:pointer;border:2px solid transparent;transition:all .15s;}
@@ -128,7 +128,7 @@ body{background:var(--bg);color:var(--text);font-family:var(--font);font-size:14
 .cal-grid{display:grid;grid-template-columns:repeat(7,1fr);gap:1px;}
 .cal-cell{aspect-ratio:1;display:flex;flex-direction:column;align-items:center;justify-content:flex-start;padding-top:3px;border-radius:6px;cursor:pointer;transition:background .1s;}
 .cal-cell:active{background:var(--bg3);}
-.cal-cell.empty{pointer-events:none;}
+.cal-cell.other-month{opacity:0.35;}
 .cal-cell.selected{background:var(--bg3);}
 .cal-day-num{font-size:12px;font-weight:500;color:var(--text2);width:26px;height:26px;display:flex;align-items:center;justify-content:center;border-radius:50%;}
 .cal-cell.today .cal-day-num{background:var(--accent2);color:#fff;font-weight:700;}
@@ -136,11 +136,11 @@ body{background:var(--bg);color:var(--text);font-family:var(--font);font-size:14
 .cal-cell.saturday .cal-day-num{color:var(--teal);}
 .cal-day-amt{font-size:7px;color:var(--red);margin-top:1px;font-weight:500;line-height:1.2;text-align:center;}
 .cal-day-amt.inc{color:var(--accent2);}
-.cal-scroll{flex:1;overflow-y:auto;-webkit-overflow-scrolling:touch;}
+.cal-scroll{flex:1;overflow-y:auto;-webkit-overflow-scrolling:touch;overflow-x:hidden;}
 .cal-tx-section{padding:8px 16px 0;}
-.cal-period-header{font-size:13px;font-weight:600;color:var(--text2);padding:8px 0 6px;border-bottom:0.5px solid var(--border);display:flex;justify-content:space-between;margin-bottom:6px;}
 .cal-date-group{margin-bottom:8px;}
 .cal-date-group-header{font-size:11px;color:var(--text4);padding:4px 0;display:flex;justify-content:space-between;margin-bottom:3px;}
+.cal-date-group-add{color:var(--accent2);cursor:pointer;}
 .cal-date-group-sum.minus{color:var(--red);}
 .cal-date-group-sum.plus{color:var(--accent2);}
 /* REPORT */
@@ -173,12 +173,12 @@ body{background:var(--bg);color:var(--text);font-family:var(--font);font-size:14
 /* MODAL */
 .modal-overlay{position:fixed;inset:0;background:rgba(0,0,0,0.6);z-index:2000;display:flex;align-items:flex-end;opacity:0;pointer-events:none;transition:opacity .2s;}
 .modal-overlay.open{opacity:1;pointer-events:all;}
-.modal-sheet{background:var(--bg2);border-radius:20px 20px 0 0;width:100%;max-height:92vh;overflow-y:auto;transform:translateY(30px);transition:transform .25s cubic-bezier(0.32,0.72,0,1);padding-bottom:env(safe-area-inset-bottom);}
+.modal-sheet{background:var(--bg2);border-radius:20px 20px 0 0;width:100%;max-width:100vw;max-height:92vh;overflow-y:auto;overflow-x:hidden;transform:translateY(30px);transition:transform .25s cubic-bezier(0.32,0.72,0,1);padding-bottom:env(safe-area-inset-bottom);}
 .modal-overlay.open .modal-sheet{transform:translateY(0);}
 .modal-header{display:flex;align-items:center;justify-content:space-between;padding:16px 20px;border-bottom:0.5px solid var(--border);}
 .modal-title{font-size:17px;font-weight:700;}
-.modal-close{background:var(--bg3);border:none;border-radius:50%;width:30px;height:30px;display:flex;align-items:center;justify-content:center;cursor:pointer;color:var(--text2);font-size:16px;}
-.modal-body{padding:16px 20px;}
+.modal-close{background:var(--bg3);border:none;border-radius:50%;width:30px;height:30px;display:flex;align-items:center;justify-content:center;cursor:pointer;color:var(--text2);font-size:16px;flex-shrink:0;}
+.modal-body{padding:16px 20px;overflow-x:hidden;}
 .modal-form-label{font-size:12px;color:var(--text4);letter-spacing:0.5px;text-transform:uppercase;margin-bottom:6px;}
 .modal-input{width:100%;background:var(--bg3);border:1px solid var(--border2);border-radius:var(--radius-sm);padding:12px 14px;color:var(--text);font-size:15px;font-family:var(--font);outline:none;margin-bottom:16px;}
 .modal-input:focus{border-color:var(--accent2);}
@@ -198,12 +198,14 @@ body{background:var(--bg);color:var(--text);font-family:var(--font);font-size:14
 .acct-select-icon{font-size:22px;}
 .acct-select-name{flex:1;font-size:15px;font-weight:500;}
 .acct-select-bal{font-size:13px;color:var(--text4);}
-/* TX編集モーダル内のカテゴリグリッド */
-.edit-cat-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:8px;margin-bottom:16px;max-height:200px;overflow-y:auto;}
+/* TX編集 */
+.edit-cat-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:8px;margin-bottom:16px;max-height:180px;overflow-y:auto;}
 .edit-cat-tile{background:var(--bg3);border-radius:var(--radius-sm);padding:10px 6px;display:flex;flex-direction:column;align-items:center;gap:4px;cursor:pointer;border:2px solid transparent;transition:all .15s;}
 .edit-cat-tile.selected{border-color:var(--accent2);background:rgba(50,173,230,0.1);}
-.edit-cat-icon{font-size:20px;}
-.edit-cat-label{font-size:10px;color:var(--text2);text-align:center;}
+.edit-cat-icon{font-size:18px;}
+.edit-cat-label{font-size:10px;color:var(--text2);text-align:center;word-break:break-all;}
+.edit-amount-row{display:flex;align-items:center;background:var(--bg3);border:1px solid var(--border2);border-radius:var(--radius-sm);padding:10px 14px;margin-bottom:16px;}
+.edit-amount-input{flex:1;background:none;border:none;outline:none;font-size:22px;font-weight:700;color:var(--text);font-family:var(--font);min-width:0;}
 #toast{position:fixed;bottom:calc(var(--nav-h)+16px);left:50%;transform:translateX(-50%) translateY(10px);background:rgba(44,44,46,0.95);backdrop-filter:blur(10px);border:0.5px solid var(--border2);border-radius:20px;padding:10px 20px;font-size:13px;z-index:3000;opacity:0;transition:all .25s;pointer-events:none;white-space:nowrap;font-weight:500;}
 #toast.show{opacity:1;transform:translateX(-50%) translateY(0);}
 .empty-state{text-align:center;padding:48px 20px;color:var(--text4);}
@@ -297,12 +299,15 @@ input[type="date"]::-webkit-calendar-picker-indicator{filter:invert(0.7);}
       <div class="cal-summary-item"><div class="cal-summary-item-label">支出</div><div class="cal-summary-item-val" id="cal-exp" style="color:var(--red)">¥0</div></div>
       <div class="cal-summary-item"><div class="cal-summary-item-label">収支</div><div class="cal-summary-item-val" id="cal-net">¥0</div></div>
     </div>
-    <div class="cal-dow-row" id="cal-dow-row"></div>
+    <div class="cal-dow-row">
+      <div class="cal-dow sun">日</div><div class="cal-dow">月</div><div class="cal-dow">火</div>
+      <div class="cal-dow">水</div><div class="cal-dow">木</div><div class="cal-dow">金</div><div class="cal-dow sat">土</div>
+    </div>
     <div class="cal-swipe-wrap" id="cal-swipe-wrap">
       <div class="cal-grid" id="cal-grid"></div>
     </div>
   </div>
-  <div class="cal-scroll">
+  <div class="cal-scroll" id="cal-scroll-area">
     <div class="cal-tx-section" id="cal-tx-section"></div>
   </div>
 </div>
@@ -469,11 +474,10 @@ input[type="date"]::-webkit-calendar-picker-indicator{filter:invert(0.7);}
   </div>
 </div>
 
-<!-- TX 詳細・編集モーダル -->
 <div class="modal-overlay" id="modal-tx">
   <div class="modal-sheet">
     <div class="modal-header">
-      <span class="modal-title" id="modal-tx-title">詳細</span>
+      <span class="modal-title" id="modal-tx-title">詳細・編集</span>
       <button class="modal-close" onclick="closeModal('modal-tx')">×</button>
     </div>
     <div class="modal-body" id="modal-tx-body"></div>
@@ -544,7 +548,22 @@ function load(){
 
 function fmt(n){return '¥'+Math.abs(n).toLocaleString();}
 function fmtSigned(n){return (n>=0?'+¥':'-¥')+Math.abs(n).toLocaleString();}
-function todayStr(){return new Date().toISOString().slice(0,10);}
+
+// タイムゾーンバグ修正: 常にローカル日付を使う
+function todayStr(){
+  const d=new Date();
+  return d.getFullYear()+'-'+String(d.getMonth()+1).padStart(2,'0')+'-'+String(d.getDate()).padStart(2,'0');
+}
+// 日付文字列(YYYY-MM-DD)をローカルDateに変換
+function parseDate(s){
+  const [y,m,d]=s.split('-').map(Number);
+  return new Date(y,m-1,d);
+}
+// DateをYYYY-MM-DD文字列に
+function dateToStr(d){
+  return d.getFullYear()+'-'+String(d.getMonth()+1).padStart(2,'0')+'-'+String(d.getDate()).padStart(2,'0');
+}
+
 function getCat(id){return S.categories.find(c=>c.id==id)||{name:'その他',icon:'📋',color:'#636366',type:'expense'};}
 function getAcct(id){return S.accounts.find(a=>a.id==id)||S.accounts[0]||{name:'不明',icon:'🏦',balance:0,id:0};}
 function totalBalance(){return S.accounts.reduce((s,a)=>s+(a.balance||0),0);}
@@ -552,32 +571,31 @@ function toast(msg,ms=2200){const t=document.getElementById('toast');t.textConte
 function openModal(id){document.getElementById(id).classList.add('open');}
 function closeModal(id){document.getElementById(id).classList.remove('open');}
 
-// カレンダー金額: カンマ区切りフル表示
-function fmtCalAmt(n){return n.toLocaleString();}
-
-// 月度期間
+// 月度期間計算
 function getCurrentPeriod(){
   const now=new Date(),sd=S.settings.monthStartDay;
   let fy=now.getFullYear(),fm=now.getMonth()+1;
   if(now.getDate()<sd){fm--;if(fm<1){fm=12;fy--;}}
-  const from=`${fy}-${String(fm).padStart(2,'0')}-${String(sd).padStart(2,'0')}`;
+  const from=fy+'-'+String(fm).padStart(2,'0')+'-'+String(sd).padStart(2,'0');
   let toM=fm+1,toY=fy;if(toM>12){toM=1;toY++;}
-  const to=new Date(toY,toM-1,sd-1).toISOString().slice(0,10);
+  const toDate=new Date(toY,toM-1,sd-1);
+  const to=dateToStr(toDate);
   return {from,to};
 }
 function getPeriodLabel(){
   const {from,to}=getCurrentPeriod();
-  const fd=new Date(from+'T00:00:00'),td=new Date(to+'T00:00:00');
+  const fd=parseDate(from),td=parseDate(to);
   return `${fd.getMonth()+1}/${fd.getDate()}〜${td.getMonth()+1}/${td.getDate()}`;
 }
-// カレンダーの月度期間（表示月の開始日〜終了日）
+// カレンダー月度期間: 表示年月(y,m 1-indexed)の月度
 function getCalPeriod(y,m){
   const sd=S.settings.monthStartDay;
-  const from=`${y}-${String(m).padStart(2,'0')}-${String(sd).padStart(2,'0')}`;
+  const from=y+'-'+String(m).padStart(2,'0')+'-'+String(sd).padStart(2,'0');
   let toM=m+1,toY=y;if(toM>12){toM=1;toY++;}
-  const to=new Date(toY,toM-1,sd-1).toISOString().slice(0,10);
-  const fromD=new Date(from+'T00:00:00'),toD=new Date(to+'T00:00:00');
-  const sub=`(${y}/${m}/${sd}〜${toD.getFullYear()}/${toD.getMonth()+1}/${toD.getDate()})`;
+  const toDate=new Date(toY,toM-1,sd-1);
+  const to=dateToStr(toDate);
+  const fd=parseDate(from),td=toDate;
+  const sub=`(${y}/${m}/${sd}〜${td.getFullYear()}/${td.getMonth()+1}/${td.getDate()})`;
   return {from,to,sub};
 }
 
@@ -598,7 +616,7 @@ function showScreen(name,opts={}){
 // HOME
 function renderHome(){
   const {from,to}=getCurrentPeriod();
-  const fd=new Date(from+'T00:00:00');
+  const fd=parseDate(from);
   document.getElementById('home-period-label').textContent=`${fd.getFullYear()}年${fd.getMonth()+1}月`;
   const sub=getPeriodLabel();
   document.getElementById('home-inc-label').textContent=`今月の収入 (${sub})`;
@@ -637,7 +655,7 @@ function renderTxList(id,txs){
   el.innerHTML=Object.keys(groups).sort((a,b)=>b.localeCompare(a)).map(date=>{
     const gtxs=groups[date];
     const net=gtxs.reduce((s,t)=>s+(t.type==='income'?t.amount:-t.amount),0);
-    const d=new Date(date+'T00:00:00');
+    const d=parseDate(date);
     const dLabel=`${d.getFullYear()}年${d.getMonth()+1}月${d.getDate()}日(${DOW[d.getDay()]})`;
     return `<div class="tx-group">
       <div class="tx-group-date"><span>${dLabel}</span><span class="tx-group-date-sum ${net>=0?'plus':'minus'}">${fmtSigned(net)}</span></div>
@@ -686,9 +704,10 @@ function renderInputCats(){
 }
 function selectCat(id){selectedCatId=id;renderInputCats();}
 function shiftDate(d){
-  const dt=new Date(document.getElementById('input-date').value+'T00:00:00');
+  const parts=document.getElementById('input-date').value.split('-').map(Number);
+  const dt=new Date(parts[0],parts[1]-1,parts[2]);
   dt.setDate(dt.getDate()+d);
-  document.getElementById('input-date').value=dt.toISOString().slice(0,10);
+  document.getElementById('input-date').value=dateToStr(dt);
 }
 function submitTx(){
   const amt=parseFloat(document.getElementById('input-amount').value);
@@ -711,7 +730,7 @@ function openInputForDate(ds){
 }
 
 // CALENDAR
-let calYear=new Date().getFullYear(),calMonth=new Date().getMonth()+1; // 1-indexed month
+let calYear=new Date().getFullYear(),calMonth=new Date().getMonth()+1;
 let swipeStartX=0,swipeStartY=0;
 
 function initCalSwipe(){
@@ -725,14 +744,14 @@ function initCalSwipe(){
 }
 
 function renderCalendar(){
-  const y=calYear,m=calMonth; // m is 1-indexed
+  const y=calYear,m=calMonth;
   const sd=S.settings.monthStartDay;
   const {from,to,sub}=getCalPeriod(y,m);
 
   document.getElementById('cal-month-label').textContent=`${y}年${m}月`;
   document.getElementById('cal-month-sub').textContent=sub;
 
-  // 月度期間内のTX
+  // 月度期間TX
   const periodTx=S.transactions.filter(t=>t.date>=from&&t.date<=to);
   const inc=periodTx.filter(t=>t.type==='income').reduce((s,t)=>s+t.amount,0);
   const exp=periodTx.filter(t=>t.type==='expense').reduce((s,t)=>s+t.amount,0);
@@ -742,82 +761,79 @@ function renderCalendar(){
   const netEl=document.getElementById('cal-net');
   netEl.textContent=fmtSigned(net);netEl.style.color=net>=0?'var(--accent2)':'var(--red)';
 
-  // 月度開始日の曜日を基準にカレンダーを構築
-  // 表示: from(開始日)からto(終了日)まで
-  const fromDate=new Date(from+'T00:00:00');
-  const toDate=new Date(to+'T00:00:00');
+  // 月度開始日のDateオブジェクト(ローカル)
+  const fromDate=parseDate(from);
+  const toDate=parseDate(to);
 
-  // 曜日ヘッダー（開始曜日を月度の最初の列に）
-  const startDow=fromDate.getDay(); // 0=日, 6=土
-  const dowLabels=['日','月','火','水','木','金','土'];
-  // 開始曜日に合わせて並び替え
-  const orderedDow=[];
-  for(let i=0;i<7;i++) orderedDow.push(dowLabels[(startDow+i)%7]);
-  document.getElementById('cal-dow-row').innerHTML=orderedDow.map((d,i)=>{
-    const cls=i===0?'cal-dow sun':i===6?'cal-dow sat':'cal-dow';
-    return `<div class="${cls}">${d}</div>`;
-  }).join('');
+  // カレンダーは日月火水木金土固定(startDow=0=日)
+  // fromDateの曜日を取得してその前の日曜から開始
+  const fromDow=fromDate.getDay(); // 0=日
+  // グリッド開始日: fromDateの直前の日曜日（または当日が日曜ならそのまま）
+  const gridStart=new Date(fromDate);
+  gridStart.setDate(gridStart.getDate()-fromDow);
 
-  // 日付グリッド
+  // グリッド終了日: toDateの次の土曜日まで
+  const toDateDow=toDate.getDay();
+  const gridEnd=new Date(toDate);
+  if(toDateDow<6) gridEnd.setDate(gridEnd.getDate()+(6-toDateDow));
+
   const todayS=todayStr();
   const dailyExp={},dailyInc={};
-  periodTx.forEach(t=>{
-    if(t.type==='expense')dailyExp[t.date]=(dailyExp[t.date]||0)+t.amount;
-    else dailyInc[t.date]=(dailyInc[t.date]||0)+t.amount;
+  // 表示範囲の全TXを集計
+  S.transactions.forEach(t=>{
+    const ds=t.date;
+    if(ds<dateToStr(gridStart)||ds>dateToStr(gridEnd))return;
+    if(t.type==='expense')dailyExp[ds]=(dailyExp[ds]||0)+t.amount;
+    else dailyInc[ds]=(dailyInc[ds]||0)+t.amount;
   });
 
-  // 月度期間の全日付を列挙
   let html='';
-  let cur=new Date(fromDate);
-  while(cur<=toDate){
-    const ds=cur.toISOString().slice(0,10);
+  let cur=new Date(gridStart);
+  while(cur<=gridEnd){
+    const ds=dateToStr(cur);
     const dow=cur.getDay();
-    // 列位置は開始日曜日からの相対位置
-    const colIdx=(dow-startDow+7)%7;
+    const isCurrentPeriod=ds>=from&&ds<=to;
     const e2=dailyExp[ds]||0,i2=dailyInc[ds]||0;
     let amtH='';
-    if(e2)amtH+=`<div class="cal-day-amt">-${fmtCalAmt(e2)}</div>`;
-    if(i2)amtH+=`<div class="cal-day-amt inc">+${fmtCalAmt(i2)}</div>`;
+    if(e2)amtH+=`<div class="cal-day-amt">-${e2.toLocaleString()}</div>`;
+    if(i2)amtH+=`<div class="cal-day-amt inc">+${i2.toLocaleString()}</div>`;
     const isToday=ds===todayS;
-    const sunCls=colIdx===0?'sunday':'';
-    const satCls=colIdx===6?'saturday':'';
-    html+=`<div class="cal-cell ${isToday?'today':''} ${sunCls} ${satCls}" onclick="calDayClick('${ds}')">
+    const sunCls=dow===0?'sunday':'';
+    const satCls=dow===6?'saturday':'';
+    const otherCls=!isCurrentPeriod?'other-month':'';
+    html+=`<div class="cal-cell ${isToday?'today':''} ${sunCls} ${satCls} ${otherCls}" onclick="calDayClick('${ds}','${isCurrentPeriod}')">
       <div class="cal-day-num">${cur.getDate()}</div>${amtH}</div>`;
     cur.setDate(cur.getDate()+1);
   }
   document.getElementById('cal-grid').innerHTML=html;
 
-  // 常時TX一覧を表示
+  // 常時TX一覧
   renderCalAllTx(from,to,periodTx);
 }
 
 function renderCalAllTx(from,to,periodTx){
   const sorted=[...periodTx].sort((a,b)=>b.date.localeCompare(a.date)||b.id-a.id);
   if(!sorted.length){
-    document.getElementById('cal-tx-section').innerHTML='<div class="empty-state"><div class="empty-state-emoji">📋</div><div class="empty-state-text">この期間の記録はありません</div></div>';
+    document.getElementById('cal-tx-section').innerHTML='<div class="empty-state"><div class="empty-state-emoji">📋</div><div class="empty-state-text">この期間の記録はありません</div></div><button style="width:100%;margin:8px 0 16px;padding:13px;background:var(--bg2);border:0.5px solid var(--border2);border-radius:var(--radius);color:var(--accent2);font-size:14px;font-family:var(--font);cursor:pointer;" onclick="openInputForDate(\''+todayStr()+'\')">+ 今日の記録を追加</button>';
     return;
   }
   const groups={};
   sorted.forEach(t=>{if(!groups[t.date])groups[t.date]=[];groups[t.date].push(t);});
-
   let html='';
   Object.keys(groups).sort((a,b)=>b.localeCompare(a)).forEach(date=>{
     const gtxs=groups[date];
     const net=gtxs.reduce((s,t)=>s+(t.type==='income'?t.amount:-t.amount),0);
-    const d=new Date(date+'T00:00:00');
-    const dLabel=`${d.getFullYear()}年${d.getMonth()+1}月${d.getDate()}日(${DOW[d.getDay()]})`;
-    html+=`<div class="cal-date-group">
+    const d=parseDate(date);
+    const dLabel=`${d.getMonth()+1}月${d.getDate()}日(${DOW[d.getDay()]})`;
+    html+=`<div class="cal-date-group" id="group-${date}">
       <div class="cal-date-group-header">
-        <span style="cursor:pointer;color:var(--accent2);" onclick="openInputForDate('${date}')">${dLabel} ＋</span>
+        <span><span class="cal-date-group-add" onclick="openInputForDate('${date}')">${dLabel} ＋</span></span>
         <span class="cal-date-group-sum ${net>=0?'plus':'minus'}">${fmtSigned(net)}</span>
       </div>
       <div class="tx-card">${gtxs.map(t=>makeTxRow(t)).join('')}</div>
     </div>`;
   });
-
-  // 追加ボタン
-  html+=`<button style="width:100%;margin:10px 0 16px;padding:13px;background:var(--bg2);border:0.5px solid var(--border2);border-radius:var(--radius);color:var(--accent2);font-size:14px;font-family:var(--font);cursor:pointer;" onclick="openInputForDate('${todayStr()}')">+ 今日の記録を追加</button>`;
-
+  html+=`<button style="width:100%;margin:8px 0 16px;padding:13px;background:var(--bg2);border:0.5px solid var(--border2);border-radius:var(--radius);color:var(--accent2);font-size:14px;font-family:var(--font);cursor:pointer;" onclick="openInputForDate('${todayStr()}')">+ 今日の記録を追加</button>`;
   document.getElementById('cal-tx-section').innerHTML=html;
 }
 
@@ -828,13 +844,19 @@ function calShift(d){
   renderCalendar();
 }
 
-function calDayClick(ds){
-  // その日の記録があれば詳細モーダル、なければ入力へ
+// カレンダー日付タップ: 記録があれば下にスクロール、なければ入力
+function calDayClick(ds,isCurrentPeriod){
+  if(isCurrentPeriod==='false'){return;} // 前後月はスキップ
   const txs=S.transactions.filter(t=>t.date===ds);
-  if(txs.length===0){openInputForDate(ds);}
-  else{
-    // その日の最初のTXの詳細を開く
-    showTxModal(txs[txs.length-1].id);
+  if(txs.length===0){
+    openInputForDate(ds);
+  } else {
+    // その日付グループまでスクロール
+    const scrollArea=document.getElementById('cal-scroll-area');
+    const group=document.getElementById('group-'+ds);
+    if(group&&scrollArea){
+      scrollArea.scrollTo({top:group.offsetTop-8,behavior:'smooth'});
+    }
   }
 }
 
@@ -863,14 +885,14 @@ function renderReport(){
   const sd=S.settings.monthStartDay,sm=S.settings.yearStartMonth;
   if(reportMode==='monthly'){
     const fy=reportYear,fm=reportMonth+1;
-    const from=`${fy}-${String(fm).padStart(2,'0')}-${String(sd).padStart(2,'0')}`;
+    const from=fy+'-'+String(fm).padStart(2,'0')+'-'+String(sd).padStart(2,'0');
     let toM=fm+1,toY=fy;if(toM>12){toM=1;toY++;}
-    const to=new Date(toY,toM-1,sd-1).toISOString().slice(0,10);
+    const to=dateToStr(new Date(toY,toM-1,sd-1));
     txs=S.transactions.filter(t=>t.date>=from&&t.date<=to);
     document.getElementById('report-period-label').textContent=`${fy}年${fm}月 (${from.slice(5).replace('-','/')}〜${to.slice(5).replace('-','/')})`;
   } else if(reportMode==='yearly'){
-    const from=`${reportYear}-${String(sm).padStart(2,'0')}-01`;
-    const to=new Date(reportYear+(sm===1?1:1),sm-1,0).toISOString().slice(0,10);
+    const from=reportYear+'-'+String(sm).padStart(2,'0')+'-01';
+    const to=dateToStr(new Date(reportYear+(sm===1?1:1),sm-1,0));
     txs=S.transactions.filter(t=>t.date>=from&&t.date<=to);
     document.getElementById('report-period-label').textContent=sm===1?`${reportYear}年`:`${reportYear}年${sm}月〜`;
   } else {
@@ -1002,16 +1024,12 @@ function savePeriodSettings(){
 }
 
 // TX詳細・編集モーダル
-let editingTxId=null,editTxCatId=1,editTxAcctId=1,editTxType='expense';
+let editingTxId=null,editTxCatId=1,editTxAcctId=1;
 
 function showTxModal(id){
   const tx=S.transactions.find(t=>t.id==id);if(!tx)return;
-  editingTxId=id;
-  editTxType=tx.type;
-  editTxCatId=tx.catId;
-  editTxAcctId=tx.acctId;
+  editingTxId=id;editTxCatId=tx.catId;editTxAcctId=tx.acctId;
   const c=getCat(tx.catId),ac=getAcct(tx.acctId);
-  document.getElementById('modal-tx-title').textContent='詳細・編集';
 
   const catsHtml=S.categories.filter(cat=>cat.type===tx.type).map(cat=>`
     <div class="edit-cat-tile ${cat.id===editTxCatId?'selected':''}" onclick="selectEditCat(${cat.id})">
@@ -1021,22 +1039,22 @@ function showTxModal(id){
 
   const acctsHtml=S.accounts.length>1?`
     <div class="modal-form-label">口座</div>
-    <div style="display:flex;gap:8px;flex-wrap:wrap;margin-bottom:16px;" id="edit-acct-pills">
-      ${S.accounts.map(a=>`<button class="acct-pill ${a.id===editTxAcctId?'selected':''}" onclick="selectEditAcct(${a.id})">${a.icon} ${a.name}</button>`).join('')}
+    <div style="display:flex;gap:8px;flex-wrap:wrap;margin-bottom:16px;overflow-x:hidden;" id="edit-acct-pills">
+      ${S.accounts.map(a=>`<button class="acct-pill ${a.id===editTxAcctId?'selected':''}" onclick="selectEditAcct(${a.id})" style="flex-shrink:0;">${a.icon} ${a.name}</button>`).join('')}
     </div>`:'';
 
   document.getElementById('modal-tx-body').innerHTML=`
-    <div style="display:flex;align-items:center;gap:12px;margin-bottom:16px;">
-      <div style="width:48px;height:48px;border-radius:50%;background:${c.color}22;display:flex;align-items:center;justify-content:center;font-size:24px;">${c.icon}</div>
-      <div>
-        <div style="font-size:20px;font-weight:700;color:${tx.type==='expense'?'var(--red)':'var(--accent2)'};">${tx.type==='expense'?'-':'+'}${fmt(tx.amount)}</div>
-        <div style="font-size:12px;color:var(--text4);">${tx.date} · ${c.name} · ${ac.name}</div>
+    <div style="display:flex;align-items:center;gap:12px;margin-bottom:16px;overflow:hidden;">
+      <div style="width:44px;height:44px;flex-shrink:0;border-radius:50%;background:${c.color}22;display:flex;align-items:center;justify-content:center;font-size:22px;">${c.icon}</div>
+      <div style="min-width:0;">
+        <div style="font-size:19px;font-weight:700;color:${tx.type==='expense'?'var(--red)':'var(--accent2)'};">${tx.type==='expense'?'-':'+'}${fmt(tx.amount)}</div>
+        <div style="font-size:11px;color:var(--text4);white-space:nowrap;overflow:hidden;text-overflow:ellipsis;">${tx.date} · ${c.name} · ${ac.name}</div>
       </div>
     </div>
     <div class="modal-form-label">金額</div>
-    <div style="display:flex;align-items:center;background:var(--bg3);border:1px solid var(--border2);border-radius:var(--radius-sm);padding:10px 14px;margin-bottom:16px;">
-      <input id="edit-amount" type="number" value="${tx.amount}" inputmode="decimal" style="flex:1;background:none;border:none;outline:none;font-size:22px;font-weight:700;color:var(--text);font-family:var(--font);">
-      <span style="color:var(--text3);">円</span>
+    <div class="edit-amount-row">
+      <input id="edit-amount" type="number" value="${tx.amount}" inputmode="decimal" class="edit-amount-input">
+      <span style="color:var(--text3);flex-shrink:0;">円</span>
     </div>
     <div class="modal-form-label">日付</div>
     <input class="modal-input" id="edit-date" type="date" value="${tx.date}">
@@ -1057,7 +1075,6 @@ function selectEditCat(id){
     el.className='edit-cat-tile'+(elId===id?' selected':'');
   });
 }
-
 function selectEditAcct(id){
   editTxAcctId=id;
   document.querySelectorAll('#edit-acct-pills .acct-pill').forEach(el=>{
@@ -1065,7 +1082,6 @@ function selectEditAcct(id){
     el.className='acct-pill'+(elId===id?' selected':'');
   });
 }
-
 function saveEditTx(){
   const tx=S.transactions.find(t=>t.id==editingTxId);if(!tx)return;
   const newAmt=parseFloat(document.getElementById('edit-amount').value);
@@ -1073,29 +1089,20 @@ function saveEditTx(){
   const newMemo=document.getElementById('edit-memo').value.trim();
   if(!newAmt||newAmt<=0){toast('金額を入力してください');return;}
   if(!newDate){toast('日付を選択してください');return;}
-
   // 残高を元に戻す
   const oldAcct=getAcct(tx.acctId);
   if(tx.type==='expense')oldAcct.balance=(oldAcct.balance||0)+tx.amount;
   else oldAcct.balance=(oldAcct.balance||0)-tx.amount;
-
   // 更新
-  tx.amount=newAmt;
-  tx.date=newDate;
-  tx.memo=newMemo;
-  tx.catId=editTxCatId;
-  tx.acctId=editTxAcctId;
-
-  // 新しい残高を反映
+  tx.amount=newAmt;tx.date=newDate;tx.memo=newMemo;tx.catId=editTxCatId;tx.acctId=editTxAcctId;
+  // 新残高
   const newAcct=getAcct(editTxAcctId);
   if(tx.type==='expense')newAcct.balance=(newAcct.balance||0)-newAmt;
   else newAcct.balance=(newAcct.balance||0)+newAmt;
-
   save();closeModal('modal-tx');toast('変更を保存しました ✓');
   if(currentScreen==='home')renderHome();
   if(currentScreen==='calendar')renderCalendar();
 }
-
 function deleteTx(id){
   const tx=S.transactions.find(t=>t.id==id);if(!tx)return;
   if(!confirm('この記録を削除しますか？'))return;
@@ -1141,14 +1148,14 @@ function executeCSVImport(){
       const rawDate=cols[0].replace(/"/g,'').trim();
       if(!rawDate.match(/^\d{4}\/\d{1,2}\/\d{1,2}$/))continue;
       const [y,mo,d]=rawDate.split('/');
-      const date=`${y}-${mo.padStart(2,'0')}-${d.padStart(2,'0')}`;
+      const date=y+'-'+mo.padStart(2,'0')+'-'+d.padStart(2,'0');
       const amount=parseInt(cols[1]);
       const memo=cols[2].replace(/"/g,'').replace(/\\n/g,'').trim();
       const catId=parseInt(cols[3].trim());
       const typeNum=cols[4].trim();
       if(isNaN(amount)||amount<=0)continue;
       const type=typeNum==='1'?'income':'expense';
-      const key=`${date}_${amount}_${memo}_${type}`;
+      const key=date+'_'+amount+'_'+memo+'_'+type;
       if(existing.has(key))continue;
       if(!S.categories.find(c=>c.id===catId)){const def=DEFAULT_CATS.find(c=>c.id===catId);if(def)S.categories.push({...def});}
       S.transactions.push({id:Date.now()*1000+i,amount,date,memo,type,catId,acctId:csvImportAcctId});
@@ -1156,7 +1163,7 @@ function executeCSVImport(){
     }catch(err){}
   }
   save();closeModal('modal-csv-acct');
-  toast(`${imported}件を「${getAcct(csvImportAcctId).name}」に取り込みました ✓`);
+  toast(imported+'件を「'+getAcct(csvImportAcctId).name+'」に取り込みました ✓');
   if(currentScreen==='home')renderHome();
 }
 function exportMyCSV(){
@@ -1164,16 +1171,16 @@ function exportMyCSV(){
   [...S.transactions].sort((a,b)=>a.date.localeCompare(b.date)).forEach(t=>{
     rows.push([t.date,t.amount,t.memo||'',getCat(t.catId).name,getAcct(t.acctId).name,t.type==='expense'?'支出':'収入']);
   });
-  const csv=rows.map(r=>r.map(v=>`"${v}"`).join(',')).join('\n');
+  const csv=rows.map(r=>r.map(v=>'"'+v+'"').join(',')).join('\n');
   const blob=new Blob(['\uFEFF'+csv],{type:'text/csv;charset=utf-8'});
   const url=URL.createObjectURL(blob);
-  const a=document.createElement('a');a.href=url;a.download=`kakebo_export_${todayStr()}.csv`;a.click();
+  const a=document.createElement('a');a.href=url;a.download='kakebo_export_'+todayStr()+'.csv';a.click();
   URL.revokeObjectURL(url);toast('CSVをエクスポートしました ✓');
 }
 function exportBackup(){
   const blob=new Blob([JSON.stringify(S,null,2)],{type:'application/json'});
   const url=URL.createObjectURL(blob);
-  const a=document.createElement('a');a.href=url;a.download=`kakebo_backup_${todayStr()}.json`;a.click();
+  const a=document.createElement('a');a.href=url;a.download='kakebo_backup_'+todayStr()+'.json';a.click();
   URL.revokeObjectURL(url);toast('バックアップを保存しました ✓');
 }
 function triggerBackupImport(){document.getElementById('backup-import-input').click();}
@@ -1201,9 +1208,9 @@ resetInputForm();
 renderInputCats();
 renderInputAccts();
 initCalSwipe();
-const _today=new Date();
+const _t=new Date();
 document.getElementById('report-date-to').value=todayStr();
-document.getElementById('report-date-from').value=new Date(_today.getFullYear(),_today.getMonth(),1).toISOString().slice(0,10);
+document.getElementById('report-date-from').value=dateToStr(new Date(_t.getFullYear(),_t.getMonth(),1));
 </script>
 </body>
 </html>
