@@ -117,30 +117,30 @@ body{background:var(--bg);color:var(--text);font-family:var(--font);font-size:14
 
 /* CALENDAR - 収支バーなし、カレンダーと詳細のみ */
 .cal-fixed{flex-shrink:0;}
-.cal-month-nav{display:flex;align-items:center;gap:8px;padding:6px 14px;}
-.cal-month-btn{background:var(--bg3);border:none;border-radius:var(--radius-sm);padding:6px 12px;color:var(--text);font-family:var(--font);cursor:pointer;font-size:18px;line-height:1;}
+.cal-month-nav{display:flex;align-items:center;gap:6px;padding:4px 12px;}
+.cal-month-btn{background:var(--bg3);border:none;border-radius:var(--radius-sm);padding:5px 10px;color:var(--text);font-family:var(--font);cursor:pointer;font-size:16px;line-height:1;}
 .cal-month-label-wrap{flex:1;text-align:center;}
-.cal-month-label{font-size:15px;font-weight:700;}
-.cal-month-sub{font-size:9px;color:var(--text4);margin-top:1px;}
-.cal-dow-row{display:grid;grid-template-columns:repeat(7,1fr);padding:2px 14px 1px;}
-.cal-dow{text-align:center;font-size:10px;color:var(--text4);padding:2px 0;}
+.cal-month-label{font-size:14px;font-weight:700;}
+.cal-month-sub{font-size:8px;color:var(--text4);margin-top:0;}
+.cal-dow-row{display:grid;grid-template-columns:repeat(7,1fr);padding:1px 12px 1px;}
+.cal-dow{text-align:center;font-size:10px;color:var(--text4);padding:1px 0;}
 .cal-dow.sun{color:var(--red);}
 .cal-dow.sat{color:var(--teal);}
-.cal-swipe-wrap{overflow:hidden;touch-action:pan-y;padding:0 14px;}
+.cal-swipe-wrap{overflow:hidden;touch-action:pan-y;padding:0 12px;}
 .cal-grid{display:grid;grid-template-columns:repeat(7,1fr);gap:1px;}
-.cal-cell{aspect-ratio:1;display:flex;flex-direction:column;align-items:center;justify-content:flex-start;padding-top:2px;border-radius:5px;cursor:pointer;transition:background .1s;position:relative;}
+.cal-cell{aspect-ratio:0.85;display:flex;flex-direction:column;align-items:center;justify-content:flex-start;padding-top:2px;border-radius:5px;cursor:pointer;transition:background .1s;position:relative;}
 .cal-cell:active{background:var(--bg3);}
 .cal-cell.other-month{opacity:0.3;}
 .cal-cell.selected{background:var(--bg3);}
 .cal-cell.scrolled{background:rgba(50,173,230,0.12);}
-.cal-day-num{font-size:11px;font-weight:500;color:var(--text2);width:22px;height:22px;display:flex;align-items:center;justify-content:center;border-radius:50%;}
+.cal-day-num{font-size:11px;font-weight:500;color:var(--text2);width:20px;height:20px;display:flex;align-items:center;justify-content:center;border-radius:50%;}
 .cal-cell.today .cal-day-num{background:var(--accent2);color:#fff;font-weight:700;}
 .cal-cell.sunday .cal-day-num{color:var(--red);}
 .cal-cell.saturday .cal-day-num{color:var(--teal);}
 .cal-day-amt{font-size:6.5px;color:var(--red);font-weight:500;line-height:1.2;text-align:center;max-width:100%;overflow:hidden;}
 .cal-day-amt.inc{color:var(--accent2);}
 .cal-scroll{flex:1;overflow-y:auto;-webkit-overflow-scrolling:touch;overflow-x:hidden;}
-.cal-tx-section{padding:6px 14px 0;}
+.cal-tx-section{padding:4px 12px 0;}
 .cal-date-group{margin-bottom:6px;}
 .cal-date-group-header{font-size:11px;color:var(--text4);padding:4px 0 3px;display:flex;justify-content:space-between;}
 .cal-date-group-add{color:var(--accent2);cursor:pointer;}
@@ -589,7 +589,7 @@ function showScreen(name,opts={}){
   currentScreen=name;
   if(name==='home')renderHome();
   if(name==='input'){if(!opts.fromCal)resetInputForm();renderInputCats();renderInputAccts();}
-  if(name==='calendar')renderCalendar();
+  if(name==='calendar'){if(!calYear)initCalMonth();renderCalendar();}
   if(name==='report')renderReport();
   if(name==='settings')renderSettings();
 }
@@ -710,7 +710,15 @@ function openInputForDate(ds){
 }
 
 // CALENDAR
-let calYear=new Date().getFullYear(),calMonth=new Date().getMonth()+1;
+let calYear,calMonth;
+function initCalMonth(){
+  // 今日が何月度か計算してカレンダー初期表示月を設定
+  const now=new Date();
+  const sd=S.settings.monthStartDay;
+  let fy=now.getFullYear(),fm=now.getMonth()+1;
+  if(now.getDate()<sd){fm--;if(fm<1){fm=12;fy--;}}
+  calYear=fy;calMonth=fm;
+}
 let swipeStartX=0,swipeStartY=0;
 // ダブルタップ検出
 let lastTapTime=0,lastTapTarget='';
@@ -829,11 +837,10 @@ function calCellClick(el,ds,isCurrentPeriod){
   const group=document.getElementById('group-'+ds);
   const scrollArea=document.getElementById('cal-scroll-area');
   if(group&&scrollArea){
-    // cal-tx-sectionのoffsetTopを基準に計算
-    const sec=document.getElementById('cal-tx-section');
-    const secTop=sec.offsetTop;
-    const groupTop=group.offsetTop;
-    scrollArea.scrollTo({top:secTop+groupTop-4,behavior:'smooth'});
+    const areaRect=scrollArea.getBoundingClientRect();
+    const groupRect=group.getBoundingClientRect();
+    const relTop=groupRect.top - areaRect.top + scrollArea.scrollTop - 4;
+    scrollArea.scrollTo({top:relTop,behavior:'smooth'});
   } else if(scrollArea){
     // 記録なし → 入力
     openInputForDate(ds);
@@ -1169,6 +1176,7 @@ renderHome();
 resetInputForm();
 renderInputCats();
 renderInputAccts();
+initCalMonth();
 initCalSwipe();
 const _t=new Date();
 document.getElementById('report-date-to').value=todayStr();
