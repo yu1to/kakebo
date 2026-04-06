@@ -128,16 +128,16 @@ body{background:var(--bg);color:var(--text);font-family:var(--font);font-size:14
 .cal-dow.sat{color:var(--teal);}
 .cal-swipe-wrap{overflow:hidden;touch-action:pan-y;padding:0 12px;}
 .cal-grid{display:grid;grid-template-columns:repeat(7,1fr);gap:1px;}
-.cal-cell{aspect-ratio:0.85;display:flex;flex-direction:column;align-items:center;justify-content:flex-start;padding-top:2px;border-radius:5px;cursor:pointer;transition:background .1s;position:relative;}
+.cal-cell{height:calc((100vw - 24px) / 7 * 0.78);display:flex;flex-direction:column;align-items:center;justify-content:flex-start;padding-top:1px;border-radius:5px;cursor:pointer;transition:background .1s;position:relative;}
 .cal-cell:active{background:var(--bg3);}
 .cal-cell.other-month{opacity:0.3;}
 .cal-cell.selected{background:var(--bg3);}
 .cal-cell.scrolled{background:rgba(50,173,230,0.12);}
-.cal-day-num{font-size:11px;font-weight:500;color:var(--text2);width:20px;height:20px;display:flex;align-items:center;justify-content:center;border-radius:50%;}
+.cal-day-num{font-size:10px;font-weight:500;color:var(--text2);width:18px;height:18px;display:flex;align-items:center;justify-content:center;border-radius:50%;}
 .cal-cell.today .cal-day-num{background:var(--accent2);color:#fff;font-weight:700;}
 .cal-cell.sunday .cal-day-num{color:var(--red);}
 .cal-cell.saturday .cal-day-num{color:var(--teal);}
-.cal-day-amt{font-size:6.5px;color:var(--red);font-weight:500;line-height:1.2;text-align:center;max-width:100%;overflow:hidden;}
+.cal-day-amt{font-size:6px;color:var(--red);font-weight:500;line-height:1.1;text-align:center;max-width:100%;overflow:hidden;}
 .cal-day-amt.inc{color:var(--accent2);}
 .cal-scroll{flex:1;overflow-y:auto;-webkit-overflow-scrolling:touch;overflow-x:hidden;}
 .cal-tx-section{padding:4px 12px 0;}
@@ -219,6 +219,15 @@ body{background:var(--bg);color:var(--text);font-family:var(--font);font-size:14
 .hidden{display:none!important;}
 input[type="date"]::-webkit-calendar-picker-indicator{filter:invert(0.7);}
 .chevron-right{display:inline-block;width:6px;height:6px;border-right:1.5px solid currentColor;border-top:1.5px solid currentColor;transform:rotate(45deg);margin-left:2px;}
+.report-acct-pill{padding:4px 12px;border-radius:20px;border:1.5px solid var(--border2);background:none;color:var(--text3);font-family:var(--font);font-size:12px;cursor:pointer;white-space:nowrap;transition:all .15s;flex-shrink:0;}
+.report-acct-pill.selected{border-color:var(--accent2);background:rgba(50,173,230,0.12);color:var(--text);}
+.acct-balance-card{background:var(--bg2);border-radius:var(--radius-sm);padding:10px 12px;border:0.5px solid var(--border);display:flex;align-items:center;gap:10px;}
+.acct-balance-card-icon{font-size:18px;}
+.acct-balance-card-info{flex:1;}
+.acct-balance-card-name{font-size:12px;color:var(--text4);}
+.acct-balance-card-row{display:flex;gap:12px;margin-top:3px;}
+.acct-balance-card-item{font-size:11px;}
+.acct-balance-card-val{font-weight:700;font-size:13px;}
 </style>
 </head>
 <body>
@@ -339,6 +348,12 @@ input[type="date"]::-webkit-calendar-picker-indicator{filter:invert(0.7);}
       <button class="seg-btn active" id="report-type-exp" onclick="setReportType('expense')">支出</button>
       <button class="seg-btn" id="report-type-inc" onclick="setReportType('income')">収入</button>
     </div>
+    <!-- 口座フィルター -->
+    <div style="padding:0 16px 8px;overflow-x:auto;white-space:nowrap;" id="report-acct-filter-wrap">
+      <div id="report-acct-filter" style="display:flex;gap:6px;"></div>
+    </div>
+    <!-- 残高サマリー（口座別） -->
+    <div id="report-acct-summary" style="margin:0 16px 8px;"></div>
     <div style="display:flex;justify-content:center;padding:6px 16px 0;">
       <canvas id="donut-chart" width="240" height="240"></canvas>
     </div>
@@ -590,7 +605,7 @@ function showScreen(name,opts={}){
   if(name==='home')renderHome();
   if(name==='input'){if(!opts.fromCal)resetInputForm();renderInputCats();renderInputAccts();}
   if(name==='calendar'){if(!calYear)initCalMonth();renderCalendar();}
-  if(name==='report')renderReport();
+  if(name==='report'){renderReportAcctFilter();renderReport();}
   if(name==='settings')renderSettings();
 }
 
@@ -711,6 +726,14 @@ function openInputForDate(ds){
 
 // CALENDAR
 let calYear,calMonth;
+function initReportMonth(){
+  // 月度設定に基づいてレポートの初期月を設定
+  const now=new Date();
+  const sd=S.settings.monthStartDay;
+  let fy=now.getFullYear(),fm=now.getMonth()+1;
+  if(now.getDate()<sd){fm--;if(fm<1){fm=12;fy--;}}
+  reportYear=fy;reportMonth=fm-1; // reportMonthは0-indexed
+}
 function initCalMonth(){
   // 今日が何月度か計算してカレンダー初期表示月を設定
   const now=new Date();
@@ -849,11 +872,13 @@ function calCellClick(el,ds,isCurrentPeriod){
 
 // REPORT
 let reportMode='monthly',reportType='expense',reportYear=new Date().getFullYear(),reportMonth=new Date().getMonth(),donutChart=null;
+let reportAcctId=0; // 0=全口座
 function setReportMode(m){
   reportMode=m;
   ['monthly','yearly','custom'].forEach(k=>document.getElementById('report-tab-'+k).className='seg-btn'+(m===k?' active':''));
   document.getElementById('report-nav-std').classList.toggle('hidden',m==='custom');
   document.getElementById('report-nav-custom').classList.toggle('hidden',m!=='custom');
+  renderReportAcctFilter();
   renderReport();
 }
 function setReportType(t){
@@ -862,10 +887,57 @@ function setReportType(t){
   document.getElementById('report-type-inc').className='seg-btn'+(t==='income'?' active':'');
   renderReport();
 }
+function setReportAcct(id){
+  reportAcctId=id;
+  renderReportAcctFilter();
+  renderReport();
+}
+function renderReportAcctFilter(){
+  const wrap=document.getElementById('report-acct-filter');
+  if(!wrap)return;
+  const pills=[{id:0,name:'全口座',icon:'🏦'},...S.accounts.map(a=>({id:a.id,name:a.name,icon:a.icon}))];
+  wrap.innerHTML=pills.map(p=>'<button class="report-acct-pill '+(p.id===reportAcctId?'selected':'')+'" onclick="setReportAcct('+p.id+')">'+p.icon+' '+p.name+'</button>').join('');
+}
 function reportShift(d){
   if(reportMode==='monthly'){reportMonth+=d;if(reportMonth<0){reportMonth=11;reportYear--;}if(reportMonth>11){reportMonth=0;reportYear++;}}
   else reportYear+=d;
   renderReport();
+}
+function renderAcctSummary(txs){
+  const el=document.getElementById('report-acct-summary');
+  if(!el)return;
+  if(reportAcctId!==0){
+    // 特定口座: 収入・支出・残高を表示
+    const acct=getAcct(reportAcctId);
+    const inc=txs.filter(t=>t.type==='income').reduce((s,t)=>s+t.amount,0);
+    const exp=txs.filter(t=>t.type==='expense').reduce((s,t)=>s+t.amount,0);
+    const net=inc-exp;
+    el.innerHTML='<div class="acct-balance-card">'+
+      '<div class="acct-balance-card-icon">'+acct.icon+'</div>'+
+      '<div class="acct-balance-card-info">'+
+      '<div class="acct-balance-card-name">'+acct.name+' / 期間収支</div>'+
+      '<div class="acct-balance-card-row">'+
+      '<div class="acct-balance-card-item"><div style="font-size:9px;color:var(--text4);">収入</div><div class="acct-balance-card-val" style="color:var(--accent2);">'+fmt(inc)+'</div></div>'+
+      '<div class="acct-balance-card-item"><div style="font-size:9px;color:var(--text4);">支出</div><div class="acct-balance-card-val" style="color:var(--red);">'+fmt(exp)+'</div></div>'+
+      '<div class="acct-balance-card-item"><div style="font-size:9px;color:var(--text4);">収支</div><div class="acct-balance-card-val" style="color:'+(net>=0?'var(--accent2)':'var(--red)')+';">'+fmtSigned(net)+'</div></div>'+
+      '<div class="acct-balance-card-item"><div style="font-size:9px;color:var(--text4);">残高</div><div class="acct-balance-card-val" style="color:var(--accent);">'+fmt(acct.balance||0)+'</div></div>'+
+      '</div></div></div>';
+  } else {
+    // 全口座: 各口座のミニサマリー
+    if(S.accounts.length<=1){el.innerHTML='';return;}
+    el.innerHTML='<div style="display:grid;grid-template-columns:1fr 1fr;gap:6px;">'+
+      S.accounts.map(a=>{
+        const atxs=txs.filter(t=>t.acctId===a.id);
+        const inc=atxs.filter(t=>t.type==='income').reduce((s,t)=>s+t.amount,0);
+        const exp=atxs.filter(t=>t.type==='expense').reduce((s,t)=>s+t.amount,0);
+        return '<div style="background:var(--bg2);border:0.5px solid var(--border);border-radius:var(--radius-sm);padding:8px 10px;cursor:pointer;" onclick="setReportAcct('+a.id+')">'+
+          '<div style="font-size:11px;color:var(--text4);">'+a.icon+' '+a.name+'</div>'+
+          '<div style="display:flex;gap:8px;margin-top:3px;">'+
+          '<div style="font-size:10px;"><span style="color:var(--text4);">収</span><span style="font-weight:700;color:var(--accent2);">'+fmt(inc)+'</span></div>'+
+          '<div style="font-size:10px;"><span style="color:var(--text4);">支</span><span style="font-weight:700;color:var(--red);">'+fmt(exp)+'</span></div>'+
+          '</div></div>';
+      }).join('')+'</div>';
+  }
 }
 function renderReport(){
   let txs=[];
@@ -888,6 +960,10 @@ function renderReport(){
     if(!from||!to){document.getElementById('report-cat-list').innerHTML='<div class="empty-state"><div class="empty-state-emoji">📅</div><div class="empty-state-text">期間を選択してください</div></div>';return;}
     txs=S.transactions.filter(t=>t.date>=from&&t.date<=to);
   }
+  // 口座フィルター適用
+  if(reportAcctId!==0) txs=txs.filter(t=>t.acctId===reportAcctId);
+  // 口座別サマリー表示
+  renderAcctSummary(txs);
   const filtered=txs.filter(t=>t.type===reportType);
   const total=filtered.reduce((s,t)=>s+t.amount,0);
   document.getElementById('report-total-val').textContent=fmt(total);
@@ -1177,6 +1253,7 @@ resetInputForm();
 renderInputCats();
 renderInputAccts();
 initCalMonth();
+initReportMonth();
 initCalSwipe();
 const _t=new Date();
 document.getElementById('report-date-to').value=todayStr();
