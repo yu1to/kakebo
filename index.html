@@ -76,7 +76,7 @@ body{background:var(--bg);color:var(--text);font-family:var(--font);font-size:14
 .tx-amt.inc{color:var(--accent2);}
 .tx-chevron{color:var(--text4);flex-shrink:0;}
 
-/* INPUT */
+/* INPUT - よりコンパクトに */
 .input-fixed{flex-shrink:0;}
 .input-type-header{display:flex;background:var(--bg2);border-bottom:0.5px solid var(--border);}
 .input-type-btn{flex:1;padding:10px;border:none;background:none;color:var(--text3);font-family:var(--font);font-size:14px;font-weight:500;cursor:pointer;border-bottom:2px solid transparent;}
@@ -87,23 +87,11 @@ body{background:var(--bg);color:var(--text);font-family:var(--font);font-size:14
 .acct-pill-row::-webkit-scrollbar{display:none;}
 .acct-pill{padding:4px 12px;border-radius:20px;border:1.5px solid var(--border2);background:none;color:var(--text3);font-family:var(--font);font-size:12px;cursor:pointer;white-space:nowrap;transition:all .15s;}
 .acct-pill.selected{border-color:var(--accent2);background:rgba(50,173,230,0.12);color:var(--text);}
-/* 金額行 */
+/* 金額行 - コンパクト */
 .input-amount-row{display:flex;align-items:center;padding:8px 14px;border-bottom:0.5px solid var(--border);background:var(--bg2);margin-bottom:1px;gap:8px;}
 .input-amount-label{font-size:12px;color:var(--text4);flex-shrink:0;}
-.input-amount-display{font-size:26px;font-weight:700;color:var(--text);flex:1;min-width:0;overflow:hidden;text-overflow:ellipsis;white-space:nowrap;cursor:text;}
-.input-amount-display.has-expr{font-size:18px;color:var(--accent2);}
-.input-amount-unit{font-size:14px;color:var(--text2);flex-shrink:0;}
-/* 電卓パッド */
-.calc-pad{background:var(--bg2);border-bottom:0.5px solid var(--border);padding:6px 14px 8px;}
-.calc-expr-bar{font-size:12px;color:var(--text4);min-height:18px;margin-bottom:4px;text-align:right;overflow:hidden;text-overflow:ellipsis;white-space:nowrap;}
-.calc-btns{display:grid;grid-template-columns:repeat(4,1fr);gap:5px;}
-.calc-btn{padding:10px 4px;border:none;border-radius:var(--radius-sm);font-size:16px;font-weight:600;font-family:var(--font);cursor:pointer;transition:opacity .1s;}
-.calc-btn:active{opacity:0.7;}
-.calc-btn-num{background:var(--bg3);color:var(--text);}
-.calc-btn-op{background:rgba(50,173,230,0.18);color:var(--accent2);}
-.calc-btn-eq{background:var(--accent2);color:#fff;}
-.calc-btn-del{background:var(--bg4);color:var(--text2);}
-.calc-btn-clear{background:rgba(255,69,58,0.15);color:var(--red);}
+.input-amount-big{font-size:26px;font-weight:700;color:var(--text);background:none;border:none;outline:none;font-family:var(--font);flex:1;min-width:0;}
+.input-amount-big::placeholder{color:var(--text4);}
 .input-field-row{display:flex;align-items:center;padding:10px 14px;border-bottom:0.5px solid var(--border);background:var(--bg2);margin-bottom:1px;}
 .input-field-label{font-size:14px;color:var(--text2);width:48px;flex-shrink:0;}
 .input-field-val{flex:1;font-size:14px;color:var(--text);background:none;border:none;outline:none;font-family:var(--font);}
@@ -113,11 +101,12 @@ body{background:var(--bg);color:var(--text);font-family:var(--font);font-size:14
 .date-nav-label{flex:1;text-align:center;font-size:14px;background:var(--bg3);border:none;border-radius:var(--radius-sm);padding:6px;color:var(--text);font-family:var(--font);}
 .input-scroll{flex:1;overflow-y:auto;-webkit-overflow-scrolling:touch;overflow-x:hidden;}
 .cat-section-title{font-size:12px;font-weight:600;color:var(--text2);padding:8px 14px 6px;}
-.cat-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:6px;padding:0 14px 12px;}
-.cat-tile{background:var(--bg2);border-radius:var(--radius-sm);padding:10px 6px;display:flex;flex-direction:column;align-items:center;gap:4px;cursor:pointer;border:2px solid transparent;transition:all .15s;}
+/* カテゴリグリッド - コンパクト */
+.cat-grid{display:grid;grid-template-columns:repeat(4,1fr);gap:5px;padding:0 10px 10px;}
+.cat-tile{background:var(--bg2);border-radius:var(--radius-sm);padding:7px 4px;display:flex;flex-direction:column;align-items:center;gap:3px;cursor:pointer;border:2px solid transparent;transition:all .15s;}
 .cat-tile.selected{border-color:var(--accent2);background:rgba(50,173,230,0.1);}
-.cat-tile-icon{width:34px;height:34px;border-radius:50%;display:flex;align-items:center;justify-content:center;font-size:18px;}
-.cat-tile-label{font-size:10px;color:var(--text2);text-align:center;}
+.cat-tile-icon{width:28px;height:28px;border-radius:50%;display:flex;align-items:center;justify-content:center;font-size:15px;}
+.cat-tile-label{font-size:9px;color:var(--text2);text-align:center;line-height:1.2;}
 .cat-tile-add{background:var(--bg3);border:1.5px dashed var(--border2);}
 .submit-bar{flex-shrink:0;padding:10px 14px;background:var(--bg);border-top:0.5px solid var(--border);}
 .submit-btn{width:100%;padding:14px;background:var(--bg3);border:none;border-radius:var(--radius);font-size:15px;font-weight:600;color:var(--text4);font-family:var(--font);cursor:not-allowed;transition:all .2s;}
@@ -125,7 +114,17 @@ body{background:var(--bg);color:var(--text);font-family:var(--font);font-size:14
 .submit-btn.ready.inc{background:var(--accent2);color:#fff;cursor:pointer;}
 .submit-btn:active:not([disabled]){opacity:0.8;transform:scale(0.99);}
 
-/* CALENDAR */
+/* CALCULATOR ← 修正③ */
+.calc-display{background:var(--bg3);border-radius:var(--radius-sm);padding:5px 10px;margin:0 14px 4px;font-size:12px;color:var(--orange);min-height:22px;text-align:right;font-family:monospace;letter-spacing:0.5px;}
+.calc-row{display:flex;gap:6px;padding:0 10px;margin-bottom:6px;}
+.calc-btn{flex:1;padding:0;height:58px;border:none;border-radius:var(--radius-sm);font-size:22px;font-weight:600;font-family:var(--font);cursor:pointer;transition:all .1s;background:var(--bg3);color:var(--text);}
+.calc-btn:active{opacity:0.7;transform:scale(0.96);}
+.calc-btn.op{background:var(--bg4);color:var(--orange);}
+.calc-btn.eq{background:var(--accent2);color:#fff;}
+.calc-btn.del{background:var(--bg4);color:var(--red);}
+.calc-btn.wide{flex:2;}
+
+/* CALENDAR - 収支バーなし、カレンダーと詳細のみ */
 .cal-fixed{flex-shrink:0;}
 .cal-month-nav{display:flex;align-items:center;gap:6px;padding:4px 12px;}
 .cal-month-btn{background:var(--bg3);border:none;border-radius:var(--radius-sm);padding:5px 10px;color:var(--text);font-family:var(--font);cursor:pointer;font-size:16px;line-height:1;}
@@ -238,6 +237,16 @@ input[type="date"]::-webkit-calendar-picker-indicator{filter:invert(0.7);}
 .acct-balance-card-row{display:flex;gap:12px;margin-top:3px;}
 .acct-balance-card-item{font-size:11px;}
 .acct-balance-card-val{font-weight:700;font-size:13px;}
+
+/* ACCORDION */
+.accord-section{margin:8px 16px 0;border-radius:var(--radius);overflow:hidden;border:0.5px solid var(--border);}
+.accord-header{display:flex;align-items:center;gap:10px;padding:13px 14px;background:var(--bg2);cursor:pointer;transition:background .1s;}
+.accord-header:active{background:var(--bg3);}
+.accord-icon{width:30px;height:30px;border-radius:7px;display:flex;align-items:center;justify-content:center;font-size:16px;flex-shrink:0;}
+.accord-label{flex:1;font-size:14px;font-weight:600;color:var(--text);}
+.accord-arrow{font-size:11px;color:var(--text4);transition:transform .2s;}
+.accord-body{background:var(--bg2);border-top:0.5px solid var(--border);}
+.accord-body .settings-card{border-radius:0;border:none;}
 </style>
 </head>
 <body>
@@ -246,7 +255,7 @@ input[type="date"]::-webkit-calendar-picker-indicator{filter:invert(0.7);}
 <div class="screen active" id="screen-home">
   <div class="nav-header">
     <div class="nav-header-row">
-      <span class="nav-title" id="home-period-label">2026年5月</span>
+      <span class="nav-title" id="home-period-label">2026年3月</span>
       <button class="nav-btn-icon" onclick="showScreen('settings')">口座管理</button>
     </div>
   </div>
@@ -266,75 +275,97 @@ input[type="date"]::-webkit-calendar-picker-indicator{filter:invert(0.7);}
   </div></div>
 </div>
 
-<!-- INPUT -->
+<!-- INPUT: カテゴリ一覧画面 -->
 <div class="screen" id="screen-input">
-  <div class="input-fixed">
-    <div class="input-type-header">
-      <button class="input-type-btn active-exp" id="input-tab-exp" onclick="setInputType('expense')">支出</button>
-      <button class="input-type-btn" id="input-tab-inc" onclick="setInputType('income')">収入</button>
-      <button class="input-edit-btn" onclick="openAddCatModal(null,inputType)">✎ 編集</button>
-    </div>
-    <div class="acct-pill-row hidden" id="input-acct-row"></div>
-    <!-- 日付行 -->
-    <div class="input-field-row">
-      <span class="input-field-label">日付</span>
-      <div class="date-nav-row" style="flex:1;">
-        <button class="date-nav-btn" onclick="shiftDate(-1)">‹</button>
-        <input type="date" class="date-nav-label" id="input-date">
-        <button class="date-nav-btn" onclick="shiftDate(1)">›</button>
-      </div>
-    </div>
-    <!-- メモ行 -->
-    <div class="input-field-row">
-      <span class="input-field-label">メモ</span>
-      <input class="input-field-val" id="input-memo" placeholder="未入力" type="text">
-    </div>
-    <!-- 金額行 -->
-    <div class="input-amount-row">
-      <span class="input-amount-label" id="amount-label">支出</span>
-      <div class="input-amount-display" id="input-amount-display" onclick="focusCalcPad()">0</div>
-      <span class="input-amount-unit">円</span>
-    </div>
-    <!-- 電卓パッド -->
-    <div class="calc-pad" id="calc-pad">
-      <div class="calc-expr-bar" id="calc-expr-bar"></div>
-      <div class="calc-btns">
-        <button class="calc-btn calc-btn-clear" onclick="calcClear()">C</button>
-        <button class="calc-btn calc-btn-del" onclick="calcDel()">⌫</button>
-        <button class="calc-btn calc-btn-op" onclick="calcOp('%')">%</button>
-        <button class="calc-btn calc-btn-op" onclick="calcOp('÷')">÷</button>
-
-        <button class="calc-btn calc-btn-num" onclick="calcNum('7')">7</button>
-        <button class="calc-btn calc-btn-num" onclick="calcNum('8')">8</button>
-        <button class="calc-btn calc-btn-num" onclick="calcNum('9')">9</button>
-        <button class="calc-btn calc-btn-op" onclick="calcOp('×')">×</button>
-
-        <button class="calc-btn calc-btn-num" onclick="calcNum('4')">4</button>
-        <button class="calc-btn calc-btn-num" onclick="calcNum('5')">5</button>
-        <button class="calc-btn calc-btn-num" onclick="calcNum('6')">6</button>
-        <button class="calc-btn calc-btn-op" onclick="calcOp('-')">−</button>
-
-        <button class="calc-btn calc-btn-num" onclick="calcNum('1')">1</button>
-        <button class="calc-btn calc-btn-num" onclick="calcNum('2')">2</button>
-        <button class="calc-btn calc-btn-num" onclick="calcNum('3')">3</button>
-        <button class="calc-btn calc-btn-op" onclick="calcOp('+')">+</button>
-
-        <button class="calc-btn calc-btn-num" style="grid-column:span 2;" onclick="calcNum('0')">0</button>
-        <button class="calc-btn calc-btn-num" onclick="calcNum('.')">.</button>
-        <button class="calc-btn calc-btn-eq" onclick="calcEqual()">=</button>
-      </div>
-    </div>
+  <!-- タブ＋編集ボタン -->
+  <div class="input-type-header">
+    <button class="input-type-btn active-exp" id="input-tab-exp" onclick="setInputType('expense')">支出</button>
+    <button class="input-type-btn" id="input-tab-inc" onclick="setInputType('income')">収入</button>
+    <button class="input-edit-btn" onclick="openAddCatModal(null,inputType)">✎ 編集</button>
   </div>
+  <!-- カテゴリ一覧スクロール -->
   <div class="input-scroll">
-    <div class="cat-section-title">カテゴリー</div>
+    <div class="cat-section-title" id="cat-section-title">支出カテゴリーを選択</div>
     <div class="cat-grid" id="input-cat-grid"></div>
-  </div>
-  <div class="submit-bar">
-    <button class="submit-btn" id="submit-btn" onclick="submitTx()">支出を入力する</button>
   </div>
 </div>
 
-<!-- CALENDAR -->
+<!-- INPUT BOTTOM SHEET: 電卓＋詳細 -->
+<div class="modal-overlay" id="modal-input-sheet">
+  <div class="modal-sheet" style="border-radius:20px 20px 0 0;">
+    <!-- シート内タイプ切り替え＋閉じる -->
+    <div style="display:flex;align-items:center;border-bottom:0.5px solid var(--border);background:var(--bg2);">
+      <button class="input-type-btn" id="sheet-tab-exp" style="flex:1;padding:12px;" onclick="setInputType('expense')">支出</button>
+      <button class="input-type-btn" id="sheet-tab-inc" style="flex:1;padding:12px;" onclick="setInputType('income')">収入</button>
+      <button class="modal-close" onclick="closeInputSheet()" style="margin:0 12px;">×</button>
+    </div>
+    <!-- 口座選択 -->
+    <div class="acct-pill-row hidden" id="input-acct-row" style="background:var(--bg2);border-bottom:0.5px solid var(--border);"></div>
+    <!-- 選択中カテゴリ + 金額表示行 -->
+    <div style="display:flex;align-items:center;padding:8px 14px;background:var(--bg2);border-bottom:0.5px solid var(--border);gap:10px;">
+      <div id="sheet-cat-badge" style="display:flex;align-items:center;gap:6px;flex:1;">
+        <div id="sheet-cat-icon" style="width:28px;height:28px;border-radius:50%;background:#fff2;display:flex;align-items:center;justify-content:center;font-size:16px;">🍔</div>
+        <span id="sheet-cat-name" style="font-size:13px;color:var(--text2);">食費</span>
+      </div>
+      <div style="display:flex;align-items:baseline;gap:4px;">
+        <input id="input-amount" type="number" placeholder="0" inputmode="none" readonly
+          style="font-size:28px;font-weight:700;color:var(--text);background:none;border:none;outline:none;font-family:var(--font);width:140px;text-align:right;"
+          oninput="onAmountChange()">
+        <span style="font-size:14px;color:var(--text3);">円</span>
+      </div>
+    </div>
+    <!-- 計算式表示 -->
+    <div class="calc-display" id="calc-display"></div>
+    <!-- 電卓 -->
+    <div class="calc-row">
+      <button class="calc-btn" onclick="calcInput('7')">7</button>
+      <button class="calc-btn" onclick="calcInput('8')">8</button>
+      <button class="calc-btn" onclick="calcInput('9')">9</button>
+      <button class="calc-btn op" onclick="calcInput('÷')">÷</button>
+    </div>
+    <div class="calc-row">
+      <button class="calc-btn" onclick="calcInput('4')">4</button>
+      <button class="calc-btn" onclick="calcInput('5')">5</button>
+      <button class="calc-btn" onclick="calcInput('6')">6</button>
+      <button class="calc-btn op" onclick="calcInput('×')">×</button>
+    </div>
+    <div class="calc-row">
+      <button class="calc-btn" onclick="calcInput('1')">1</button>
+      <button class="calc-btn" onclick="calcInput('2')">2</button>
+      <button class="calc-btn" onclick="calcInput('3')">3</button>
+      <button class="calc-btn op" onclick="calcInput('−')">−</button>
+    </div>
+    <div class="calc-row">
+      <button class="calc-btn wide" onclick="calcInput('0')">0</button>
+      <button class="calc-btn" onclick="calcInput('.')">.</button>
+      <button class="calc-btn op" onclick="calcInput('+')">＋</button>
+    </div>
+    <div class="calc-row">
+      <button class="calc-btn del" onclick="calcDel()" style="flex:1;">⌫</button>
+      <button class="calc-btn eq" onclick="calcEquals()" style="flex:2;">=</button>
+    </div>
+    <!-- 日付・メモ行 -->
+    <div style="display:flex;gap:0;border-top:0.5px solid var(--border);background:var(--bg2);">
+      <div style="flex:1;display:flex;align-items:center;padding:9px 14px;border-right:0.5px solid var(--border);">
+        <button class="date-nav-btn" onclick="shiftDate(-1)" style="font-size:16px;padding:0 4px 0 0;">‹</button>
+        <input type="date" id="input-date"
+          style="flex:1;text-align:center;font-size:13px;background:none;border:none;color:var(--text);font-family:var(--font);outline:none;">
+        <button class="date-nav-btn" onclick="shiftDate(1)" style="font-size:16px;padding:0 0 0 4px;">›</button>
+      </div>
+      <div style="flex:1;display:flex;align-items:center;padding:9px 12px;">
+        <span style="font-size:12px;color:var(--text4);flex-shrink:0;margin-right:6px;">📝</span>
+        <input id="input-memo" type="text" placeholder="メモ（任意）"
+          style="flex:1;background:none;border:none;color:var(--text);font-family:var(--font);font-size:13px;outline:none;">
+      </div>
+    </div>
+    <!-- 登録ボタン -->
+    <div style="padding:10px 10px;background:var(--bg);border-top:0.5px solid var(--border);">
+      <button class="submit-btn" id="submit-btn" onclick="submitTx()">支出を入力する</button>
+    </div>
+  </div>
+</div>
+
+<!-- CALENDAR - 収支バーなし -->
 <div class="screen" id="screen-calendar">
   <div class="nav-header">
     <div class="nav-header-row"><span class="nav-title">カレンダー</span></div>
@@ -343,7 +374,7 @@ input[type="date"]::-webkit-calendar-picker-indicator{filter:invert(0.7);}
     <div class="cal-month-nav">
       <button class="cal-month-btn" onclick="calShift(-1)">‹</button>
       <div class="cal-month-label-wrap">
-        <div class="cal-month-label" id="cal-month-label">2026年5月</div>
+        <div class="cal-month-label" id="cal-month-label">2026年3月</div>
         <div class="cal-month-sub" id="cal-month-sub"></div>
       </div>
       <button class="cal-month-btn" onclick="calShift(1)">›</button>
@@ -375,7 +406,7 @@ input[type="date"]::-webkit-calendar-picker-indicator{filter:invert(0.7);}
   <div class="scroll-area"><div class="scroll-area-inner">
     <div id="report-nav-std"><div class="report-period-nav">
       <button class="report-nav-btn" onclick="reportShift(-1)">‹</button>
-      <div class="report-period-label" id="report-period-label">2026年5月</div>
+      <div class="report-period-label" id="report-period-label">2026年3月</div>
       <button class="report-nav-btn" onclick="reportShift(1)">›</button>
     </div></div>
     <div id="report-nav-custom" class="hidden"><div class="report-date-range">
@@ -387,9 +418,11 @@ input[type="date"]::-webkit-calendar-picker-indicator{filter:invert(0.7);}
       <button class="seg-btn active" id="report-type-exp" onclick="setReportType('expense')">支出</button>
       <button class="seg-btn" id="report-type-inc" onclick="setReportType('income')">収入</button>
     </div>
+    <!-- 口座フィルター -->
     <div style="padding:0 16px 8px;overflow-x:auto;white-space:nowrap;" id="report-acct-filter-wrap">
       <div id="report-acct-filter" style="display:flex;gap:6px;"></div>
     </div>
+    <!-- 残高サマリー（口座別） -->
     <div id="report-acct-summary" style="margin:0 16px 8px;"></div>
     <div style="display:flex;justify-content:center;padding:6px 16px 0;">
       <canvas id="donut-chart" width="240" height="240"></canvas>
@@ -412,50 +445,84 @@ input[type="date"]::-webkit-calendar-picker-indicator{filter:invert(0.7);}
 <div class="screen" id="screen-settings">
   <div class="nav-header"><div class="nav-header-row"><span class="nav-title">設定</span></div></div>
   <div class="scroll-area"><div class="scroll-area-inner">
-    <div class="settings-section">
-      <div class="settings-section-label">口座管理</div>
-      <div class="settings-card" id="settings-account-card"></div>
+
+    <!-- 折り畳み: 口座管理 -->
+    <div class="accord-section" id="accord-accounts">
+      <div class="accord-header" onclick="toggleAccord('accord-accounts')">
+        <div class="accord-icon" style="background:rgba(50,173,230,0.15);">🏦</div>
+        <span class="accord-label">口座管理</span>
+        <span class="accord-arrow">▼</span>
+      </div>
+      <div class="accord-body">
+        <div class="settings-card" id="settings-account-card"></div>
+      </div>
     </div>
-    <div class="settings-section">
-      <div class="settings-section-label">期間設定</div>
-      <div class="settings-card">
-        <div class="settings-row" onclick="openPeriodModal()">
-          <div class="settings-row-icon" style="background:rgba(50,173,230,0.15);">📅</div>
-          <div style="flex:1;"><div class="settings-row-label">月度・年度の開始日</div><div style="font-size:10px;color:var(--text4);margin-top:2px;" id="period-setting-sub">月度: 毎月1日 / 年度: 1月始まり</div></div>
-          <span class="chevron-right"></span>
+
+    <!-- 折り畳み: 期間設定 -->
+    <div class="accord-section" id="accord-period">
+      <div class="accord-header" onclick="toggleAccord('accord-period')">
+        <div class="accord-icon" style="background:rgba(50,173,230,0.15);">📅</div>
+        <span class="accord-label">期間設定</span>
+        <span class="accord-arrow">▶</span>
+      </div>
+      <div class="accord-body" style="display:none;">
+        <div class="settings-card">
+          <div class="settings-row" onclick="openPeriodModal()">
+            <div class="settings-row-icon" style="background:rgba(50,173,230,0.15);">📅</div>
+            <div style="flex:1;"><div class="settings-row-label">月度・年度の開始日</div><div style="font-size:10px;color:var(--text4);margin-top:2px;" id="period-setting-sub">月度: 毎月1日 / 年度: 1月始まり</div></div>
+            <span class="chevron-right"></span>
+          </div>
         </div>
       </div>
     </div>
-    <div class="settings-section">
-      <div class="settings-section-label">カテゴリー管理</div>
-      <div class="settings-card" id="settings-cat-card"></div>
+
+    <!-- 折り畳み: カテゴリー管理 -->
+    <div class="accord-section" id="accord-cats">
+      <div class="accord-header" onclick="toggleAccord('accord-cats')">
+        <div class="accord-icon" style="background:rgba(255,159,10,0.15);">🏷️</div>
+        <span class="accord-label">カテゴリー管理</span>
+        <span class="accord-arrow">▶</span>
+      </div>
+      <div class="accord-body" style="display:none;">
+        <div class="settings-card" id="settings-cat-card"></div>
+      </div>
     </div>
-    <div class="settings-section">
-      <div class="settings-section-label">データ</div>
-      <div class="settings-card">
-        <div class="settings-row" onclick="triggerSimpleCSV()">
-          <div class="settings-row-icon" style="background:rgba(50,173,230,0.15);">📥</div>
-          <div style="flex:1;"><div class="settings-row-label">シンプル家計簿CSVを取り込む</div><div style="font-size:10px;color:var(--text4);margin-top:1px;">今まで使ってたアプリのデータ</div></div>
-          <span class="chevron-right"></span>
-        </div>
-        <div class="settings-row" onclick="exportMyCSV()">
-          <div class="settings-row-icon" style="background:rgba(255,159,10,0.15);">📤</div>
-          <div style="flex:1;"><div class="settings-row-label">CSVでエクスポート</div><div style="font-size:10px;color:var(--text4);margin-top:1px;">Excelや別アプリで使える形式</div></div>
-          <span class="chevron-right"></span>
-        </div>
-        <div class="settings-row" onclick="triggerBackupImport()">
-          <div class="settings-row-icon" style="background:rgba(191,90,242,0.15);">🔄</div>
-          <div style="flex:1;"><div class="settings-row-label">バックアップから復元</div><div style="font-size:10px;color:var(--text4);margin-top:1px;">機種変更後の復元用</div></div>
-          <span class="chevron-right"></span>
-        </div>
-        <div class="settings-row" onclick="exportBackup()">
-          <div class="settings-row-icon" style="background:rgba(90,200,250,0.15);">💾</div>
-          <div style="flex:1;"><div class="settings-row-label">バックアップを保存</div><div style="font-size:10px;color:var(--text4);margin-top:1px;">機種変更前のバックアップ</div></div>
-          <span class="chevron-right"></span>
+
+    <!-- 折り畳み: データ -->
+    <div class="accord-section" id="accord-data">
+      <div class="accord-header" onclick="toggleAccord('accord-data')">
+        <div class="accord-icon" style="background:rgba(90,200,250,0.15);">💾</div>
+        <span class="accord-label">データ管理</span>
+        <span class="accord-arrow">▶</span>
+      </div>
+      <div class="accord-body" style="display:none;">
+        <div class="settings-card">
+          <div class="settings-row" onclick="triggerSimpleCSV()">
+            <div class="settings-row-icon" style="background:rgba(50,173,230,0.15);">📥</div>
+            <div style="flex:1;"><div class="settings-row-label">シンプル家計簿CSVを取り込む</div><div style="font-size:10px;color:var(--text4);margin-top:1px;">今まで使ってたアプリのデータ</div></div>
+            <span class="chevron-right"></span>
+          </div>
+          <div class="settings-row" onclick="exportMyCSV()">
+            <div class="settings-row-icon" style="background:rgba(255,159,10,0.15);">📤</div>
+            <div style="flex:1;"><div class="settings-row-label">CSVでエクスポート</div><div style="font-size:10px;color:var(--text4);margin-top:1px;">Excelや別アプリで使える形式</div></div>
+            <span class="chevron-right"></span>
+          </div>
+          <div class="settings-row" onclick="triggerBackupImport()">
+            <div class="settings-row-icon" style="background:rgba(191,90,242,0.15);">🔄</div>
+            <div style="flex:1;"><div class="settings-row-label">バックアップから復元</div><div style="font-size:10px;color:var(--text4);margin-top:1px;">機種変更後の復元用</div></div>
+            <span class="chevron-right"></span>
+          </div>
+          <div class="settings-row" onclick="exportBackup()">
+            <div class="settings-row-icon" style="background:rgba(90,200,250,0.15);">💾</div>
+            <div style="flex:1;"><div class="settings-row-label">バックアップを保存</div><div style="font-size:10px;color:var(--text4);margin-top:1px;">機種変更前のバックアップ</div></div>
+            <span class="chevron-right"></span>
+          </div>
         </div>
       </div>
     </div>
-    <div class="settings-section">
+
+    <!-- 全削除（折り畳みなし） -->
+    <div class="settings-section" style="margin-top:8px;">
       <div class="settings-card">
         <div class="settings-row" onclick="confirmReset()">
           <div class="settings-row-icon" style="background:rgba(255,69,58,0.15);">🗑</div>
@@ -562,32 +629,53 @@ input[type="date"]::-webkit-calendar-picker-indicator{filter:invert(0.7);}
 <input type="file" id="backup-import-input" accept=".json" class="hidden" onchange="handleBackupImport(event)">
 <div id="toast"></div>
 
-<script src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/4.4.1/chart.umd.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/4.4.1/chart.umd.js">
+function closeInputSheet(){
+  closeModal('modal-input-sheet');
+}
+
+// ACCORDION
+function toggleAccord(id) {
+  const sec = document.getElementById(id);
+  const body = sec.querySelector('.accord-body');
+  const arrow = sec.querySelector('.accord-arrow');
+  const open = body.style.display !== 'none';
+  body.style.display = open ? 'none' : 'block';
+  arrow.textContent = open ? '▶' : '▼';
+}
+
+</script>
 <script>
-// ① アイコンを大幅拡充
+// ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+// 修正② アイコンを大幅に増量
+// ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
 const ICONS=[
   // 食べ物・飲み物
-  '🛒','🍔','🍜','🍺','☕','🍱','🍕','🍣','🍛','🍝',
-  '🍖','🥩','🥗','🥪','🧁','🍰','🍩','🍦','🥤','🧃',
-  '🍷','🍸','🥂','🧉','🫖',
-  // 買い物・ファッション
-  '👕','👗','👟','👜','💄','🧴','🧹','🏠','🧺','🪥',
-  '🧻','🪞','🛋','🪴','🧸',
+  '🍔','🍜','🍣','🍱','🍕','🍞','🥗','🍰','🍩','🍦','🥩','🍗','🥚','🥦','🥕',
+  '🍺','🍷','🥤','☕','🧃','🧋','🍵','🍶','🫖','🥂',
+  // 日用品・生活
+  '🛒','🧴','🧹','🧺','🪥','🪣','🧼','🪴','🕯️','🔑','🛋️','🪑','🛏️','🧻','🪒',
+  // ファッション・美容
+  '👕','👗','👟','👜','💄','💅','💇','💈','🕶️','🧢','🧣','👒','👔','🧤','👠',
   // 交通・移動
-  '🚗','✈️','🚂','🚌','🚢','🏍','🚲','🛵','🚕','⛽',
-  // エンタメ・趣味
-  '🎮','🎵','🎬','⛳','🏋️','🎭','🎨','🎤','📸','🎯',
-  '🎲','🃏','🎾','⚽','🏊','🧗','🎸','📺','🕹','🎰',
+  '🚗','✈️','🚃','🚌','🚕','🚲','⛽','🛵','🛳️','🚁','🚢','🏍️','🛺','🚡','⛵',
+  // 住居・家
+  '🏠','🏢','💡','🔧','🪟','🚿','🛁','🪜','🔨','🧱','🏗️',
   // 医療・健康
-  '💊','🏥','🩺','🩻','💉','🧘','🛁','🪑',
-  // お金・仕事
-  '💰','💳','📊','💼','🖥','📱','💡','📚','🎓','🏦',
-  '📝','🗂','📌','🔑','🏢',
-  // 人・ライフ
-  '💇','💈','🎁','🐾','🌿','👶','🐶','🐱','🌸','🌺',
-  '🎄','🎉','🤝','❤️','⭐'
+  '💊','🏥','🩺','💉','🩹','🧬','🏋️','🧘','🚴','🩻','🩼','🧪',
+  // 娯楽・趣味
+  '🎮','🎵','🎬','📺','📷','🎸','🎹','🎯','⛳','♟️','🎲','🎨','✏️','📖','🎭',
+  '🎳','⚽','🏀','⚾','🎾','🏊','🎿','🛹','🎣','🏕️',
+  // 教育・仕事
+  '📱','💻','📚','🎓','📝','📊','💼','🖨️','📞','⌨️','🖥️','📡','🔬','📐','🗂️',
+  // お金・金融
+  '💰','💳','💵','📈','📉','🏦','💎','🎁','🏷️','🪙','💹','🤑',
+  // 動物・自然
+  '🐾','🐕','🐈','🌿','🌸','🌳','☀️','🌙','⛅','🌊','🌺','🍀','🌾','🦋','🐠',
+  // その他
+  '🌐','❤️','⭐','🔔','📦','🧩','🎀','🪄','🔍','🗓️','⚡','🔥','💧','🎪','🏆'
 ];
-const ACCT_ICONS=['🏦','💳','👛','📒','🏧','💼','🏠','✈️','💰','🎒','📱','🪙','💹','🏪','🔐'];
+const ACCT_ICONS=['🏦','💳','👛','📒','🏧','💼','🏠','✈️','💰','🎒','📱','💎','🪙','🏪','🎁'];
 const COLORS=['#ffd60a','#ff9f0a','#ff6b35','#ff453a','#ff375f','#ff2d55','#bf5af2','#9b59b6','#5ac8fa','#32ade6','#30d158','#32d74b','#2ecc71','#1abc9c','#34c759','#00c7be','#636366','#8e8e93','#c7c7cc','#ffb74d'];
 const DEFAULT_ACCOUNTS=[{id:1,name:'メイン通帳',icon:'🏦',balance:0},{id:2,name:'旅費精算用',icon:'✈️',balance:0}];
 const DEFAULT_CATS=[
@@ -630,9 +718,6 @@ function toast(msg,ms=2200){const t=document.getElementById('toast');t.textConte
 function openModal(id){document.getElementById(id).classList.add('open');}
 function closeModal(id){document.getElementById(id).classList.remove('open');}
 
-// ② 日付ラベルのバグ修正
-// 旧: fd.getMonth()+1+'/'+fd.getDate()+'〜'+td.getMonth()+1+'/'+td.getDate()
-// 月度ラベルを「月/日〜月/日」正しい順序で返す
 function getCurrentPeriod(){
   const now=new Date(),sd=S.settings.monthStartDay;
   let fy=now.getFullYear(),fm=now.getMonth()+1;
@@ -642,19 +727,24 @@ function getCurrentPeriod(){
   const to=dateToStr(new Date(toY,toM-1,sd-1));
   return {from,to};
 }
+
+// ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+// 修正① getPeriodLabel の日付バグ修正
+// 演算子の優先順位で「51/20」になるのを括弧で修正
+// ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
 function getPeriodLabel(){
   const {from,to}=getCurrentPeriod();
   const fd=parseDate(from),td=parseDate(to);
-  // 修正: 月と日の順序を正しく (月/日)
   return (fd.getMonth()+1)+'/'+fd.getDate()+'〜'+(td.getMonth()+1)+'/'+td.getDate();
 }
+
 function getCalPeriod(y,m){
   const sd=S.settings.monthStartDay;
   const from=y+'-'+String(m).padStart(2,'0')+'-'+String(sd).padStart(2,'0');
   let toM=m+1,toY=y;if(toM>12){toM=1;toY++;}
   const toDate=new Date(toY,toM-1,sd-1);
   const to=dateToStr(toDate);
-  const sub='('+y+'/'+m+'/'+sd+'〜'+toDate.getFullYear()+'/'+(toDate.getMonth()+1)+'/'+toDate.getDate()+')';
+  const sub='('+y+'/'+(m)+'/'+(sd)+'〜'+toDate.getFullYear()+'/'+(toDate.getMonth()+1)+'/'+toDate.getDate()+')';
   return {from,to,sub};
 }
 
@@ -721,135 +811,41 @@ function renderTxList(id,txs){
   }).join('');
 }
 
-// ③ 電卓機能
-// calcExpr: 入力中の式文字列 (例: "1500+300")
-// calcResult: 現在の確定値 (数値)
-let calcExpr='', calcHasResult=false;
-
-function getCalcValue(){
-  // 計算後または式なし: calcResultを返す
-  if(calcHasResult||calcExpr==='') return parseFloat(document.getElementById('input-amount-display').textContent)||0;
-  return 0;
-}
-
-function updateAmountDisplay(){
-  const disp=document.getElementById('input-amount-display');
-  const exprBar=document.getElementById('calc-expr-bar');
-  if(calcExpr===''){
-    disp.textContent='0';
-    disp.className='input-amount-display';
-    exprBar.textContent='';
-  } else if(calcHasResult){
-    // = を押した後: 結果を大きく、式をサブに
-    const val=parseFloat(calcExpr)||0;
-    disp.textContent=val.toLocaleString();
-    disp.className='input-amount-display';
-    exprBar.textContent='';
-  } else {
-    // 入力中: 式全体を表示
-    disp.textContent=calcExpr;
-    disp.className='input-amount-display has-expr';
-    exprBar.textContent='';
-  }
-  updateSubmitBtn();
-}
-
-function calcNum(n){
-  if(calcHasResult){
-    // 結果の後に数字を押したら新しい計算開始
-    calcExpr=n==='.'?'0.':n;
-    calcHasResult=false;
-  } else {
-    if(n==='.'&&calcExpr.match(/[\d.]*\.[\d]*$/))return; // 重複小数点を防ぐ
-    calcExpr+=n;
-  }
-  updateAmountDisplay();
-}
-
-function calcOp(op){
-  if(calcExpr==='')return;
-  // 既に演算子で終わっていたら置き換え
-  if(calcExpr.match(/[+\-×÷%]$/)){
-    calcExpr=calcExpr.slice(0,-1)+op;
-  } else {
-    // = 押した後に演算子: 結果に演算子を続ける
-    if(calcHasResult) calcHasResult=false;
-    calcExpr+=op;
-  }
-  updateAmountDisplay();
-}
-
-function calcEqual(){
-  if(calcExpr===''||calcHasResult)return;
-  try{
-    // 演算子を JS演算子に変換
-    const expr=calcExpr
-      .replace(/×/g,'*')
-      .replace(/÷/g,'/')
-      .replace(/(\d)%/g,'($1/100)');
-    const result=Function('"use strict";return ('+expr+')')();
-    if(isNaN(result)||!isFinite(result)){toast('計算エラー');return;}
-    const rounded=Math.round(result*100)/100;
-    const disp=document.getElementById('input-amount-display');
-    disp.textContent=rounded.toLocaleString();
-    disp.className='input-amount-display';
-    document.getElementById('calc-expr-bar').textContent=calcExpr+'=';
-    calcExpr=String(rounded);
-    calcHasResult=true;
-    updateSubmitBtn();
-  }catch(e){toast('計算エラー');}
-}
-
-function calcDel(){
-  if(calcHasResult){calcClear();return;}
-  calcExpr=calcExpr.slice(0,-1);
-  updateAmountDisplay();
-}
-
-function calcClear(){
-  calcExpr='';calcHasResult=false;
-  updateAmountDisplay();
-}
-
-function focusCalcPad(){
-  // 電卓パッドにフォーカス感を出す（すでに表示中）
-}
-
-function getCurrentAmount(){
-  if(calcExpr==='')return 0;
-  if(calcHasResult){
-    return parseFloat(calcExpr)||0;
-  }
-  // 未確定式の場合、末尾の数字部分だけ返す
-  const m=calcExpr.match(/(\d+\.?\d*)$/);
-  return m?parseFloat(m[1]):0;
-}
-
 // INPUT
 let inputType='expense',selectedCatId=1,selectedAcctId=1;
 function resetInputForm(){
   inputType='expense';selectedCatId=1;selectedAcctId=S.accounts[0]?.id||1;
-  calcExpr='';calcHasResult=false;
-  updateAmountDisplay();
+  document.getElementById('input-amount').value='';
+  // 電卓リセット
+  calcExpr='';
+  const cd=document.getElementById('calc-display');if(cd)cd.textContent='';
   document.getElementById('input-date').value=todayStr();
   document.getElementById('input-memo').value='';
+  // シートのカテゴリバッジを初期化
+  const def=getCat(selectedCatId);
+  const iconEl=document.getElementById('sheet-cat-icon');
+  const nameEl=document.getElementById('sheet-cat-name');
+  if(iconEl){iconEl.textContent=def.icon;iconEl.style.background=def.color+'22';}
+  if(nameEl)nameEl.textContent=def.name;
   updateInputTypeUI();updateSubmitBtn();
 }
 function setInputType(type){inputType=type;selectedCatId=type==='expense'?1:12;updateInputTypeUI();renderInputCats();updateSubmitBtn();}
 function updateInputTypeUI(){
   document.getElementById('input-tab-exp').className='input-type-btn'+(inputType==='expense'?' active-exp':'');
   document.getElementById('input-tab-inc').className='input-type-btn'+(inputType==='income'?' active-inc':'');
-  document.getElementById('amount-label').textContent=inputType==='expense'?'支出':'収入';
+  const st=document.getElementById('cat-section-title');
+  if(st)st.textContent=(inputType==='expense'?'支出':'収入')+'カテゴリーを選択';
+  // シート内タブ
+  const se=document.getElementById('sheet-tab-exp');
+  const si=document.getElementById('sheet-tab-inc');
+  if(se)se.className='input-type-btn'+(inputType==='expense'?' active-exp':'');
+  if(si)si.className='input-type-btn'+(inputType==='income'?' active-inc':'');
   document.getElementById('submit-btn').textContent=inputType==='expense'?'支出を入力する':'収入を入力する';
 }
+function onAmountChange(){updateSubmitBtn();}
 function updateSubmitBtn(){
   const btn=document.getElementById('submit-btn');
-  // 未確定式でも末尾数字が>0なら入力可
-  let amt=0;
-  if(calcExpr!==''){
-    if(calcHasResult) amt=parseFloat(calcExpr)||0;
-    else{const m=calcExpr.match(/(\d+\.?\d*)$/);amt=m?parseFloat(m[1]):0;}
-  }
+  const amt=parseFloat(document.getElementById('input-amount').value);
   btn.className='submit-btn'+(amt>0?' ready '+(inputType==='expense'?'exp':'inc'):'');
 }
 function renderInputAccts(){
@@ -869,7 +865,19 @@ function renderInputCats(){
     '<div class="cat-tile-icon" style="background:var(--bg4);">＋</div>'+
     '<div class="cat-tile-label">編集・追加</div></div>';
 }
-function selectCat(id){selectedCatId=id;renderInputCats();}
+function selectCat(id){
+  selectedCatId=id;
+  renderInputCats();
+  // カテゴリ選択→ボトムシートを開く
+  const c=getCat(id);
+  const iconEl=document.getElementById('sheet-cat-icon');
+  const nameEl=document.getElementById('sheet-cat-name');
+  if(iconEl)iconEl.textContent=c.icon;
+  if(nameEl)nameEl.textContent=c.name;
+  // アイコン背景色
+  if(iconEl)iconEl.style.background=c.color+'22';
+  openModal('modal-input-sheet');
+}
 function shiftDate(d){
   const parts=document.getElementById('input-date').value.split('-').map(Number);
   const dt=new Date(parts[0],parts[1]-1,parts[2]);
@@ -877,9 +885,7 @@ function shiftDate(d){
   document.getElementById('input-date').value=dateToStr(dt);
 }
 function submitTx(){
-  // 未確定式なら先に計算
-  if(!calcHasResult&&calcExpr!==''&&calcExpr.match(/[+\-×÷%]/)){calcEqual();return;}
-  const amt=parseFloat(calcExpr)||0;
+  const amt=parseFloat(document.getElementById('input-amount').value);
   const date=document.getElementById('input-date').value;
   const memo=document.getElementById('input-memo').value.trim();
   if(!amt||amt<=0){toast('金額を入力してください');return;}
@@ -889,6 +895,7 @@ function submitTx(){
   if(inputType==='expense')acct.balance=(acct.balance||0)-amt;
   else acct.balance=(acct.balance||0)+amt;
   save();toast((inputType==='expense'?'支出':'収入')+'を登録しました ✓');
+  closeModal('modal-input-sheet');
   resetInputForm();showScreen('home');
 }
 function openInputForDate(ds){
@@ -896,6 +903,18 @@ function openInputForDate(ds){
   document.getElementById('input-date').value=ds;
   renderInputCats();renderInputAccts();
   showScreen('input',{fromCal:true});
+  // 最初のカテゴリを選択してシートを開く
+  const cats=S.categories.filter(c=>c.type===inputType);
+  if(cats.length>0){
+    const c=cats[0];
+    selectedCatId=c.id;
+    const iconEl=document.getElementById('sheet-cat-icon');
+    const nameEl=document.getElementById('sheet-cat-name');
+    if(iconEl){iconEl.textContent=c.icon;iconEl.style.background=c.color+'22';}
+    if(nameEl)nameEl.textContent=c.name;
+    openModal('modal-input-sheet');
+    renderInputCats();
+  }
 }
 
 // CALENDAR
@@ -1405,6 +1424,85 @@ function confirmReset(){
   if(!confirm('全データを削除しますか？この操作は取り消せません。'))return;
   S={accounts:DEFAULT_ACCOUNTS.map(a=>({...a})),transactions:[],categories:[...DEFAULT_CATS],settings:{monthStartDay:1,yearStartMonth:1}};
   save();toast('データを削除しました');renderHome();renderSettings();
+}
+
+// ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+// 修正③ 電卓機能
+// ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+let calcExpr = '';
+
+function calcInput(v) {
+  const OPS = ['+', '−', '×', '÷'];
+  const last = calcExpr.slice(-1);
+  // 演算子が連続しないようにする
+  if (OPS.includes(v) && (OPS.includes(last) || calcExpr === '')) return;
+  // 小数点が重複しないようにする（最後の数値セグメントに限定）
+  if (v === '.') {
+    const segs = calcExpr.split(/[+−×÷]/);
+    if (segs[segs.length - 1].includes('.')) return;
+  }
+  calcExpr += v;
+  _calcSync();
+}
+
+function calcDel() {
+  calcExpr = calcExpr.slice(0, -1);
+  _calcSync();
+}
+
+function calcEquals() {
+  const result = _calcEval();
+  if (result !== null && result > 0) {
+    calcExpr = String(result);
+    document.getElementById('input-amount').value = result;
+    onAmountChange();
+    document.getElementById('calc-display').textContent = '';
+  } else if (result !== null) {
+    toast('計算結果が0以下です');
+    calcExpr = '';
+    document.getElementById('calc-display').textContent = '';
+    document.getElementById('input-amount').value = '';
+    onAmountChange();
+  }
+}
+
+function _calcEval() {
+  if (!calcExpr) return null;
+  try {
+    // 記号を JS の演算子に変換
+    const expr = calcExpr
+      .replace(/÷/g, '/')
+      .replace(/×/g, '*')
+      .replace(/−/g, '-');
+    // 数字・演算子・小数点のみ許可（セキュリティ）
+    if (!/^[\d+\-*/.]+$/.test(expr)) return null;
+    // 末尾が演算子なら除去して計算
+    const clean = expr.replace(/[+\-*/]$/, '');
+    if (!clean) return null;
+    const result = Function('"use strict"; return (' + clean + ')')();
+    if (!isFinite(result) || isNaN(result)) return null;
+    return Math.round(result * 100) / 100;
+  } catch(e) { return null; }
+}
+
+function _calcSync() {
+  const OPS = ['+', '−', '×', '÷'];
+  const hasOp = OPS.some(op => calcExpr.includes(op));
+  const dispEl = document.getElementById('calc-display');
+
+  if (!hasOp) {
+    // 演算子なし → 金額欄に直接反映
+    const num = parseFloat(calcExpr);
+    document.getElementById('input-amount').value = isNaN(num) ? '' : num;
+    onAmountChange();
+    dispEl.textContent = calcExpr || '';
+  } else {
+    // 演算子あり → 式と途中結果を表示
+    const result = _calcEval();
+    dispEl.textContent = result !== null
+      ? calcExpr + ' = ' + result
+      : calcExpr;
+  }
 }
 
 // INIT
