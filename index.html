@@ -247,6 +247,10 @@ input[type="date"]::-webkit-calendar-picker-indicator{filter:invert(0.7);}
 .accord-arrow{font-size:11px;color:var(--text4);transition:transform .2s;}
 .accord-body{background:var(--bg2);border-top:0.5px solid var(--border);}
 .accord-body .settings-card{border-radius:0;border:none;}
+
+/* 入力画面 戻るボタン */
+.input-back-btn{background:none;border:none;color:var(--text4);font-size:16px;cursor:pointer;padding:10px 12px;line-height:1;}
+.input-back-btn:active{color:var(--text);}
 </style>
 </head>
 <body>
@@ -275,44 +279,63 @@ input[type="date"]::-webkit-calendar-picker-indicator{filter:invert(0.7);}
   </div></div>
 </div>
 
-<!-- INPUT: カテゴリ一覧画面 -->
+<!-- INPUT -->
 <div class="screen" id="screen-input">
-  <!-- タブ＋編集ボタン -->
-  <div class="input-type-header">
+  <!-- ヘッダー: 戻るボタン＋タブ＋編集 -->
+  <div class="input-type-header" style="position:relative;">
+    <button class="input-back-btn" onclick="showScreen('home')" title="ホームへ戻る">✕</button>
     <button class="input-type-btn active-exp" id="input-tab-exp" onclick="setInputType('expense')">支出</button>
     <button class="input-type-btn" id="input-tab-inc" onclick="setInputType('income')">収入</button>
     <button class="input-edit-btn" onclick="openAddCatModal(null,inputType)">✎ 編集</button>
   </div>
-  <!-- カテゴリ一覧スクロール -->
+  <!-- 口座選択 -->
+  <div class="acct-pill-row hidden" id="input-acct-row"></div>
+  <!-- 日付行 -->
+  <div class="input-field-row">
+    <span class="input-field-label">日付</span>
+    <div class="date-nav-row" style="flex:1;">
+      <button class="date-nav-btn" onclick="shiftDate(-1)">‹</button>
+      <input type="date" class="date-nav-label" id="input-date">
+      <button class="date-nav-btn" onclick="shiftDate(1)">›</button>
+    </div>
+  </div>
+  <!-- メモ行 -->
+  <div class="input-field-row">
+    <span class="input-field-label">メモ</span>
+    <input class="input-field-val" id="input-memo" placeholder="未入力" type="text">
+  </div>
+  <!-- 金額行（タップで電卓シートが開く） -->
+  <div class="input-amount-row" onclick="openCalcSheet()" style="cursor:pointer;">
+    <span class="input-amount-label" id="amount-label">支出</span>
+    <input class="input-amount-big" id="input-amount" type="number" placeholder="0"
+      inputmode="none" readonly oninput="onAmountChange()"
+      style="pointer-events:none;">
+    <span class="input-amount-unit">円</span>
+    <span style="font-size:12px;color:var(--accent2);margin-left:4px;flex-shrink:0;">🖩</span>
+  </div>
+  <!-- カテゴリ一覧 -->
   <div class="input-scroll">
-    <div class="cat-section-title" id="cat-section-title">支出カテゴリーを選択</div>
+    <div class="cat-section-title" id="cat-section-title">カテゴリー</div>
     <div class="cat-grid" id="input-cat-grid"></div>
+  </div>
+  <!-- 登録ボタン固定 -->
+  <div class="submit-bar">
+    <button class="submit-btn" id="submit-btn" onclick="submitTx()">支出を入力する</button>
   </div>
 </div>
 
-<!-- INPUT BOTTOM SHEET: 電卓＋詳細 -->
+<!-- INPUT BOTTOM SHEET: 電卓のみ -->
 <div class="modal-overlay" id="modal-input-sheet">
-  <div class="modal-sheet" style="border-radius:20px 20px 0 0;">
-    <!-- シート内タイプ切り替え＋閉じる -->
-    <div style="display:flex;align-items:center;border-bottom:0.5px solid var(--border);background:var(--bg2);">
-      <button class="input-type-btn" id="sheet-tab-exp" style="flex:1;padding:12px;" onclick="setInputType('expense')">支出</button>
-      <button class="input-type-btn" id="sheet-tab-inc" style="flex:1;padding:12px;" onclick="setInputType('income')">収入</button>
-      <button class="modal-close" onclick="closeInputSheet()" style="margin:0 12px;">×</button>
-    </div>
-    <!-- 口座選択 -->
-    <div class="acct-pill-row hidden" id="input-acct-row" style="background:var(--bg2);border-bottom:0.5px solid var(--border);"></div>
-    <!-- 選択中カテゴリ + 金額表示行 -->
-    <div style="display:flex;align-items:center;padding:8px 14px;background:var(--bg2);border-bottom:0.5px solid var(--border);gap:10px;">
-      <div id="sheet-cat-badge" style="display:flex;align-items:center;gap:6px;flex:1;">
-        <div id="sheet-cat-icon" style="width:28px;height:28px;border-radius:50%;background:#fff2;display:flex;align-items:center;justify-content:center;font-size:16px;">🍔</div>
-        <span id="sheet-cat-name" style="font-size:13px;color:var(--text2);">食費</span>
+  <div class="modal-sheet" style="border-radius:20px 20px 0 0;padding-bottom:8px;">
+    <!-- ヘッダー: カテゴリ表示＋金額＋閉じる -->
+    <div style="display:flex;align-items:center;padding:10px 14px;border-bottom:0.5px solid var(--border);background:var(--bg2);gap:8px;">
+      <div id="sheet-cat-icon" style="width:30px;height:30px;border-radius:50%;background:#fff2;display:flex;align-items:center;justify-content:center;font-size:17px;flex-shrink:0;">🍔</div>
+      <span id="sheet-cat-name" style="font-size:13px;color:var(--text2);flex:1;">食費</span>
+      <div style="display:flex;align-items:baseline;gap:3px;">
+        <span id="sheet-amount-display" style="font-size:26px;font-weight:700;color:var(--text);min-width:80px;text-align:right;">0</span>
+        <span style="font-size:13px;color:var(--text3);">円</span>
       </div>
-      <div style="display:flex;align-items:baseline;gap:4px;">
-        <input id="input-amount" type="number" placeholder="0" inputmode="none" readonly
-          style="font-size:28px;font-weight:700;color:var(--text);background:none;border:none;outline:none;font-family:var(--font);width:140px;text-align:right;"
-          oninput="onAmountChange()">
-        <span style="font-size:14px;color:var(--text3);">円</span>
-      </div>
+      <button class="modal-close" onclick="closeInputSheet()" style="margin-left:6px;">×</button>
     </div>
     <!-- 計算式表示 -->
     <div class="calc-display" id="calc-display"></div>
@@ -340,27 +363,9 @@ input[type="date"]::-webkit-calendar-picker-indicator{filter:invert(0.7);}
       <button class="calc-btn" onclick="calcInput('.')">.</button>
       <button class="calc-btn op" onclick="calcInput('+')">＋</button>
     </div>
-    <div class="calc-row">
+    <div class="calc-row" style="margin-bottom:4px;">
       <button class="calc-btn del" onclick="calcDel()" style="flex:1;">⌫</button>
       <button class="calc-btn eq" onclick="calcEquals()" style="flex:2;">=</button>
-    </div>
-    <!-- 日付・メモ行 -->
-    <div style="display:flex;gap:0;border-top:0.5px solid var(--border);background:var(--bg2);">
-      <div style="flex:1;display:flex;align-items:center;padding:9px 14px;border-right:0.5px solid var(--border);">
-        <button class="date-nav-btn" onclick="shiftDate(-1)" style="font-size:16px;padding:0 4px 0 0;">‹</button>
-        <input type="date" id="input-date"
-          style="flex:1;text-align:center;font-size:13px;background:none;border:none;color:var(--text);font-family:var(--font);outline:none;">
-        <button class="date-nav-btn" onclick="shiftDate(1)" style="font-size:16px;padding:0 0 0 4px;">›</button>
-      </div>
-      <div style="flex:1;display:flex;align-items:center;padding:9px 12px;">
-        <span style="font-size:12px;color:var(--text4);flex-shrink:0;margin-right:6px;">📝</span>
-        <input id="input-memo" type="text" placeholder="メモ（任意）"
-          style="flex:1;background:none;border:none;color:var(--text);font-family:var(--font);font-size:13px;outline:none;">
-      </div>
-    </div>
-    <!-- 登録ボタン -->
-    <div style="padding:10px 10px;background:var(--bg);border-top:0.5px solid var(--border);">
-      <button class="submit-btn" id="submit-btn" onclick="submitTx()">支出を入力する</button>
     </div>
   </div>
 </div>
@@ -629,22 +634,7 @@ input[type="date"]::-webkit-calendar-picker-indicator{filter:invert(0.7);}
 <input type="file" id="backup-import-input" accept=".json" class="hidden" onchange="handleBackupImport(event)">
 <div id="toast"></div>
 
-<script src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/4.4.1/chart.umd.js">
-function closeInputSheet(){
-  closeModal('modal-input-sheet');
-}
-
-// ACCORDION
-function toggleAccord(id) {
-  const sec = document.getElementById(id);
-  const body = sec.querySelector('.accord-body');
-  const arrow = sec.querySelector('.accord-arrow');
-  const open = body.style.display !== 'none';
-  body.style.display = open ? 'none' : 'block';
-  arrow.textContent = open ? '▶' : '▼';
-}
-
-</script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/4.4.1/chart.umd.js"></script>
 <script>
 // ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
 // 修正② アイコンを大幅に増量
@@ -825,8 +815,10 @@ function resetInputForm(){
   const def=getCat(selectedCatId);
   const iconEl=document.getElementById('sheet-cat-icon');
   const nameEl=document.getElementById('sheet-cat-name');
+  const amtDisp=document.getElementById('sheet-amount-display');
   if(iconEl){iconEl.textContent=def.icon;iconEl.style.background=def.color+'22';}
   if(nameEl)nameEl.textContent=def.name;
+  if(amtDisp)amtDisp.textContent='0';
   updateInputTypeUI();updateSubmitBtn();
 }
 function setInputType(type){inputType=type;selectedCatId=type==='expense'?1:12;updateInputTypeUI();renderInputCats();updateSubmitBtn();}
@@ -835,11 +827,7 @@ function updateInputTypeUI(){
   document.getElementById('input-tab-inc').className='input-type-btn'+(inputType==='income'?' active-inc':'');
   const st=document.getElementById('cat-section-title');
   if(st)st.textContent=(inputType==='expense'?'支出':'収入')+'カテゴリーを選択';
-  // シート内タブ
-  const se=document.getElementById('sheet-tab-exp');
-  const si=document.getElementById('sheet-tab-inc');
-  if(se)se.className='input-type-btn'+(inputType==='expense'?' active-exp':'');
-  if(si)si.className='input-type-btn'+(inputType==='income'?' active-inc':'');
+  // sheet tabs removed
   document.getElementById('submit-btn').textContent=inputType==='expense'?'支出を入力する':'収入を入力する';
 }
 function onAmountChange(){updateSubmitBtn();}
@@ -868,15 +856,24 @@ function renderInputCats(){
 function selectCat(id){
   selectedCatId=id;
   renderInputCats();
-  // カテゴリ選択→ボトムシートを開く
-  const c=getCat(id);
+  _updateSheetCatBadge();
+}
+function openCalcSheet(){
+  _updateSheetCatBadge();
+  _syncSheetAmount();
+  openModal('modal-input-sheet');
+}
+function _updateSheetCatBadge(){
+  const c=getCat(selectedCatId);
   const iconEl=document.getElementById('sheet-cat-icon');
   const nameEl=document.getElementById('sheet-cat-name');
-  if(iconEl)iconEl.textContent=c.icon;
+  if(iconEl){iconEl.textContent=c.icon;iconEl.style.background=c.color+'22';}
   if(nameEl)nameEl.textContent=c.name;
-  // アイコン背景色
-  if(iconEl)iconEl.style.background=c.color+'22';
-  openModal('modal-input-sheet');
+}
+function _syncSheetAmount(){
+  const amt=document.getElementById('input-amount').value;
+  const disp=document.getElementById('sheet-amount-display');
+  if(disp)disp.textContent=amt||'0';
 }
 function shiftDate(d){
   const parts=document.getElementById('input-date').value.split('-').map(Number);
@@ -903,18 +900,6 @@ function openInputForDate(ds){
   document.getElementById('input-date').value=ds;
   renderInputCats();renderInputAccts();
   showScreen('input',{fromCal:true});
-  // 最初のカテゴリを選択してシートを開く
-  const cats=S.categories.filter(c=>c.type===inputType);
-  if(cats.length>0){
-    const c=cats[0];
-    selectedCatId=c.id;
-    const iconEl=document.getElementById('sheet-cat-icon');
-    const nameEl=document.getElementById('sheet-cat-name');
-    if(iconEl){iconEl.textContent=c.icon;iconEl.style.background=c.color+'22';}
-    if(nameEl)nameEl.textContent=c.name;
-    openModal('modal-input-sheet');
-    renderInputCats();
-  }
 }
 
 // CALENDAR
@@ -1455,13 +1440,18 @@ function calcEquals() {
   if (result !== null && result > 0) {
     calcExpr = String(result);
     document.getElementById('input-amount').value = result;
+    const disp=document.getElementById('sheet-amount-display');
+    if(disp)disp.textContent=result;
     onAmountChange();
     document.getElementById('calc-display').textContent = '';
+    closeInputSheet();
   } else if (result !== null) {
     toast('計算結果が0以下です');
     calcExpr = '';
     document.getElementById('calc-display').textContent = '';
     document.getElementById('input-amount').value = '';
+    const disp=document.getElementById('sheet-amount-display');
+    if(disp)disp.textContent='0';
     onAmountChange();
   }
 }
@@ -1494,6 +1484,8 @@ function _calcSync() {
     // 演算子なし → 金額欄に直接反映
     const num = parseFloat(calcExpr);
     document.getElementById('input-amount').value = isNaN(num) ? '' : num;
+    const disp=document.getElementById('sheet-amount-display');
+    if(disp)disp.textContent=isNaN(num)?'0':num;
     onAmountChange();
     dispEl.textContent = calcExpr || '';
   } else {
@@ -1503,6 +1495,21 @@ function _calcSync() {
       ? calcExpr + ' = ' + result
       : calcExpr;
   }
+}
+
+// ボトムシートを閉じる
+function closeInputSheet(){
+  closeModal('modal-input-sheet');
+}
+
+// アコーディオン開閉
+function toggleAccord(id) {
+  const sec = document.getElementById(id);
+  const body = sec.querySelector('.accord-body');
+  const arrow = sec.querySelector('.accord-arrow');
+  const open = body.style.display !== 'none';
+  body.style.display = open ? 'none' : 'block';
+  arrow.textContent = open ? '▶' : '▼';
 }
 
 // INIT
