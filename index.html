@@ -7,10 +7,15 @@
 <meta name="apple-mobile-web-app-status-bar-style" content="black">
 <title>家計簿</title>
 <link rel="icon" type="image/x-icon" href="favicon.ico">
-<link rel="apple-touch-icon" href="favicon.ico">
+<link rel="apple-touch-icon" href="icon-180.png">
 <link rel="manifest" href="manifest.json">
 <meta name="mobile-web-app-capable" content="yes">
 <meta name="theme-color" content="#111111">
+<!-- スプラッシュ画面（起動時に一瞬表示） -->
+<link rel="apple-touch-startup-image" href="splash-1170x2532.png" media="(device-width: 390px) and (device-height: 844px) and (-webkit-device-pixel-ratio: 3)">
+<link rel="apple-touch-startup-image" href="splash-1179x2556.png" media="(device-width: 393px) and (device-height: 852px) and (-webkit-device-pixel-ratio: 3)">
+<link rel="apple-touch-startup-image" href="splash-1284x2778.png" media="(device-width: 428px) and (device-height: 926px) and (-webkit-device-pixel-ratio: 3)">
+<link rel="apple-touch-startup-image" href="splash-750x1334.png" media="(device-width: 375px) and (device-height: 667px) and (-webkit-device-pixel-ratio: 2)">
 <script>
   if('serviceWorker' in navigator){
     window.addEventListener('load', () => {
@@ -267,6 +272,19 @@ input[type="date"]::-webkit-calendar-picker-indicator{filter:invert(0.7);}
 </head>
 <body>
 
+<!-- ロック画面 -->
+<div id="lock-screen" class="hidden" style="position:fixed;inset:0;z-index:9999;background:var(--bg);display:flex;flex-direction:column;align-items:center;justify-content:center;padding:24px;">
+  <div style="width:72px;height:72px;border-radius:50%;background:rgba(191,90,242,0.15);display:flex;align-items:center;justify-content:center;font-size:32px;margin-bottom:18px;">🔒</div>
+  <div style="font-size:16px;font-weight:600;margin-bottom:4px;">家計簿はロック中です</div>
+  <div style="font-size:12px;color:var(--text4);margin-bottom:24px;">合言葉を入力してください</div>
+  <input id="lock-passcode-input" type="password" inputmode="numeric" placeholder="••••"
+    style="width:200px;text-align:center;font-size:24px;letter-spacing:8px;background:var(--bg3);border:1px solid var(--border2);border-radius:var(--radius);padding:14px;color:var(--text);font-family:var(--font);outline:none;margin-bottom:14px;"
+    onkeydown="if(event.key==='Enter')tryUnlock()">
+  <button class="modal-save-btn" style="width:200px;" onclick="tryUnlock()">ロック解除</button>
+  <div id="lock-error-msg" style="color:var(--red);font-size:12px;margin-top:10px;height:14px;"></div>
+</div>
+
+
 <!-- HOME -->
 <div class="screen active" id="screen-home">
   <div class="nav-header">
@@ -286,6 +304,7 @@ input[type="date"]::-webkit-calendar-picker-indicator{filter:invert(0.7);}
       <div class="summary-card"><div class="summary-card-label" id="home-inc-label">今月の収入</div><div class="summary-card-val inc" id="home-month-inc">¥0</div></div>
       <div class="summary-card"><div class="summary-card-label" id="home-exp-label">今月の支出</div><div class="summary-card-val exp" id="home-month-exp">¥0</div></div>
     </div>
+    <div id="home-budget-area"></div>
     <div class="section-header"><span class="section-label">最近の履歴</span></div>
     <div id="home-tx-list"></div>
   </div></div>
@@ -505,6 +524,36 @@ input[type="date"]::-webkit-calendar-picker-indicator{filter:invert(0.7);}
       </div>
     </div>
 
+    <!-- 折り畳み: 予算管理 -->
+    <div class="accord-section" id="accord-budget">
+      <div class="accord-header" onclick="toggleAccord('accord-budget')">
+        <div class="accord-icon" style="background:rgba(48,209,88,0.15);">🎯</div>
+        <span class="accord-label">予算管理</span>
+        <span class="accord-arrow">▶</span>
+      </div>
+      <div class="accord-body" style="display:none;">
+        <div class="settings-card" id="settings-budget-card"></div>
+      </div>
+    </div>
+
+    <!-- 折り畳み: セキュリティ -->
+    <div class="accord-section" id="accord-security">
+      <div class="accord-header" onclick="toggleAccord('accord-security')">
+        <div class="accord-icon" style="background:rgba(191,90,242,0.15);">🔒</div>
+        <span class="accord-label">セキュリティ</span>
+        <span class="accord-arrow">▶</span>
+      </div>
+      <div class="accord-body" style="display:none;">
+        <div class="settings-card">
+          <div class="settings-row" onclick="toggleAppLock()">
+            <div class="settings-row-icon" style="background:rgba(191,90,242,0.15);">🔒</div>
+            <div style="flex:1;"><div class="settings-row-label">起動時にロックをかける</div><div style="font-size:10px;color:var(--text4);margin-top:1px;">合言葉（パスコード）でロック</div></div>
+            <span class="settings-row-val" id="lock-status-label">オフ</span>
+          </div>
+        </div>
+      </div>
+    </div>
+
     <!-- 折り畳み: データ -->
     <div class="accord-section" id="accord-data">
       <div class="accord-header" onclick="toggleAccord('accord-data')">
@@ -537,6 +586,7 @@ input[type="date"]::-webkit-calendar-picker-indicator{filter:invert(0.7);}
         </div>
       </div>
     </div>
+
 
     <!-- 全削除（折り畳みなし） -->
     <div class="settings-section" style="margin-top:8px;">
@@ -642,6 +692,38 @@ input[type="date"]::-webkit-calendar-picker-indicator{filter:invert(0.7);}
   </div>
 </div>
 
+<div class="modal-overlay" id="modal-budget">
+  <div class="modal-sheet">
+    <div class="modal-header"><span class="modal-title">予算を設定</span><button class="modal-close" onclick="closeModal('modal-budget')">×</button></div>
+    <div class="modal-body">
+      <div style="display:flex;align-items:center;gap:10px;margin-bottom:14px;">
+        <div id="budget-cat-icon" style="width:36px;height:36px;border-radius:50%;display:flex;align-items:center;justify-content:center;font-size:18px;flex-shrink:0;">🍔</div>
+        <span id="budget-cat-name" style="font-size:15px;font-weight:600;">食費</span>
+      </div>
+      <div class="modal-form-label">今月の予算上限</div>
+      <div class="balance-input-wrap" style="margin-bottom:18px;">
+        <input class="balance-input" id="modal-budget-amount" type="number" placeholder="0（未設定）" inputmode="decimal">
+        <span class="balance-unit">円</span>
+      </div>
+      <button class="modal-save-btn" onclick="saveBudget()">保存</button>
+      <button class="modal-delete-btn" onclick="deleteBudget()">予算を解除する</button>
+    </div>
+  </div>
+</div>
+
+<div class="modal-overlay" id="modal-passcode">
+  <div class="modal-sheet">
+    <div class="modal-header"><span class="modal-title">合言葉を設定</span><button class="modal-close" onclick="closeModal('modal-passcode')">×</button></div>
+    <div class="modal-body">
+      <div class="modal-form-label">4桁以上の数字を入力してください</div>
+      <input class="modal-input" id="modal-passcode-input" type="password" inputmode="numeric" placeholder="••••" style="text-align:center;font-size:20px;letter-spacing:6px;">
+      <div class="modal-form-label">もう一度入力してください（確認）</div>
+      <input class="modal-input" id="modal-passcode-confirm" type="password" inputmode="numeric" placeholder="••••" style="text-align:center;font-size:20px;letter-spacing:6px;">
+      <button class="modal-save-btn" onclick="savePasscode()">設定してロックをオンにする</button>
+    </div>
+  </div>
+</div>
+
 <input type="file" id="simple-csv-input" accept=".csv" class="hidden" onchange="handleSimpleCSVFile(event)">
 <input type="file" id="backup-import-input" accept=".json" class="hidden" onchange="handleBackupImport(event)">
 <div id="toast"></div>
@@ -694,7 +776,7 @@ const DEFAULT_CATS=[
   {id:16,name:'投資',icon:'📈',color:'#5ac8fa',type:'income'},{id:17,name:'臨時収入',icon:'🎵',color:'#ff375f',type:'income'},
 ];
 
-let S={accounts:DEFAULT_ACCOUNTS.map(a=>({...a})),transactions:[],categories:[...DEFAULT_CATS],settings:{monthStartDay:1,yearStartMonth:1}};
+let S={accounts:DEFAULT_ACCOUNTS.map(a=>({...a})),transactions:[],categories:[...DEFAULT_CATS],settings:{monthStartDay:1,yearStartMonth:1},budgets:{}};
 
 function save(){localStorage.setItem('kakebo4',JSON.stringify(S));}
 function load(){
@@ -704,6 +786,7 @@ function load(){
     if(!S.accounts){S.accounts=DEFAULT_ACCOUNTS.map(a=>({...a}));if(typeof S.balance==='number')S.accounts[0].balance=S.balance;}
     if(!S.settings)S.settings={monthStartDay:1,yearStartMonth:1};
     if(!S.categories||!S.categories.length)S.categories=[...DEFAULT_CATS];
+    if(!S.budgets)S.budgets={};
     S.transactions.forEach(t=>{if(!t.acctId)t.acctId=S.accounts[0]?.id||1;});
   }catch(e){}}
 }
@@ -783,7 +866,41 @@ function renderHome(){
   const periodTx=S.transactions.filter(t=>t.date>=from&&t.date<=to);
   document.getElementById('home-month-inc').textContent=fmt(periodTx.filter(t=>t.type==='income').reduce((s,t)=>s+t.amount,0));
   document.getElementById('home-month-exp').textContent=fmt(periodTx.filter(t=>t.type==='expense').reduce((s,t)=>s+t.amount,0));
+  renderBudgetSection(periodTx);
   renderTxList('home-tx-list',[...S.transactions].sort((a,b)=>b.date.localeCompare(a.date)||b.id-a.id).slice(0,30));
+}
+
+// ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+// 予算機能
+// ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+function renderBudgetSection(periodTx){
+  const area=document.getElementById('home-budget-area');
+  if(!area)return;
+  const budgetCatIds=Object.keys(S.budgets).filter(id=>S.budgets[id]>0);
+  if(!budgetCatIds.length){area.innerHTML='';return;}
+  const spentByCategory={};
+  periodTx.filter(t=>t.type==='expense').forEach(t=>{
+    spentByCategory[t.catId]=(spentByCategory[t.catId]||0)+t.amount;
+  });
+  area.innerHTML='<div class="section-header" style="margin-top:4px;"><span class="section-label">予算</span></div>'+
+    '<div style="margin:0 16px 14px;display:flex;flex-direction:column;gap:8px;">'+
+    budgetCatIds.map(catId=>{
+      const c=getCat(catId);
+      const budget=S.budgets[catId];
+      const spent=spentByCategory[catId]||0;
+      const pct=Math.min(100,Math.round(spent/budget*100));
+      const over=spent>budget;
+      const barColor=over?'var(--red)':(pct>80?'var(--orange)':'var(--accent)');
+      return '<div style="background:var(--bg2);border-radius:var(--radius-sm);padding:10px 12px;border:0.5px solid var(--border);">'+
+        '<div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:6px;">'+
+        '<span style="font-size:12px;color:var(--text2);">'+c.icon+' '+c.name+'</span>'+
+        '<span style="font-size:11px;color:'+(over?'var(--red)':'var(--text4)')+';">'+fmt(spent)+' / '+fmt(budget)+(over?' 超過':'')+'</span>'+
+        '</div>'+
+        '<div style="background:var(--bg4);border-radius:6px;height:6px;overflow:hidden;">'+
+        '<div style="background:'+barColor+';height:100%;width:'+pct+'%;transition:width .3s;"></div>'+
+        '</div></div>';
+    }).join('')+
+    '</div>';
 }
 
 const DOW='日月火水木金土';
@@ -904,6 +1021,7 @@ function submitTx(){
   if(inputType==='expense')acct.balance=(acct.balance||0)-amt;
   else acct.balance=(acct.balance||0)+amt;
   save();toast((inputType==='expense'?'支出':'収入')+'を登録しました ✓');
+  hapticTap();
   closeModal('modal-input-sheet');
   resetInputForm();showScreen('home');
 }
@@ -1190,6 +1308,28 @@ function renderSettings(){
     '<div class="settings-row" onclick="openAddCatModal(null,null)">'+
     '<div class="settings-row-icon" style="background:var(--bg3);">＋</div>'+
     '<span class="settings-row-label" style="color:var(--accent2);">新規カテゴリーを追加</span></div>';
+
+  // 予算カード（支出カテゴリのみ対象）
+  const expCats=S.categories.filter(c=>c.type==='expense');
+  const budgetCard=document.getElementById('settings-budget-card');
+  if(budgetCard){
+    budgetCard.innerHTML=expCats.map(c=>{
+      const b=S.budgets[c.id];
+      return '<div class="settings-row" onclick="openBudgetModal('+c.id+')">'+
+        '<div class="settings-row-icon" style="background:'+c.color+'22;">'+c.icon+'</div>'+
+        '<span class="settings-row-label">'+c.name+'</span>'+
+        '<span class="settings-row-val">'+(b?fmt(b):'未設定')+'</span>'+
+        '<span class="chevron-right"></span></div>';
+    }).join('');
+  }
+
+  // ロック状態表示
+  const lockLabel=document.getElementById('lock-status-label');
+  if(lockLabel){
+    const locked=!!localStorage.getItem('kakebo_passcode');
+    lockLabel.textContent=locked?'オン':'オフ';
+    lockLabel.style.color=locked?'var(--accent2)':'var(--text4)';
+  }
 }
 
 // 口座モーダル
@@ -1263,6 +1403,92 @@ function savePeriodSettings(){
   S.settings.monthStartDay=parseInt(document.getElementById('modal-month-start-day').value);
   S.settings.yearStartMonth=parseInt(document.getElementById('modal-year-start-month').value);
   save();closeModal('modal-period');renderSettings();renderHome();toast('期間設定を保存しました ✓');
+}
+
+// ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+// 予算設定モーダル
+// ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+let editingBudgetCatId=null;
+function openBudgetModal(catId){
+  editingBudgetCatId=catId;
+  const c=getCat(catId);
+  document.getElementById('budget-cat-icon').textContent=c.icon;
+  document.getElementById('budget-cat-icon').style.background=c.color+'22';
+  document.getElementById('budget-cat-name').textContent=c.name;
+  document.getElementById('modal-budget-amount').value=S.budgets[catId]||'';
+  openModal('modal-budget');
+}
+function saveBudget(){
+  const amt=parseFloat(document.getElementById('modal-budget-amount').value);
+  if(!amt||amt<=0){toast('金額を入力してください');return;}
+  S.budgets[editingBudgetCatId]=amt;
+  save();closeModal('modal-budget');renderSettings();renderHome();
+  hapticTap();
+  toast('予算を設定しました ✓');
+}
+function deleteBudget(){
+  if(!editingBudgetCatId)return;
+  delete S.budgets[editingBudgetCatId];
+  save();closeModal('modal-budget');renderSettings();renderHome();toast('予算を解除しました');
+}
+
+// ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+// アプリロック（合言葉）機能
+// ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+function toggleAppLock(){
+  const locked=!!localStorage.getItem('kakebo_passcode');
+  if(locked){
+    if(!confirm('ロックをオフにしますか？'))return;
+    localStorage.removeItem('kakebo_passcode');
+    renderSettings();
+    toast('ロックをオフにしました');
+  } else {
+    document.getElementById('modal-passcode-input').value='';
+    document.getElementById('modal-passcode-confirm').value='';
+    openModal('modal-passcode');
+  }
+}
+function savePasscode(){
+  const p1=document.getElementById('modal-passcode-input').value;
+  const p2=document.getElementById('modal-passcode-confirm').value;
+  if(p1.length<4){toast('4桁以上で入力してください');return;}
+  if(p1!==p2){toast('合言葉が一致しません');return;}
+  localStorage.setItem('kakebo_passcode',p1);
+  closeModal('modal-passcode');
+  renderSettings();
+  toast('ロックをオンにしました ✓');
+}
+function checkLockOnLoad(){
+  const saved=localStorage.getItem('kakebo_passcode');
+  if(saved){
+    document.getElementById('lock-screen').classList.remove('hidden');
+    setTimeout(()=>{
+      const inp=document.getElementById('lock-passcode-input');
+      if(inp)inp.focus();
+    },300);
+  }
+}
+function tryUnlock(){
+  const saved=localStorage.getItem('kakebo_passcode');
+  const input=document.getElementById('lock-passcode-input').value;
+  const errEl=document.getElementById('lock-error-msg');
+  if(input===saved){
+    document.getElementById('lock-screen').classList.add('hidden');
+    errEl.textContent='';
+    hapticTap();
+  } else {
+    errEl.textContent='合言葉が違います';
+    document.getElementById('lock-passcode-input').value='';
+    if(navigator.vibrate)navigator.vibrate([60,40,60]);
+  }
+}
+
+// ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+// 触覚フィードバック（iOS Safariはvibrate非対応のため
+// 対応端末のみ効果あり。Androidなどでは軽い振動が入る）
+// ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+function hapticTap(){
+  if(navigator.vibrate)navigator.vibrate(15);
 }
 
 // TX詳細・編集
@@ -1456,6 +1682,7 @@ function calcEquals() {
     if(disp)disp.textContent=result;
     onAmountChange();
     document.getElementById('calc-display').textContent = '';
+    hapticTap();
     closeInputSheet();
   } else if (result !== null) {
     toast('計算結果が0以下です');
@@ -1526,6 +1753,7 @@ function toggleAccord(id) {
 
 // INIT
 load();
+checkLockOnLoad();
 renderHome();
 resetInputForm();
 renderInputCats();
