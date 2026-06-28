@@ -11,7 +11,6 @@
 <link rel="manifest" href="manifest.json">
 <meta name="mobile-web-app-capable" content="yes">
 <meta name="theme-color" content="#111111">
-<!-- スプラッシュ画面（起動時に一瞬表示） -->
 <link rel="apple-touch-startup-image" href="splash-1170x2532.png" media="(device-width: 390px) and (device-height: 844px) and (-webkit-device-pixel-ratio: 3)">
 <link rel="apple-touch-startup-image" href="splash-1179x2556.png" media="(device-width: 393px) and (device-height: 852px) and (-webkit-device-pixel-ratio: 3)">
 <link rel="apple-touch-startup-image" href="splash-1284x2778.png" media="(device-width: 428px) and (device-height: 926px) and (-webkit-device-pixel-ratio: 3)">
@@ -93,7 +92,7 @@ body{background:var(--bg);color:var(--text);font-family:var(--font);font-size:14
 .tx-amt.inc{color:var(--accent2);}
 .tx-chevron{color:var(--text4);flex-shrink:0;}
 
-/* INPUT - よりコンパクトに */
+/* INPUT */
 .input-fixed{flex-shrink:0;}
 .input-type-header{display:flex;background:var(--bg2);border-bottom:0.5px solid var(--border);}
 .input-type-btn{flex:1;padding:10px;border:none;background:none;color:var(--text3);font-family:var(--font);font-size:14px;font-weight:500;cursor:pointer;border-bottom:2px solid transparent;}
@@ -104,7 +103,6 @@ body{background:var(--bg);color:var(--text);font-family:var(--font);font-size:14
 .acct-pill-row::-webkit-scrollbar{display:none;}
 .acct-pill{padding:4px 12px;border-radius:20px;border:1.5px solid var(--border2);background:none;color:var(--text3);font-family:var(--font);font-size:12px;cursor:pointer;white-space:nowrap;transition:all .15s;}
 .acct-pill.selected{border-color:var(--accent2);background:rgba(50,173,230,0.12);color:var(--text);}
-/* 金額行 - コンパクト */
 .input-amount-row{display:flex;align-items:center;padding:8px 14px;border-bottom:0.5px solid var(--border);background:var(--bg2);margin-bottom:1px;gap:8px;}
 .input-amount-label{font-size:12px;color:var(--text4);flex-shrink:0;}
 .input-amount-big{font-size:26px;font-weight:700;color:var(--text);background:none;border:none;outline:none;font-family:var(--font);flex:1;min-width:0;}
@@ -118,7 +116,6 @@ body{background:var(--bg);color:var(--text);font-family:var(--font);font-size:14
 .date-nav-label{flex:1;text-align:center;font-size:14px;background:var(--bg3);border:none;border-radius:var(--radius-sm);padding:6px;color:var(--text);font-family:var(--font);}
 .input-scroll{flex:1;overflow-y:auto;-webkit-overflow-scrolling:touch;overflow-x:hidden;}
 .cat-section-title{font-size:12px;font-weight:600;color:var(--text2);padding:8px 14px 6px;}
-/* カテゴリグリッド - コンパクト */
 .cat-grid{display:grid;grid-template-columns:repeat(4,1fr);gap:5px;padding:0 10px 10px;}
 .cat-tile{background:var(--bg2);border-radius:var(--radius-sm);padding:7px 4px;display:flex;flex-direction:column;align-items:center;gap:3px;cursor:pointer;border:2px solid transparent;transition:all .15s;}
 .cat-tile.selected{border-color:var(--accent2);background:rgba(50,173,230,0.1);}
@@ -131,7 +128,7 @@ body{background:var(--bg);color:var(--text);font-family:var(--font);font-size:14
 .submit-btn.ready.inc{background:var(--accent2);color:#fff;cursor:pointer;}
 .submit-btn:active:not([disabled]){opacity:0.8;transform:scale(0.99);}
 
-/* CALCULATOR ← 修正③ */
+/* CALCULATOR */
 .calc-display{background:var(--bg3);border-radius:var(--radius-sm);padding:5px 10px;margin:0 14px 4px;font-size:12px;color:var(--orange);min-height:22px;text-align:right;font-family:monospace;letter-spacing:0.5px;}
 .calc-row{display:flex;gap:6px;padding:0 10px;margin-bottom:6px;}
 .calc-btn{flex:1;padding:0;height:58px;border:none;border-radius:var(--radius-sm);font-size:22px;font-weight:600;font-family:var(--font);cursor:pointer;transition:all .1s;background:var(--bg3);color:var(--text);}
@@ -141,7 +138,7 @@ body{background:var(--bg);color:var(--text);font-family:var(--font);font-size:14
 .calc-btn.del{background:var(--bg4);color:var(--red);}
 .calc-btn.wide{flex:2;}
 
-/* CALENDAR - 収支バーなし、カレンダーと詳細のみ */
+/* CALENDAR */
 .cal-fixed{flex-shrink:0;}
 .cal-month-nav{display:flex;align-items:center;gap:6px;padding:4px 12px;}
 .cal-month-btn{background:var(--bg3);border:none;border-radius:var(--radius-sm);padding:5px 10px;color:var(--text);font-family:var(--font);cursor:pointer;font-size:16px;line-height:1;}
@@ -180,12 +177,29 @@ body{background:var(--bg);color:var(--text);font-family:var(--font);font-size:14
 .report-date-range{display:flex;align-items:center;gap:8px;padding:4px 16px 10px;}
 .report-date-input{flex:1;background:var(--bg2);border:0.5px solid var(--border2);border-radius:var(--radius-sm);padding:8px 10px;color:var(--text);font-family:var(--font);font-size:13px;outline:none;}
 .report-date-sep{color:var(--text4);font-size:12px;flex-shrink:0;}
-.cat-list-item{display:flex;align-items:center;gap:10px;padding:10px 16px;border-bottom:0.5px solid var(--border);}
+.cat-list-item{display:flex;align-items:center;gap:10px;padding:10px 16px;border-bottom:0.5px solid var(--border);cursor:pointer;transition:background .1s;}
+.cat-list-item:active{background:var(--bg3);}
+.cat-list-item.open{background:var(--bg3);}
 .cat-list-icon{width:32px;height:32px;border-radius:50%;display:flex;align-items:center;justify-content:center;font-size:16px;flex-shrink:0;}
 .cat-list-name{flex:1;font-size:14px;}
 .cat-list-right{text-align:right;}
 .cat-list-amt{font-size:14px;font-weight:600;}
 .cat-list-pct{font-size:11px;color:var(--text4);}
+.cat-list-arrow{font-size:13px;color:var(--text4);transition:transform .2s;margin-left:4px;display:inline-block;}
+.cat-list-item.open .cat-list-arrow{transform:rotate(90deg);}
+
+/* REPORT DROPDOWN - カレンダー下と同じスタイル */
+.cat-list-dropdown{display:none;background:var(--bg2);border-top:0.5px solid var(--border);}
+.cat-list-dropdown.open{display:block;}
+.cat-drop-tx{display:flex;align-items:center;gap:10px;padding:10px 12px 10px 20px;border-bottom:0.5px solid var(--border);cursor:pointer;transition:background .1s;}
+.cat-drop-tx:last-child{border-bottom:none;}
+.cat-drop-tx:active{background:var(--bg3);}
+.cat-drop-icon{width:32px;height:32px;border-radius:50%;display:flex;align-items:center;justify-content:center;flex-shrink:0;font-size:16px;}
+.cat-drop-info{flex:1;min-width:0;}
+.cat-drop-name{font-size:13px;font-weight:500;white-space:nowrap;overflow:hidden;text-overflow:ellipsis;}
+.cat-drop-sub{font-size:10px;color:var(--text4);margin-top:1px;}
+.cat-drop-amt{font-size:14px;font-weight:600;flex-shrink:0;}
+.cat-drop-chevron{color:var(--text4);flex-shrink:0;}
 
 /* SETTINGS */
 .settings-section{margin:14px 16px 4px;}
@@ -237,6 +251,19 @@ body{background:var(--bg);color:var(--text);font-family:var(--font);font-size:14
 .edit-amount-row{display:flex;align-items:center;background:var(--bg3);border:1px solid var(--border2);border-radius:var(--radius-sm);padding:8px 12px;margin-bottom:14px;}
 .edit-amount-input{flex:1;background:none;border:none;outline:none;font-size:20px;font-weight:700;color:var(--text);font-family:var(--font);min-width:0;}
 
+/* ACCORDION */
+.accord-section{margin:8px 16px 0;border-radius:var(--radius);overflow:hidden;border:0.5px solid var(--border);}
+.accord-header{display:flex;align-items:center;gap:10px;padding:13px 14px;background:var(--bg2);cursor:pointer;transition:background .1s;}
+.accord-header:active{background:var(--bg3);}
+.accord-icon{width:30px;height:30px;border-radius:7px;display:flex;align-items:center;justify-content:center;font-size:16px;flex-shrink:0;}
+.accord-label{flex:1;font-size:14px;font-weight:600;color:var(--text);}
+.accord-arrow{font-size:11px;color:var(--text4);transition:transform .2s;}
+.accord-body{background:var(--bg2);border-top:0.5px solid var(--border);}
+.accord-body .settings-card{border-radius:0;border:none;}
+
+.input-back-btn{background:none;border:none;color:var(--text4);font-size:16px;cursor:pointer;padding:10px 12px;line-height:1;}
+.input-back-btn:active{color:var(--text);}
+
 #toast{position:fixed;bottom:calc(var(--nav-h)+14px);left:50%;transform:translateX(-50%) translateY(10px);background:rgba(44,44,46,0.95);backdrop-filter:blur(10px);border:0.5px solid var(--border2);border-radius:20px;padding:8px 18px;font-size:13px;z-index:3000;opacity:0;transition:all .25s;pointer-events:none;white-space:nowrap;font-weight:500;}
 #toast.show{opacity:1;transform:translateX(-50%) translateY(0);}
 .empty-state{text-align:center;padding:40px 20px;color:var(--text4);}
@@ -254,20 +281,6 @@ input[type="date"]::-webkit-calendar-picker-indicator{filter:invert(0.7);}
 .acct-balance-card-row{display:flex;gap:12px;margin-top:3px;}
 .acct-balance-card-item{font-size:11px;}
 .acct-balance-card-val{font-weight:700;font-size:13px;}
-
-/* ACCORDION */
-.accord-section{margin:8px 16px 0;border-radius:var(--radius);overflow:hidden;border:0.5px solid var(--border);}
-.accord-header{display:flex;align-items:center;gap:10px;padding:13px 14px;background:var(--bg2);cursor:pointer;transition:background .1s;}
-.accord-header:active{background:var(--bg3);}
-.accord-icon{width:30px;height:30px;border-radius:7px;display:flex;align-items:center;justify-content:center;font-size:16px;flex-shrink:0;}
-.accord-label{flex:1;font-size:14px;font-weight:600;color:var(--text);}
-.accord-arrow{font-size:11px;color:var(--text4);transition:transform .2s;}
-.accord-body{background:var(--bg2);border-top:0.5px solid var(--border);}
-.accord-body .settings-card{border-radius:0;border:none;}
-
-/* 入力画面 戻るボタン */
-.input-back-btn{background:none;border:none;color:var(--text4);font-size:16px;cursor:pointer;padding:10px 12px;line-height:1;}
-.input-back-btn:active{color:var(--text);}
 </style>
 </head>
 <body>
@@ -283,7 +296,6 @@ input[type="date"]::-webkit-calendar-picker-indicator{filter:invert(0.7);}
   <button class="modal-save-btn" style="width:200px;" onclick="tryUnlock()">ロック解除</button>
   <div id="lock-error-msg" style="color:var(--red);font-size:12px;margin-top:10px;height:14px;"></div>
 </div>
-
 
 <!-- HOME -->
 <div class="screen active" id="screen-home">
@@ -312,16 +324,13 @@ input[type="date"]::-webkit-calendar-picker-indicator{filter:invert(0.7);}
 
 <!-- INPUT -->
 <div class="screen" id="screen-input">
-  <!-- ヘッダー: 戻るボタン＋タブ＋編集 -->
   <div class="input-type-header" style="position:relative;">
     <button class="input-back-btn" onclick="showScreen('home')" title="ホームへ戻る">✕</button>
     <button class="input-type-btn active-exp" id="input-tab-exp" onclick="setInputType('expense')">支出</button>
     <button class="input-type-btn" id="input-tab-inc" onclick="setInputType('income')">収入</button>
     <button class="input-edit-btn" onclick="openAddCatModal(null,inputType)">✎ 編集</button>
   </div>
-  <!-- 口座選択 -->
   <div class="acct-pill-row hidden" id="input-acct-row"></div>
-  <!-- 日付行 -->
   <div class="input-field-row">
     <span class="input-field-label">日付</span>
     <div class="date-nav-row" style="flex:1;">
@@ -330,12 +339,10 @@ input[type="date"]::-webkit-calendar-picker-indicator{filter:invert(0.7);}
       <button class="date-nav-btn" onclick="shiftDate(1)">›</button>
     </div>
   </div>
-  <!-- メモ行 -->
   <div class="input-field-row">
     <span class="input-field-label">メモ</span>
     <input class="input-field-val" id="input-memo" placeholder="未入力" type="text">
   </div>
-  <!-- 金額行（タップで電卓シートが開く） -->
   <div class="input-amount-row" onclick="openCalcSheet()" style="cursor:pointer;">
     <span class="input-amount-label" id="amount-label">支出</span>
     <input class="input-amount-big" id="input-amount" type="number" placeholder="0"
@@ -344,21 +351,18 @@ input[type="date"]::-webkit-calendar-picker-indicator{filter:invert(0.7);}
     <span class="input-amount-unit">円</span>
     <span style="font-size:12px;color:var(--accent2);margin-left:4px;flex-shrink:0;">🖩</span>
   </div>
-  <!-- カテゴリ一覧 -->
   <div class="input-scroll">
     <div class="cat-section-title" id="cat-section-title">カテゴリー</div>
     <div class="cat-grid" id="input-cat-grid"></div>
   </div>
-  <!-- 登録ボタン固定 -->
   <div class="submit-bar">
     <button class="submit-btn" id="submit-btn" onclick="submitTx()">支出を入力する</button>
   </div>
 </div>
 
-<!-- INPUT BOTTOM SHEET: 電卓のみ -->
+<!-- INPUT BOTTOM SHEET: 電卓 -->
 <div class="modal-overlay" id="modal-input-sheet">
   <div class="modal-sheet" style="border-radius:20px 20px 0 0;padding-bottom:8px;">
-    <!-- ヘッダー: カテゴリ表示＋金額＋閉じる -->
     <div style="display:flex;align-items:center;padding:10px 14px;border-bottom:0.5px solid var(--border);background:var(--bg2);gap:8px;">
       <div id="sheet-cat-icon" style="width:30px;height:30px;border-radius:50%;background:#fff2;display:flex;align-items:center;justify-content:center;font-size:17px;flex-shrink:0;">🍔</div>
       <span id="sheet-cat-name" style="font-size:13px;color:var(--text2);flex:1;">食費</span>
@@ -368,9 +372,7 @@ input[type="date"]::-webkit-calendar-picker-indicator{filter:invert(0.7);}
       </div>
       <button class="modal-close" onclick="closeInputSheet()" style="margin-left:6px;">×</button>
     </div>
-    <!-- 計算式表示 -->
     <div class="calc-display" id="calc-display"></div>
-    <!-- 電卓 -->
     <div class="calc-row">
       <button class="calc-btn" onclick="calcInput('7')">7</button>
       <button class="calc-btn" onclick="calcInput('8')">8</button>
@@ -401,7 +403,7 @@ input[type="date"]::-webkit-calendar-picker-indicator{filter:invert(0.7);}
   </div>
 </div>
 
-<!-- CALENDAR - 収支バーなし -->
+<!-- CALENDAR -->
 <div class="screen" id="screen-calendar">
   <div class="nav-header">
     <div class="nav-header-row"><span class="nav-title">カレンダー</span></div>
@@ -454,11 +456,9 @@ input[type="date"]::-webkit-calendar-picker-indicator{filter:invert(0.7);}
       <button class="seg-btn active" id="report-type-exp" onclick="setReportType('expense')">支出</button>
       <button class="seg-btn" id="report-type-inc" onclick="setReportType('income')">収入</button>
     </div>
-    <!-- 口座フィルター -->
     <div style="padding:0 16px 8px;overflow-x:auto;white-space:nowrap;" id="report-acct-filter-wrap">
       <div id="report-acct-filter" style="display:flex;gap:6px;"></div>
     </div>
-    <!-- 残高サマリー（口座別） -->
     <div id="report-acct-summary" style="margin:0 16px 8px;"></div>
     <div style="display:flex;justify-content:center;padding:6px 16px 0;">
       <canvas id="donut-chart" width="240" height="240"></canvas>
@@ -481,8 +481,6 @@ input[type="date"]::-webkit-calendar-picker-indicator{filter:invert(0.7);}
 <div class="screen" id="screen-settings">
   <div class="nav-header"><div class="nav-header-row"><span class="nav-title">設定</span></div></div>
   <div class="scroll-area"><div class="scroll-area-inner">
-
-    <!-- 折り畳み: 口座管理 -->
     <div class="accord-section" id="accord-accounts">
       <div class="accord-header" onclick="toggleAccord('accord-accounts')">
         <div class="accord-icon" style="background:rgba(50,173,230,0.15);">🏦</div>
@@ -493,8 +491,6 @@ input[type="date"]::-webkit-calendar-picker-indicator{filter:invert(0.7);}
         <div class="settings-card" id="settings-account-card"></div>
       </div>
     </div>
-
-    <!-- 折り畳み: 期間設定 -->
     <div class="accord-section" id="accord-period">
       <div class="accord-header" onclick="toggleAccord('accord-period')">
         <div class="accord-icon" style="background:rgba(50,173,230,0.15);">📅</div>
@@ -511,8 +507,6 @@ input[type="date"]::-webkit-calendar-picker-indicator{filter:invert(0.7);}
         </div>
       </div>
     </div>
-
-    <!-- 折り畳み: カテゴリー管理 -->
     <div class="accord-section" id="accord-cats">
       <div class="accord-header" onclick="toggleAccord('accord-cats')">
         <div class="accord-icon" style="background:rgba(255,159,10,0.15);">🏷️</div>
@@ -523,8 +517,6 @@ input[type="date"]::-webkit-calendar-picker-indicator{filter:invert(0.7);}
         <div class="settings-card" id="settings-cat-card"></div>
       </div>
     </div>
-
-    <!-- 折り畳み: 予算管理 -->
     <div class="accord-section" id="accord-budget">
       <div class="accord-header" onclick="toggleAccord('accord-budget')">
         <div class="accord-icon" style="background:rgba(48,209,88,0.15);">🎯</div>
@@ -535,8 +527,6 @@ input[type="date"]::-webkit-calendar-picker-indicator{filter:invert(0.7);}
         <div class="settings-card" id="settings-budget-card"></div>
       </div>
     </div>
-
-    <!-- 折り畳み: セキュリティ -->
     <div class="accord-section" id="accord-security">
       <div class="accord-header" onclick="toggleAccord('accord-security')">
         <div class="accord-icon" style="background:rgba(191,90,242,0.15);">🔒</div>
@@ -553,8 +543,6 @@ input[type="date"]::-webkit-calendar-picker-indicator{filter:invert(0.7);}
         </div>
       </div>
     </div>
-
-    <!-- 折り畳み: データ -->
     <div class="accord-section" id="accord-data">
       <div class="accord-header" onclick="toggleAccord('accord-data')">
         <div class="accord-icon" style="background:rgba(90,200,250,0.15);">💾</div>
@@ -586,9 +574,6 @@ input[type="date"]::-webkit-calendar-picker-indicator{filter:invert(0.7);}
         </div>
       </div>
     </div>
-
-
-    <!-- 全削除（折り畳みなし） -->
     <div class="settings-section" style="margin-top:8px;">
       <div class="settings-card">
         <div class="settings-row" onclick="confirmReset()">
@@ -730,33 +715,19 @@ input[type="date"]::-webkit-calendar-picker-indicator{filter:invert(0.7);}
 
 <script src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/4.4.1/chart.umd.js"></script>
 <script>
-// ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
-// 修正② アイコンを大幅に増量
-// ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
 const ICONS=[
-  // 食べ物・飲み物
   '🍔','🍜','🍣','🍱','🍕','🍞','🥗','🍰','🍩','🍦','🥩','🍗','🥚','🥦','🥕',
   '🍺','🍷','🥤','☕','🧃','🧋','🍵','🍶','🫖','🥂',
-  // 日用品・生活
   '🛒','🧴','🧹','🧺','🪥','🪣','🧼','🪴','🕯️','🔑','🛋️','🪑','🛏️','🧻','🪒',
-  // ファッション・美容
   '👕','👗','👟','👜','💄','💅','💇','💈','🕶️','🧢','🧣','👒','👔','🧤','👠',
-  // 交通・移動
   '🚗','✈️','🚃','🚌','🚕','🚲','⛽','🛵','🛳️','🚁','🚢','🏍️','🛺','🚡','⛵',
-  // 住居・家
   '🏠','🏢','💡','🔧','🪟','🚿','🛁','🪜','🔨','🧱','🏗️',
-  // 医療・健康
   '💊','🏥','🩺','💉','🩹','🧬','🏋️','🧘','🚴','🩻','🩼','🧪',
-  // 娯楽・趣味
   '🎮','🎵','🎬','📺','📷','🎸','🎹','🎯','⛳','♟️','🎲','🎨','✏️','📖','🎭',
   '🎳','⚽','🏀','⚾','🎾','🏊','🎿','🛹','🎣','🏕️',
-  // 教育・仕事
   '📱','💻','📚','🎓','📝','📊','💼','🖨️','📞','⌨️','🖥️','📡','🔬','📐','🗂️',
-  // お金・金融
   '💰','💳','💵','📈','📉','🏦','💎','🎁','🏷️','🪙','💹','🤑',
-  // 動物・自然
   '🐾','🐕','🐈','🌿','🌸','🌳','☀️','🌙','⛅','🌊','🌺','🍀','🌾','🦋','🐠',
-  // その他
   '🌐','❤️','⭐','🔔','📦','🧩','🎀','🪄','🔍','🗓️','⚡','🔥','💧','🎪','🏆'
 ];
 const ACCT_ICONS=['🏦','💳','👛','📒','🏧','💼','🏠','✈️','💰','🎒','📱','💎','🪙','🏪','🎁'];
@@ -812,17 +783,11 @@ function getCurrentPeriod(){
   const to=dateToStr(new Date(toY,toM-1,sd-1));
   return {from,to};
 }
-
-// ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
-// 修正① getPeriodLabel の日付バグ修正
-// 演算子の優先順位で「51/20」になるのを括弧で修正
-// ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
 function getPeriodLabel(){
   const {from,to}=getCurrentPeriod();
   const fd=parseDate(from),td=parseDate(to);
   return (fd.getMonth()+1)+'/'+fd.getDate()+'〜'+(td.getMonth()+1)+'/'+td.getDate();
 }
-
 function getCalPeriod(y,m){
   const sd=S.settings.monthStartDay;
   const from=y+'-'+String(m).padStart(2,'0')+'-'+String(sd).padStart(2,'0');
@@ -870,9 +835,6 @@ function renderHome(){
   renderTxList('home-tx-list',[...S.transactions].sort((a,b)=>b.date.localeCompare(a.date)||b.id-a.id).slice(0,30));
 }
 
-// ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
-// 予算機能
-// ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
 function renderBudgetSection(periodTx){
   const area=document.getElementById('home-budget-area');
   if(!area)return;
@@ -935,12 +897,10 @@ let inputType='expense',selectedCatId=1,selectedAcctId=1;
 function resetInputForm(){
   inputType='expense';selectedCatId=1;selectedAcctId=S.accounts[0]?.id||1;
   document.getElementById('input-amount').value='';
-  // 電卓リセット
   calcExpr='';
   const cd=document.getElementById('calc-display');if(cd)cd.textContent='';
   document.getElementById('input-date').value=todayStr();
   document.getElementById('input-memo').value='';
-  // シートのカテゴリバッジを初期化
   const def=getCat(selectedCatId);
   const iconEl=document.getElementById('sheet-cat-icon');
   const nameEl=document.getElementById('sheet-cat-name');
@@ -956,7 +916,6 @@ function updateInputTypeUI(){
   document.getElementById('input-tab-inc').className='input-type-btn'+(inputType==='income'?' active-inc':'');
   const st=document.getElementById('cat-section-title');
   if(st)st.textContent=(inputType==='expense'?'支出':'収入')+'カテゴリーを選択';
-  // sheet tabs removed
   document.getElementById('submit-btn').textContent=inputType==='expense'?'支出を入力する':'収入を入力する';
 }
 function onAmountChange(){updateSubmitBtn();}
@@ -1050,7 +1009,6 @@ function initCalMonth(){
 }
 let swipeStartX=0,swipeStartY=0;
 let lastTapTime=0,lastTapTarget='';
-
 function initCalSwipe(){
   const wrap=document.getElementById('cal-swipe-wrap');
   wrap.addEventListener('touchstart',e=>{swipeStartX=e.touches[0].clientX;swipeStartY=e.touches[0].clientY;},{passive:true});
@@ -1060,16 +1018,12 @@ function initCalSwipe(){
     if(Math.abs(dx)>Math.abs(dy)&&Math.abs(dx)>40){if(dx<0)calShift(1);else calShift(-1);}
   },{passive:true});
 }
-
 function renderCalendar(){
   const y=calYear,m=calMonth;
-  const sd=S.settings.monthStartDay;
   const {from,to,sub}=getCalPeriod(y,m);
   document.getElementById('cal-month-label').textContent=y+'年'+m+'月';
   document.getElementById('cal-month-sub').textContent=sub;
-
   const periodTx=S.transactions.filter(t=>t.date>=from&&t.date<=to);
-
   const fromDate=parseDate(from);
   const toDate=parseDate(to);
   const fromDow=fromDate.getDay();
@@ -1078,7 +1032,6 @@ function renderCalendar(){
   const toDateDow=toDate.getDay();
   const gridEnd=new Date(toDate);
   if(toDateDow<6)gridEnd.setDate(gridEnd.getDate()+(6-toDateDow));
-
   const todayS=todayStr();
   const dailyExp={},dailyInc={};
   S.transactions.forEach(t=>{
@@ -1087,7 +1040,6 @@ function renderCalendar(){
     if(t.type==='expense')dailyExp[ds]=(dailyExp[ds]||0)+t.amount;
     else dailyInc[ds]=(dailyInc[ds]||0)+t.amount;
   });
-
   let html='';
   let cur=new Date(gridStart);
   while(cur<=gridEnd){
@@ -1108,7 +1060,6 @@ function renderCalendar(){
   document.getElementById('cal-grid').innerHTML=html;
   renderCalAllTx(from,to,periodTx);
 }
-
 function renderCalAllTx(from,to,periodTx){
   const sorted=[...periodTx].sort((a,b)=>b.date.localeCompare(a.date)||b.id-a.id);
   const sec=document.getElementById('cal-tx-section');
@@ -1134,7 +1085,6 @@ function renderCalAllTx(from,to,periodTx){
   html+='<button style="width:100%;margin:6px 0 14px;padding:11px;background:var(--bg2);border:0.5px solid var(--border2);border-radius:var(--radius);color:var(--accent2);font-size:13px;font-family:var(--font);cursor:pointer;" onclick="openInputForDate(\''+todayStr()+'\')">+ 今日の記録を追加</button>';
   sec.innerHTML=html;
 }
-
 function calShift(d){
   calMonth+=d;
   if(calMonth<1){calMonth=12;calYear--;}
@@ -1142,21 +1092,14 @@ function calShift(d){
   lastTapTime=0;lastTapTarget='';
   renderCalendar();
 }
-
 function calCellClick(el,ds,isCurrentPeriod){
   if(!isCurrentPeriod)return;
   const now=Date.now();
   const isDouble=(now-lastTapTime)<350&&lastTapTarget===ds;
   lastTapTime=now;lastTapTarget=ds;
-
-  if(isDouble){
-    openInputForDate(ds);
-    return;
-  }
-
+  if(isDouble){openInputForDate(ds);return;}
   document.querySelectorAll('.cal-cell').forEach(c=>c.classList.remove('scrolled'));
   el.classList.add('scrolled');
-
   const group=document.getElementById('group-'+ds);
   const scrollArea=document.getElementById('cal-scroll-area');
   if(group&&scrollArea){
@@ -1236,6 +1179,7 @@ function renderAcctSummary(txs){
       }).join('')+'</div>';
   }
 }
+
 function renderReport(){
   let txs=[];
   const sd=S.settings.monthStartDay,sm=S.settings.yearStartMonth;
@@ -1278,13 +1222,55 @@ function renderReport(){
       options:{responsive:false,cutout:'65%',plugins:{legend:{display:false},tooltip:{callbacks:{label:ctx=>' '+fmt(ctx.parsed)+(total?' ('+Math.round(ctx.parsed/total*100)+'%)':'')}}}}
     });
   }
+
+  // カテゴリ別取引リスト（金額降順でドロップダウン）
+  const txByCat={};
+  filtered.forEach(t=>{
+    if(!txByCat[t.catId])txByCat[t.catId]=[];
+    txByCat[t.catId].push(t);
+  });
+  Object.keys(txByCat).forEach(cid=>{
+    txByCat[cid].sort((a,b)=>b.amount-a.amount);
+  });
+
   document.getElementById('report-cat-list').innerHTML=sorted.map(([id,amt])=>{
     const c=getCat(id);
-    return '<div class="cat-list-item"><div class="cat-list-icon" style="background:'+c.color+'22;">'+c.icon+'</div>'+
-      '<span class="cat-list-name">'+c.name+'</span>'+
-      '<div class="cat-list-right"><div class="cat-list-amt">'+fmt(amt)+'</div>'+
-      '<div class="cat-list-pct">'+(total?Math.round(amt/total*100):0)+'%</div></div></div>';
+    const catTxs=txByCat[id]||[];
+    const txRows=catTxs.map(t=>{
+      const ac=getAcct(t.acctId);
+      const dateObj=parseDate(t.date);
+      const dateLabel=(dateObj.getMonth()+1)+'/'+(dateObj.getDate())+'('+DOW[dateObj.getDay()]+')';
+      return '<div class="cat-drop-tx" onclick="showTxModal('+t.id+');event.stopPropagation();">'+
+        '<div class="cat-drop-icon" style="background:'+c.color+'22;">'+c.icon+'</div>'+
+        '<div class="cat-drop-info">'+
+          '<div class="cat-drop-name">'+(t.memo||c.name)+'</div>'+
+          '<div class="cat-drop-sub">'+dateLabel+' <span style="background:var(--bg4);border-radius:3px;padding:1px 4px;font-size:9px;">'+ac.icon+' '+ac.name+'</span></div>'+
+        '</div>'+
+        '<div class="cat-drop-amt" style="color:'+(reportType==='expense'?'var(--red)':'var(--accent2)')+';">'+(reportType==='expense'?'-':'+')+fmt(t.amount)+'</div>'+
+        '<svg class="cat-drop-chevron" width="6" height="11" viewBox="0 0 7 12" style="margin-left:4px;"><path d="M1 1l5 5-5 5" stroke="currentColor" stroke-width="1.5" fill="none" stroke-linecap="round"/></svg>'+
+      '</div>';
+    }).join('');
+    return '<div id="report-cat-wrap-'+id+'">'+
+      '<div class="cat-list-item" onclick="toggleReportCat('+id+')">'+
+        '<div class="cat-list-icon" style="background:'+c.color+'22;">'+c.icon+'</div>'+
+        '<span class="cat-list-name">'+c.name+'</span>'+
+        '<div class="cat-list-right"><div class="cat-list-amt">'+fmt(amt)+'</div>'+
+        '<div class="cat-list-pct">'+(total?Math.round(amt/total*100):0)+'%</div></div>'+
+        '<span class="cat-list-arrow">›</span>'+
+      '</div>'+
+      '<div class="cat-list-dropdown" id="report-cat-drop-'+id+'">'+txRows+'</div>'+
+    '</div>';
   }).join('')||'<div class="empty-state"><div class="empty-state-emoji">📊</div><div class="empty-state-text">データがありません</div></div>';
+}
+
+// ★ カテゴリドロップダウン開閉
+function toggleReportCat(id){
+  const item=document.querySelector('#report-cat-wrap-'+id+' .cat-list-item');
+  const drop=document.getElementById('report-cat-drop-'+id);
+  if(!item||!drop)return;
+  const isOpen=drop.classList.contains('open');
+  item.classList.toggle('open',!isOpen);
+  drop.classList.toggle('open',!isOpen);
 }
 
 // SETTINGS
@@ -1308,8 +1294,6 @@ function renderSettings(){
     '<div class="settings-row" onclick="openAddCatModal(null,null)">'+
     '<div class="settings-row-icon" style="background:var(--bg3);">＋</div>'+
     '<span class="settings-row-label" style="color:var(--accent2);">新規カテゴリーを追加</span></div>';
-
-  // 予算カード（支出カテゴリのみ対象）
   const expCats=S.categories.filter(c=>c.type==='expense');
   const budgetCard=document.getElementById('settings-budget-card');
   if(budgetCard){
@@ -1322,8 +1306,6 @@ function renderSettings(){
         '<span class="chevron-right"></span></div>';
     }).join('');
   }
-
-  // ロック状態表示
   const lockLabel=document.getElementById('lock-status-label');
   if(lockLabel){
     const locked=!!localStorage.getItem('kakebo_passcode');
@@ -1405,9 +1387,7 @@ function savePeriodSettings(){
   save();closeModal('modal-period');renderSettings();renderHome();toast('期間設定を保存しました ✓');
 }
 
-// ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
-// 予算設定モーダル
-// ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+// 予算
 let editingBudgetCatId=null;
 function openBudgetModal(catId){
   editingBudgetCatId=catId;
@@ -1432,9 +1412,7 @@ function deleteBudget(){
   save();closeModal('modal-budget');renderSettings();renderHome();toast('予算を解除しました');
 }
 
-// ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
-// アプリロック（合言葉）機能
-// ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+// ロック
 function toggleAppLock(){
   const locked=!!localStorage.getItem('kakebo_passcode');
   if(locked){
@@ -1483,10 +1461,6 @@ function tryUnlock(){
   }
 }
 
-// ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
-// 触覚フィードバック（iOS Safariはvibrate非対応のため
-// 対応端末のみ効果あり。Androidなどでは軽い振動が入る）
-// ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
 function hapticTap(){
   if(navigator.vibrate)navigator.vibrate(15);
 }
@@ -1649,17 +1623,12 @@ function confirmReset(){
   save();toast('データを削除しました');renderHome();renderSettings();
 }
 
-// ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
-// 修正③ 電卓機能
-// ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+// 電卓
 let calcExpr = '';
-
 function calcInput(v) {
   const OPS = ['+', '−', '×', '÷'];
   const last = calcExpr.slice(-1);
-  // 演算子が連続しないようにする
   if (OPS.includes(v) && (OPS.includes(last) || calcExpr === '')) return;
-  // 小数点が重複しないようにする（最後の数値セグメントに限定）
   if (v === '.') {
     const segs = calcExpr.split(/[+−×÷]/);
     if (segs[segs.length - 1].includes('.')) return;
@@ -1667,12 +1636,10 @@ function calcInput(v) {
   calcExpr += v;
   _calcSync();
 }
-
 function calcDel() {
   calcExpr = calcExpr.slice(0, -1);
   _calcSync();
 }
-
 function calcEquals() {
   const result = _calcEval();
   if (result !== null && result > 0) {
@@ -1694,18 +1661,11 @@ function calcEquals() {
     onAmountChange();
   }
 }
-
 function _calcEval() {
   if (!calcExpr) return null;
   try {
-    // 記号を JS の演算子に変換
-    const expr = calcExpr
-      .replace(/÷/g, '/')
-      .replace(/×/g, '*')
-      .replace(/−/g, '-');
-    // 数字・演算子・小数点のみ許可（セキュリティ）
+    const expr = calcExpr.replace(/÷/g, '/').replace(/×/g, '*').replace(/−/g, '-');
     if (!/^[\d+\-*/.]+$/.test(expr)) return null;
-    // 末尾が演算子なら除去して計算
     const clean = expr.replace(/[+\-*/]$/, '');
     if (!clean) return null;
     const result = Function('"use strict"; return (' + clean + ')')();
@@ -1713,14 +1673,11 @@ function _calcEval() {
     return Math.round(result * 100) / 100;
   } catch(e) { return null; }
 }
-
 function _calcSync() {
   const OPS = ['+', '−', '×', '÷'];
   const hasOp = OPS.some(op => calcExpr.includes(op));
   const dispEl = document.getElementById('calc-display');
-
   if (!hasOp) {
-    // 演算子なし → 金額欄に直接反映
     const num = parseFloat(calcExpr);
     document.getElementById('input-amount').value = isNaN(num) ? '' : num;
     const disp=document.getElementById('sheet-amount-display');
@@ -1728,20 +1685,12 @@ function _calcSync() {
     onAmountChange();
     dispEl.textContent = calcExpr || '';
   } else {
-    // 演算子あり → 式と途中結果を表示
     const result = _calcEval();
-    dispEl.textContent = result !== null
-      ? calcExpr + ' = ' + result
-      : calcExpr;
+    dispEl.textContent = result !== null ? calcExpr + ' = ' + result : calcExpr;
   }
 }
+function closeInputSheet(){closeModal('modal-input-sheet');}
 
-// ボトムシートを閉じる
-function closeInputSheet(){
-  closeModal('modal-input-sheet');
-}
-
-// アコーディオン開閉
 function toggleAccord(id) {
   const sec = document.getElementById(id);
   const body = sec.querySelector('.accord-body');
