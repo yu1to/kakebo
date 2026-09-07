@@ -709,6 +709,49 @@ input[type="date"]::-webkit-calendar-picker-indicator{filter:invert(0.7);}
   </div>
 </div>
 
+<!-- 編集用電卓モーダル -->
+<div class="modal-overlay" id="modal-calc-edit" style="z-index:3000;">
+  <div class="modal-sheet" style="border-radius:20px 20px 0 0;padding-bottom:8px;">
+    <div style="display:flex;align-items:center;padding:10px 14px;border-bottom:0.5px solid var(--border);background:var(--bg2);gap:8px;">
+      <div id="edit-sheet-cat-icon" style="width:30px;height:30px;border-radius:50%;background:#fff2;display:flex;align-items:center;justify-content:center;font-size:17px;flex-shrink:0;">✏️</div>
+      <span id="edit-sheet-cat-name" style="font-size:13px;color:var(--text2);flex:1;">編集</span>
+      <div style="display:flex;align-items:baseline;gap:3px;">
+        <span id="edit-sheet-amount-display" style="font-size:26px;font-weight:700;color:var(--text);min-width:80px;text-align:right;">0</span>
+        <span style="font-size:13px;color:var(--text3);">円</span>
+      </div>
+      <button class="modal-close" onclick="closeEditCalcSheet()" style="margin-left:6px;">×</button>
+    </div>
+    <div class="calc-display" id="edit-calc-display"></div>
+    <div class="calc-row">
+      <button class="calc-btn" onclick="editCalcInput('7')">7</button>
+      <button class="calc-btn" onclick="editCalcInput('8')">8</button>
+      <button class="calc-btn" onclick="editCalcInput('9')">9</button>
+      <button class="calc-btn op" onclick="editCalcInput('÷')">÷</button>
+    </div>
+    <div class="calc-row">
+      <button class="calc-btn" onclick="editCalcInput('4')">4</button>
+      <button class="calc-btn" onclick="editCalcInput('5')">5</button>
+      <button class="calc-btn" onclick="editCalcInput('6')">6</button>
+      <button class="calc-btn op" onclick="editCalcInput('×')">×</button>
+    </div>
+    <div class="calc-row">
+      <button class="calc-btn" onclick="editCalcInput('1')">1</button>
+      <button class="calc-btn" onclick="editCalcInput('2')">2</button>
+      <button class="calc-btn" onclick="editCalcInput('3')">3</button>
+      <button class="calc-btn op" onclick="editCalcInput('−')">−</button>
+    </div>
+    <div class="calc-row">
+      <button class="calc-btn wide" onclick="editCalcInput('0')">0</button>
+      <button class="calc-btn" onclick="editCalcInput('.')">.</button>
+      <button class="calc-btn op" onclick="editCalcInput('+')">＋</button>
+    </div>
+    <div class="calc-row" style="margin-bottom:4px;">
+      <button class="calc-btn del" onclick="editCalcDel()" style="flex:1;">⌫</button>
+      <button class="calc-btn eq" onclick="editCalcEquals()" style="flex:2;">=</button>
+    </div>
+  </div>
+</div>
+
 <input type="file" id="simple-csv-input" accept=".csv" class="hidden" onchange="handleSimpleCSVFile(event)">
 <input type="file" id="backup-import-input" accept=".json" class="hidden" onchange="handleBackupImport(event)">
 <div id="toast"></div>
@@ -1466,10 +1509,87 @@ function hapticTap(){
 }
 
 // TX詳細・編集
-let editingTxId=null,editTxCatId=1,editTxAcctId=1;
+let editingTxId=null,editTxCatId=1,editTxAcctId=1,editCalcExpr='';
+
+let _editCalcMode=false,_editCalcExpr='';
+
+function openEditCalcSheet(){
+  const curAmt=document.getElementById('edit-amount-hidden').value;
+  _editCalcExpr=curAmt||'';
+  _editCalcMode=true;
+  const c=getCat(editTxCatId);
+  const iconEl=document.getElementById('edit-sheet-cat-icon');
+  const nameEl=document.getElementById('edit-sheet-cat-name');
+  const amtDisp=document.getElementById('edit-sheet-amount-display');
+  if(iconEl){iconEl.textContent=c.icon;iconEl.style.background=c.color+'22';}
+  if(nameEl)nameEl.textContent=c.name;
+  if(amtDisp)amtDisp.textContent=curAmt||'0';
+  document.getElementById('edit-calc-display').textContent='';
+  openModal('modal-calc-edit');
+}
+function closeEditCalcSheet(){
+  _editCalcMode=false;
+  _editCalcExpr='';
+  closeModal('modal-calc-edit');
+}
+function editCalcInput(v){
+  const OPS=['+','−','×','÷'];
+  const last=_editCalcExpr.slice(-1);
+  if(OPS.includes(v)&&(OPS.includes(last)||_editCalcExpr===''))return;
+  if(v==='.'){const segs=_editCalcExpr.split(/[+−×÷]/);if(segs[segs.length-1].includes('.'))return;}
+  _editCalcExpr+=v;
+  _editCalcSyncDisplay();
+}
+function editCalcDel(){
+  _editCalcExpr=_editCalcExpr.slice(0,-1);
+  _editCalcSyncDisplay();
+}
+function editCalcEquals(){
+  const result=_editCalcEval();
+  if(result!==null&&result>0){
+    _editCalcExpr='';
+    document.getElementById('edit-amount-hidden').value=result;
+    const dispEl=document.getElementById('edit-amount-display');
+    if(dispEl)dispEl.textContent=fmt(result);
+    document.getElementById('edit-calc-display').textContent='';
+    hapticTap();
+    closeEditCalcSheet();
+  } else if(result!==null){
+    toast('計算結果が0以下です');
+    _editCalcExpr='';
+    document.getElementById('edit-calc-display').textContent='';
+  }
+}
+function _editCalcEval(){
+  if(!_editCalcExpr)return null;
+  try{
+    const expr=_editCalcExpr.replace(/÷/g,'/').replace(/×/g,'*').replace(/−/g,'-');
+    if(!/^[\d+\-*/.]+$/.test(expr))return null;
+    const clean=expr.replace(/[+\-*/]$/,'');
+    if(!clean)return null;
+    const result=Function('"use strict"; return ('+clean+')')();
+    if(!isFinite(result)||isNaN(result))return null;
+    return Math.round(result*100)/100;
+  }catch(e){return null;}
+}
+function _editCalcSyncDisplay(){
+  const OPS=['+','−','×','÷'];
+  const hasOp=OPS.some(op=>_editCalcExpr.includes(op));
+  const dispEl=document.getElementById('edit-calc-display');
+  const amtDisp=document.getElementById('edit-sheet-amount-display');
+  if(!hasOp){
+    const num=parseFloat(_editCalcExpr);
+    if(amtDisp)amtDisp.textContent=isNaN(num)?'0':num;
+    dispEl.textContent=_editCalcExpr||'';
+  } else {
+    const result=_editCalcEval();
+    dispEl.textContent=result!==null?_editCalcExpr+' = '+result:_editCalcExpr;
+  }
+}
+
 function showTxModal(id){
   const tx=S.transactions.find(t=>t.id==id);if(!tx)return;
-  editingTxId=id;editTxCatId=tx.catId;editTxAcctId=tx.acctId;
+  editingTxId=id;editTxCatId=tx.catId;editTxAcctId=tx.acctId;editCalcExpr=String(tx.amount);
   const c=getCat(tx.catId),ac=getAcct(tx.acctId);
   const catsHtml=S.categories.filter(cat=>cat.type===tx.type).map(cat=>
     '<div class="edit-cat-tile '+(cat.id===editTxCatId?'selected':'')+'" onclick="selectEditCat('+cat.id+')">'+
@@ -1486,7 +1606,14 @@ function showTxModal(id){
     '<div style="min-width:0;"><div style="font-size:17px;font-weight:700;color:'+(tx.type==='expense'?'var(--red)':'var(--accent2)')+';">'+(tx.type==='expense'?'-':'+')+fmt(tx.amount)+'</div>'+
     '<div style="font-size:10px;color:var(--text4);white-space:nowrap;overflow:hidden;text-overflow:ellipsis;">'+tx.date+' · '+c.name+' · '+ac.name+'</div></div></div>'+
     '<div class="modal-form-label">金額</div>'+
-    '<div class="edit-amount-row"><input id="edit-amount" type="number" value="'+tx.amount+'" inputmode="decimal" class="edit-amount-input"><span style="color:var(--text3);flex-shrink:0;">円</span></div>'+
+    // 電卓タップエリア（表示用）
+    '<div class="edit-amount-row" onclick="openEditCalcSheet()" style="cursor:pointer;">'+
+      '<div id="edit-amount-display" style="flex:1;font-size:20px;font-weight:700;color:var(--text);">'+fmt(tx.amount)+'</div>'+
+      '<span style="font-size:13px;color:var(--text3);">円</span>'+
+      '<span style="font-size:12px;color:var(--accent2);margin-left:8px;">🖩</span>'+
+    '</div>'+
+    // 実際の値を保持する隠しinput
+    '<input type="hidden" id="edit-amount-hidden" value="'+tx.amount+'">'+
     '<div class="modal-form-label">日付</div>'+
     '<input class="modal-input" id="edit-date" type="date" value="'+tx.date+'">'+
     '<div class="modal-form-label">メモ</div>'+
@@ -1512,7 +1639,7 @@ function selectEditAcct(id){
 }
 function saveEditTx(){
   const tx=S.transactions.find(t=>t.id==editingTxId);if(!tx)return;
-  const newAmt=parseFloat(document.getElementById('edit-amount').value);
+  const newAmt=parseFloat(document.getElementById('edit-amount-hidden').value);
   const newDate=document.getElementById('edit-date').value;
   const newMemo=document.getElementById('edit-memo').value.trim();
   if(!newAmt||newAmt<=0){toast('金額を入力してください');return;}
@@ -1526,6 +1653,7 @@ function saveEditTx(){
   save();closeModal('modal-tx');toast('変更を保存しました ✓');
   if(currentScreen==='home')renderHome();
   if(currentScreen==='calendar')renderCalendar();
+  if(currentScreen==='report'){renderReportAcctFilter();renderReport();}
 }
 function deleteTx(id){
   const tx=S.transactions.find(t=>t.id==id);if(!tx)return;
@@ -1537,6 +1665,7 @@ function deleteTx(id){
   save();closeModal('modal-tx');toast('削除しました');
   if(currentScreen==='home')renderHome();
   if(currentScreen==='calendar')renderCalendar();
+  if(currentScreen==='report'){renderReportAcctFilter();renderReport();}
 }
 
 // CSV
