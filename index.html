@@ -18,7 +18,7 @@
 <script>
   if('serviceWorker' in navigator){
     window.addEventListener('load', () => {
-      navigator.serviceWorker.register('/kakebo/sw.js')
+      navigator.serviceWorker.register('sw.js')
         .then(r => console.log('SW registered:', r.scope))
         .catch(e => console.log('SW error:', e));
     });
@@ -87,6 +87,7 @@ body{background:var(--bg);color:var(--text);font-family:var(--font);font-size:14
 .tx-name{font-size:13px;font-weight:500;white-space:nowrap;overflow:hidden;text-overflow:ellipsis;}
 .tx-cat{font-size:10px;color:var(--text4);margin-top:1px;}
 .tx-acct-badge{font-size:9px;color:var(--text4);background:var(--bg3);border-radius:3px;padding:1px 4px;display:inline-block;margin-left:3px;}
+.tx-acct-badge.pt{color:var(--purple);}
 .tx-amt{font-size:14px;font-weight:600;flex-shrink:0;}
 .tx-amt.exp{color:var(--red);}
 .tx-amt.inc{color:var(--accent2);}
@@ -101,8 +102,9 @@ body{background:var(--bg);color:var(--text);font-family:var(--font);font-size:14
 .input-edit-btn{padding:10px 14px;border:none;background:none;color:var(--accent2);font-family:var(--font);font-size:12px;cursor:pointer;}
 .acct-pill-row{display:flex;gap:6px;padding:8px 14px;border-bottom:0.5px solid var(--border);background:var(--bg2);overflow-x:auto;}
 .acct-pill-row::-webkit-scrollbar{display:none;}
-.acct-pill{padding:4px 12px;border-radius:20px;border:1.5px solid var(--border2);background:none;color:var(--text3);font-family:var(--font);font-size:12px;cursor:pointer;white-space:nowrap;transition:all .15s;}
+.acct-pill{padding:4px 12px;border-radius:20px;border:1.5px solid var(--border2);background:none;color:var(--text3);font-family:var(--font);font-size:12px;cursor:pointer;white-space:nowrap;transition:all .15s;flex-shrink:0;}
 .acct-pill.selected{border-color:var(--accent2);background:rgba(50,173,230,0.12);color:var(--text);}
+.acct-pill.pt.selected{border-color:var(--purple);background:rgba(191,90,242,0.14);}
 .input-amount-row{display:flex;align-items:center;padding:8px 14px;border-bottom:0.5px solid var(--border);background:var(--bg2);margin-bottom:1px;gap:8px;}
 .input-amount-label{font-size:12px;color:var(--text4);flex-shrink:0;}
 .input-amount-big{font-size:26px;font-weight:700;color:var(--text);background:none;border:none;outline:none;font-family:var(--font);flex:1;min-width:0;}
@@ -160,7 +162,7 @@ body{background:var(--bg);color:var(--text);font-family:var(--font);font-size:14
 .cal-cell.today .cal-day-num{background:var(--accent2);color:#fff;font-weight:700;}
 .cal-cell.sunday .cal-day-num{color:var(--red);}
 .cal-cell.saturday .cal-day-num{color:var(--teal);}
-.cal-day-amt{font-size:6px;color:var(--red);font-weight:500;line-height:1.1;text-align:center;max-width:100%;overflow:hidden;}
+.cal-day-amt{font-size:7px;color:var(--red);font-weight:500;line-height:1.1;text-align:center;max-width:100%;overflow:hidden;}
 .cal-day-amt.inc{color:var(--accent2);}
 .cal-scroll{flex:1;overflow-y:auto;-webkit-overflow-scrolling:touch;overflow-x:hidden;}
 .cal-tx-section{padding:4px 12px 0;}
@@ -187,8 +189,6 @@ body{background:var(--bg);color:var(--text);font-family:var(--font);font-size:14
 .cat-list-pct{font-size:11px;color:var(--text4);}
 .cat-list-arrow{font-size:13px;color:var(--text4);transition:transform .2s;margin-left:4px;display:inline-block;}
 .cat-list-item.open .cat-list-arrow{transform:rotate(90deg);}
-
-/* REPORT DROPDOWN - カレンダー下と同じスタイル */
 .cat-list-dropdown{display:none;background:var(--bg2);border-top:0.5px solid var(--border);}
 .cat-list-dropdown.open{display:block;}
 .cat-drop-tx{display:flex;align-items:center;gap:10px;padding:10px 12px 10px 20px;border-bottom:0.5px solid var(--border);cursor:pointer;transition:background .1s;}
@@ -264,7 +264,7 @@ body{background:var(--bg);color:var(--text);font-family:var(--font);font-size:14
 .input-back-btn{background:none;border:none;color:var(--text4);font-size:16px;cursor:pointer;padding:10px 12px;line-height:1;}
 .input-back-btn:active{color:var(--text);}
 
-#toast{position:fixed;bottom:calc(var(--nav-h)+14px);left:50%;transform:translateX(-50%) translateY(10px);background:rgba(44,44,46,0.95);backdrop-filter:blur(10px);border:0.5px solid var(--border2);border-radius:20px;padding:8px 18px;font-size:13px;z-index:3000;opacity:0;transition:all .25s;pointer-events:none;white-space:nowrap;font-weight:500;}
+#toast{position:fixed;bottom:calc(var(--nav-h) + 14px);left:50%;transform:translateX(-50%) translateY(10px);background:rgba(44,44,46,0.95);backdrop-filter:blur(10px);border:0.5px solid var(--border2);border-radius:20px;padding:8px 18px;font-size:13px;z-index:3000;opacity:0;transition:all .25s;pointer-events:none;white-space:nowrap;font-weight:500;}
 #toast.show{opacity:1;transform:translateX(-50%) translateY(0);}
 .empty-state{text-align:center;padding:40px 20px;color:var(--text4);}
 .empty-state-emoji{font-size:36px;margin-bottom:10px;opacity:0.5;}
@@ -314,7 +314,7 @@ input[type="date"]::-webkit-calendar-picker-indicator{filter:invert(0.7);}
     <div class="account-row" id="home-account-row"></div>
     <div class="summary-row">
       <div class="summary-card"><div class="summary-card-label" id="home-inc-label">今月の収入</div><div class="summary-card-val inc" id="home-month-inc">¥0</div></div>
-      <div class="summary-card"><div class="summary-card-label" id="home-exp-label">今月の支出</div><div class="summary-card-val exp" id="home-month-exp">¥0</div></div>
+      <div class="summary-card"><div class="summary-card-label" id="home-exp-label">今月の支出</div><div class="summary-card-val exp" id="home-month-exp">¥0</div><div id="home-exp-point" style="font-size:10px;color:var(--purple);margin-top:2px;"></div></div>
     </div>
     <div id="home-budget-area"></div>
     <div class="section-header"><span class="section-label">最近の履歴</span></div>
@@ -491,6 +491,16 @@ input[type="date"]::-webkit-calendar-picker-indicator{filter:invert(0.7);}
         <div class="settings-card" id="settings-account-card"></div>
       </div>
     </div>
+    <div class="accord-section" id="accord-points">
+      <div class="accord-header" onclick="toggleAccord('accord-points')">
+        <div class="accord-icon" style="background:rgba(191,90,242,0.15);">🅟</div>
+        <span class="accord-label">ポイント管理</span>
+        <span class="accord-arrow">▶</span>
+      </div>
+      <div class="accord-body" style="display:none;">
+        <div class="settings-card" id="settings-point-card"></div>
+      </div>
+    </div>
     <div class="accord-section" id="accord-period">
       <div class="accord-header" onclick="toggleAccord('accord-period')">
         <div class="accord-icon" style="background:rgba(50,173,230,0.15);">📅</div>
@@ -537,7 +547,7 @@ input[type="date"]::-webkit-calendar-picker-indicator{filter:invert(0.7);}
         <div class="settings-card">
           <div class="settings-row" onclick="toggleAppLock()">
             <div class="settings-row-icon" style="background:rgba(191,90,242,0.15);">🔒</div>
-            <div style="flex:1;"><div class="settings-row-label">起動時にロックをかける</div><div style="font-size:10px;color:var(--text4);margin-top:1px;">合言葉（パスコード）でロック</div></div>
+            <div style="flex:1;"><div class="settings-row-label">起動時にロックをかける</div><div style="font-size:10px;color:var(--text4);margin-top:1px;">簡易ロック（合言葉・30秒以上離れると再ロック）</div></div>
             <span class="settings-row-val" id="lock-status-label">オフ</span>
           </div>
         </div>
@@ -563,7 +573,7 @@ input[type="date"]::-webkit-calendar-picker-indicator{filter:invert(0.7);}
           </div>
           <div class="settings-row" onclick="triggerBackupImport()">
             <div class="settings-row-icon" style="background:rgba(191,90,242,0.15);">🔄</div>
-            <div style="flex:1;"><div class="settings-row-label">バックアップから復元</div><div style="font-size:10px;color:var(--text4);margin-top:1px;">機種変更後の復元用</div></div>
+            <div style="flex:1;"><div class="settings-row-label">バックアップから復元</div><div style="font-size:10px;color:var(--text4);margin-top:1px;">旧バージョンのバックアップもOK</div></div>
             <span class="chevron-right"></span>
           </div>
           <div class="settings-row" onclick="exportBackup()">
@@ -657,7 +667,7 @@ input[type="date"]::-webkit-calendar-picker-indicator{filter:invert(0.7);}
   <div class="modal-sheet">
     <div class="modal-header"><span class="modal-title">取り込む口座を選択</span><button class="modal-close" onclick="closeModal('modal-csv-acct')">×</button></div>
     <div class="modal-body">
-      <p style="font-size:12px;color:var(--text4);margin-bottom:14px;">CSVのデータをどの口座に取り込みますか？</p>
+      <p style="font-size:12px;color:var(--text4);margin-bottom:14px;">CSVのデータをどの口座に取り込みますか？（残高にも反映されます）</p>
       <div class="acct-select-list" id="csv-acct-select-list"></div>
       <button class="modal-save-btn" onclick="executeCSVImport()">この口座に取り込む</button>
     </div>
@@ -789,20 +799,71 @@ const DEFAULT_CATS=[
   {id:14,name:'賞与',icon:'🎁',color:'#ff453a',type:'income'},{id:15,name:'副業',icon:'💻',color:'#32ade6',type:'income'},
   {id:16,name:'投資',icon:'📈',color:'#5ac8fa',type:'income'},{id:17,name:'臨時収入',icon:'🎵',color:'#ff375f',type:'income'},
 ];
+const DEFAULT_POINTS=['Dポイント','楽天ポイント','Pontaポイント','PayPayポイント','その他ポイント'];
+const cloneCats=()=>DEFAULT_CATS.map(c=>({...c}));
+const cloneAccts=()=>DEFAULT_ACCOUNTS.map(a=>({...a}));
 
-let S={accounts:DEFAULT_ACCOUNTS.map(a=>({...a})),transactions:[],categories:[...DEFAULT_CATS],settings:{monthStartDay:1,yearStartMonth:1},budgets:{}};
+/* ===== 状態管理 ===== */
+// 取引: {id,amount,date,memo,type,catId,acctId} / ポイント払い: isPoint:true,pointType:'Dポイント',acctId:0 (口座残高は変動しない)
+// 口座: start(開始残高)+取引合計 = balance (常に取引から算出)
+let S;
+const esc=s=>String(s==null?'':s).replace(/[&<>"']/g,c=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[c]));
+const cleanTxt=s=>String(s==null?'':s).replace(/[<>&"'`\\]/g,'');
 
-function save(){localStorage.setItem('kakebo4',JSON.stringify(S));}
+function normalizeState(o){
+  o=(o&&typeof o==='object'&&!Array.isArray(o))?o:{};
+  const N={...o};
+  N.categories=(Array.isArray(o.categories)&&o.categories.length?o.categories:cloneCats())
+    .filter(c=>c&&c.name!=null)
+    .map(c=>({...c,id:Number(c.id),name:String(c.name),icon:cleanTxt(c.icon||'📋').slice(0,8),
+      color:/^#[0-9a-fA-F]{3,8}$/.test(c.color)?c.color:'#636366',type:c.type==='income'?'income':'expense'}));
+  const hasAcc=Array.isArray(o.accounts)&&o.accounts.length;
+  const accts=hasAcc?o.accounts:cloneAccts();
+  if(!hasAcc&&typeof o.balance==='number')accts[0].balance=o.balance;
+  N.accounts=accts.map((a,i)=>({...a,id:Number(a.id)||i+1,name:String(a.name==null?'口座':a.name),
+    icon:cleanTxt(a.icon||'🏦').slice(0,8),balance:Number(a.balance)||0}));
+  const ids=new Set(N.accounts.map(a=>a.id)),first=N.accounts[0].id;
+  N.settings={monthStartDay:1,yearStartMonth:1,...(o.settings||{})};
+  N.budgets=(o.budgets&&typeof o.budgets==='object'&&!Array.isArray(o.budgets))?{...o.budgets}:{};
+  N.transactions=(Array.isArray(o.transactions)?o.transactions:[])
+    .filter(t=>t&&t.date&&Number.isFinite(Number(t.amount)))
+    .map((t,i)=>{
+      const type=t.type==='income'?'income':'expense';
+      const r={...t,id:Number(t.id)||Date.now()*1000+i,amount:Math.round(Number(t.amount)),date:String(t.date),
+        memo:t.memo==null?'':String(t.memo),type,catId:Number(t.catId)};
+      if(t.isPoint&&type==='expense'){r.isPoint=true;r.pointType=String(t.pointType||'その他ポイント');r.acctId=0;}
+      else{delete r.isPoint;delete r.pointType;r.acctId=ids.has(Number(t.acctId))?Number(t.acctId):first;}
+      return r;
+    });
+  if(Array.isArray(o.pointTypes))N.pointTypes=o.pointTypes.map(String);
+  else{N.pointTypes=[...DEFAULT_POINTS];N.transactions.forEach(t=>{if(t.isPoint&&!N.pointTypes.includes(t.pointType))N.pointTypes.push(t.pointType);});}
+  // 旧データ(残高のみ保存)→ 開始残高を逆算して現在残高を維持
+  const sums={};
+  N.transactions.forEach(t=>{if(!t.isPoint)sums[t.acctId]=(sums[t.acctId]||0)+(t.type==='income'?t.amount:-t.amount);});
+  N.accounts.forEach(a=>{if(typeof a.start!=='number'||!isFinite(a.start))a.start=a.balance-(sums[a.id]||0);});
+  delete N.balance;
+  return N;
+}
+function recalcBalances(){
+  const s={};
+  S.transactions.forEach(t=>{if(!t.isPoint)s[t.acctId]=(s[t.acctId]||0)+(t.type==='income'?t.amount:-t.amount);});
+  S.accounts.forEach(a=>{a.balance=Math.round((a.start||0)+(s[a.id]||0));});
+}
+function txSum(id){return S.transactions.filter(t=>!t.isPoint&&t.acctId===id).reduce((s,t)=>s+(t.type==='income'?t.amount:-t.amount),0);}
+function save(){
+  recalcBalances();
+  try{localStorage.setItem('kakebo4',JSON.stringify(S));return true;}
+  catch(e){toast('保存に失敗しました（容量不足など）。バックアップを保存してください',4000);return false;}
+}
 function load(){
   const d=localStorage.getItem('kakebo4')||localStorage.getItem('kakebo3');
-  if(d){try{
-    S=JSON.parse(d);
-    if(!S.accounts){S.accounts=DEFAULT_ACCOUNTS.map(a=>({...a}));if(typeof S.balance==='number')S.accounts[0].balance=S.balance;}
-    if(!S.settings)S.settings={monthStartDay:1,yearStartMonth:1};
-    if(!S.categories||!S.categories.length)S.categories=[...DEFAULT_CATS];
-    if(!S.budgets)S.budgets={};
-    S.transactions.forEach(t=>{if(!t.acctId)t.acctId=S.accounts[0]?.id||1;});
-  }catch(e){}}
+  let obj={};
+  if(d){
+    try{if(!localStorage.getItem('kakebo_pre_v5'))localStorage.setItem('kakebo_pre_v5',d);}catch(e){}
+    try{obj=JSON.parse(d);}catch(e){obj={};}
+  }
+  S=normalizeState(obj);
+  recalcBalances();
 }
 
 function fmt(n){return '¥'+Math.abs(n).toLocaleString();}
@@ -816,6 +877,16 @@ function totalBalance(){return S.accounts.reduce((s,a)=>s+(a.balance||0),0);}
 function toast(msg,ms=2200){const t=document.getElementById('toast');t.textContent=msg;t.classList.add('show');setTimeout(()=>t.classList.remove('show'),ms);}
 function openModal(id){document.getElementById(id).classList.add('open');}
 function closeModal(id){document.getElementById(id).classList.remove('open');}
+function payText(t){
+  if(t.isPoint)return '🅟 '+esc(t.pointType);
+  const ac=getAcct(t.acctId);return ac.icon+' '+esc(ac.name);
+}
+function refreshCurrent(){
+  if(currentScreen==='home')renderHome();
+  if(currentScreen==='calendar')renderCalendar();
+  if(currentScreen==='report'){renderReportAcctFilter();renderReport();}
+  if(currentScreen==='settings')renderSettings();
+}
 
 function getCurrentPeriod(){
   const now=new Date(),sd=S.settings.monthStartDay;
@@ -869,11 +940,14 @@ function renderHome(){
   document.getElementById('home-account-row').innerHTML=S.accounts.map(a=>
     '<div class="account-card" onclick="openAccountModal('+a.id+')">'+
     '<div class="account-card-icon">'+a.icon+'</div>'+
-    '<div class="account-card-name">'+a.name+'</div>'+
+    '<div class="account-card-name">'+esc(a.name)+'</div>'+
     '<div class="account-card-bal'+((a.balance||0)<0?' neg':'')+'">'+fmt(a.balance||0)+'</div></div>').join('');
   const periodTx=S.transactions.filter(t=>t.date>=from&&t.date<=to);
+  const exps=periodTx.filter(t=>t.type==='expense');
   document.getElementById('home-month-inc').textContent=fmt(periodTx.filter(t=>t.type==='income').reduce((s,t)=>s+t.amount,0));
-  document.getElementById('home-month-exp').textContent=fmt(periodTx.filter(t=>t.type==='expense').reduce((s,t)=>s+t.amount,0));
+  document.getElementById('home-month-exp').textContent=fmt(exps.reduce((s,t)=>s+t.amount,0));
+  const pt=exps.filter(t=>t.isPoint).reduce((s,t)=>s+t.amount,0);
+  document.getElementById('home-exp-point').textContent=pt?'うちポイント払い '+fmt(pt):'';
   renderBudgetSection(periodTx);
   renderTxList('home-tx-list',[...S.transactions].sort((a,b)=>b.date.localeCompare(a.date)||b.id-a.id).slice(0,30));
 }
@@ -898,7 +972,7 @@ function renderBudgetSection(periodTx){
       const barColor=over?'var(--red)':(pct>80?'var(--orange)':'var(--accent)');
       return '<div style="background:var(--bg2);border-radius:var(--radius-sm);padding:10px 12px;border:0.5px solid var(--border);">'+
         '<div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:6px;">'+
-        '<span style="font-size:12px;color:var(--text2);">'+c.icon+' '+c.name+'</span>'+
+        '<span style="font-size:12px;color:var(--text2);">'+c.icon+' '+esc(c.name)+'</span>'+
         '<span style="font-size:11px;color:'+(over?'var(--red)':'var(--text4)')+';">'+fmt(spent)+' / '+fmt(budget)+(over?' 超過':'')+'</span>'+
         '</div>'+
         '<div style="background:var(--bg4);border-radius:6px;height:6px;overflow:hidden;">'+
@@ -910,11 +984,11 @@ function renderBudgetSection(periodTx){
 
 const DOW='日月火水木金土';
 function makeTxRow(t){
-  const c=getCat(t.catId),ac=getAcct(t.acctId);
+  const c=getCat(t.catId);
   return '<div class="tx-row" onclick="showTxModal('+t.id+')">'+
     '<div class="tx-icon" style="background:'+c.color+'22;">'+c.icon+'</div>'+
-    '<div class="tx-info"><div class="tx-name">'+(t.memo||c.name)+'</div>'+
-    '<div class="tx-cat">'+c.name+'<span class="tx-acct-badge">'+ac.icon+' '+ac.name+'</span></div></div>'+
+    '<div class="tx-info"><div class="tx-name">'+esc(t.memo||c.name)+'</div>'+
+    '<div class="tx-cat">'+esc(c.name)+'<span class="tx-acct-badge'+(t.isPoint?' pt':'')+'">'+payText(t)+'</span></div></div>'+
     '<div class="tx-amt '+(t.type==='expense'?'exp':'inc')+'">'+(t.type==='expense'?'-':'+')+fmt(t.amount)+'</div>'+
     '<svg class="tx-chevron" width="6" height="11" viewBox="0 0 7 12"><path d="M1 1l5 5-5 5" stroke="currentColor" stroke-width="1.5" fill="none" stroke-linecap="round"/></svg></div>';
 }
@@ -936,9 +1010,11 @@ function renderTxList(id,txs){
 }
 
 // INPUT
-let inputType='expense',selectedCatId=1,selectedAcctId=1;
+let inputType='expense',selectedCatId=1,selectedAcctId=1,inputPay='acct',inputPointType='';
+function firstCatId(type){const c=S.categories.find(c=>c.type===type);return c?c.id:0;}
 function resetInputForm(){
-  inputType='expense';selectedCatId=1;selectedAcctId=S.accounts[0]?.id||1;
+  inputType='expense';selectedCatId=firstCatId('expense');selectedAcctId=S.accounts[0].id;
+  inputPay='acct';inputPointType=S.pointTypes[0]||'';
   document.getElementById('input-amount').value='';
   calcExpr='';
   const cd=document.getElementById('calc-display');if(cd)cd.textContent='';
@@ -953,7 +1029,11 @@ function resetInputForm(){
   if(amtDisp)amtDisp.textContent='0';
   updateInputTypeUI();updateSubmitBtn();
 }
-function setInputType(type){inputType=type;selectedCatId=type==='expense'?1:12;updateInputTypeUI();renderInputCats();updateSubmitBtn();}
+function setInputType(type){
+  inputType=type;selectedCatId=firstCatId(type);
+  if(type==='income')inputPay='acct';
+  updateInputTypeUI();renderInputCats();renderInputAccts();updateSubmitBtn();
+}
 function updateInputTypeUI(){
   document.getElementById('input-tab-exp').className='input-type-btn'+(inputType==='expense'?' active-exp':'');
   document.getElementById('input-tab-inc').className='input-type-btn'+(inputType==='income'?' active-inc':'');
@@ -967,19 +1047,49 @@ function updateSubmitBtn(){
   const amt=parseFloat(document.getElementById('input-amount').value);
   btn.className='submit-btn'+(amt>0?' ready '+(inputType==='expense'?'exp':'inc'):'');
 }
+// 支払い方法ピル: 口座 + ポイント (fn: クリック時のハンドラ名)
+function payPillsHtml(pay,acctId,ptype,fn,allowPoint){
+  let h=S.accounts.map(a=>'<button class="acct-pill '+(pay==='acct'&&a.id===acctId?'selected':'')+'" onclick="'+fn+'(\'a\','+a.id+')">'+a.icon+' '+esc(a.name)+'</button>').join('');
+  if(allowPoint){
+    h+=S.pointTypes.map((p,i)=>'<button class="acct-pill pt '+(pay==='point'&&p===ptype?'selected':'')+'" onclick="'+fn+'(\'p\','+i+')">🅟 '+esc(p)+'</button>').join('');
+    if(fn==='selectPay')h+='<button class="acct-pill pt" onclick="addPointType()">＋</button>';
+  }
+  return h;
+}
 function renderInputAccts(){
   const row=document.getElementById('input-acct-row');
-  if(S.accounts.length<=1){row.classList.add('hidden');selectedAcctId=S.accounts[0]?.id||1;return;}
+  if(!S.accounts.find(a=>a.id===selectedAcctId))selectedAcctId=S.accounts[0].id;
+  if(inputType==='income'&&S.accounts.length<=1){row.classList.add('hidden');inputPay='acct';return;}
   row.classList.remove('hidden');
-  row.innerHTML=S.accounts.map(a=>'<button class="acct-pill '+(a.id===selectedAcctId?'selected':'')+'" onclick="selectAcct('+a.id+')">'+a.icon+' '+a.name+'</button>').join('');
+  row.innerHTML=payPillsHtml(inputPay,selectedAcctId,inputPointType,'selectPay',inputType==='expense');
 }
-function selectAcct(id){selectedAcctId=id;renderInputAccts();}
+function selectPay(k,v){
+  if(k==='a'){inputPay='acct';selectedAcctId=v;}
+  else{inputPay='point';inputPointType=S.pointTypes[v];}
+  renderInputAccts();
+}
+function addPointType(){
+  const n=(prompt('ポイントの名前（例: Vポイント）')||'').trim();
+  if(!n)return;
+  if(!S.pointTypes.includes(n))S.pointTypes.push(n);
+  save();
+  if(currentScreen==='input'){inputPay='point';inputPointType=n;renderInputAccts();}
+  renderSettings();
+}
+function deletePointType(i){
+  const n=S.pointTypes[i];if(n==null)return;
+  if(!confirm('「'+n+'」を選択肢から削除しますか？（過去の記録は残ります）'))return;
+  S.pointTypes.splice(i,1);save();
+  if(inputPointType===n)inputPointType=S.pointTypes[0]||'';
+  renderSettings();
+}
 function renderInputCats(){
   const cats=S.categories.filter(c=>c.type===inputType);
+  if(!cats.find(c=>c.id===selectedCatId))selectedCatId=cats[0]?cats[0].id:0;
   document.getElementById('input-cat-grid').innerHTML=cats.map(c=>
     '<div class="cat-tile '+(c.id===selectedCatId?'selected':'')+'" onclick="selectCat('+c.id+')">'+
     '<div class="cat-tile-icon" style="background:'+c.color+'22;">'+c.icon+'</div>'+
-    '<div class="cat-tile-label">'+c.name+'</div></div>').join('')+
+    '<div class="cat-tile-label">'+esc(c.name)+'</div></div>').join('')+
     '<div class="cat-tile cat-tile-add" onclick="openAddCatModal(null,\''+inputType+'\')">'+
     '<div class="cat-tile-icon" style="background:var(--bg4);">＋</div>'+
     '<div class="cat-tile-label">編集・追加</div></div>';
@@ -1013,16 +1123,16 @@ function shiftDate(d){
   document.getElementById('input-date').value=dateToStr(dt);
 }
 function submitTx(){
-  const amt=parseFloat(document.getElementById('input-amount').value);
+  const amt=Math.round(parseFloat(document.getElementById('input-amount').value));
   const date=document.getElementById('input-date').value;
   const memo=document.getElementById('input-memo').value.trim();
   if(!amt||amt<=0){toast('金額を入力してください');return;}
   if(!date){toast('日付を選択してください');return;}
-  const acct=getAcct(selectedAcctId);
-  S.transactions.push({id:Date.now(),amount:amt,date,memo,type:inputType,catId:selectedCatId,acctId:selectedAcctId});
-  if(inputType==='expense')acct.balance=(acct.balance||0)-amt;
-  else acct.balance=(acct.balance||0)+amt;
-  save();toast((inputType==='expense'?'支出':'収入')+'を登録しました ✓');
+  const tx={id:Date.now(),amount:amt,date,memo,type:inputType,catId:selectedCatId};
+  if(inputType==='expense'&&inputPay==='point'&&inputPointType){tx.isPoint=true;tx.pointType=inputPointType;tx.acctId=0;}
+  else tx.acctId=selectedAcctId;
+  S.transactions.push(tx);
+  save();toast((tx.isPoint?'ポイント払いを':(inputType==='expense'?'支出を':'収入を'))+'登録しました ✓');
   hapticTap();
   closeModal('modal-input-sheet');
   resetInputForm();showScreen('home');
@@ -1036,12 +1146,14 @@ function openInputForDate(ds){
 
 // CALENDAR
 let calYear,calMonth;
+let reportFY=new Date().getFullYear();
 function initReportMonth(){
   const now=new Date();
-  const sd=S.settings.monthStartDay;
+  const sd=S.settings.monthStartDay,sm=S.settings.yearStartMonth;
   let fy=now.getFullYear(),fm=now.getMonth()+1;
   if(now.getDate()<sd){fm--;if(fm<1){fm=12;fy--;}}
   reportYear=fy;reportMonth=fm-1;
+  reportFY=fm<sm?fy-1:fy;
 }
 function initCalMonth(){
   const now=new Date();
@@ -1150,14 +1262,12 @@ function calCellClick(el,ds,isCurrentPeriod){
     const groupRect=group.getBoundingClientRect();
     const relTop=groupRect.top - areaRect.top + scrollArea.scrollTop - 4;
     scrollArea.scrollTo({top:relTop,behavior:'smooth'});
-  } else if(scrollArea){
-    openInputForDate(ds);
   }
 }
 
 // REPORT
 let reportMode='monthly',reportType='expense',reportYear=new Date().getFullYear(),reportMonth=new Date().getMonth(),donutChart=null;
-let reportAcctId=0;
+let reportAcctId=0; // 0=全口座 / -1=ポイント払い / それ以外=口座ID
 function setReportMode(m){
   reportMode=m;
   ['monthly','yearly','custom'].forEach(k=>document.getElementById('report-tab-'+k).className='seg-btn'+(m===k?' active':''));
@@ -1180,47 +1290,57 @@ function setReportAcct(id){
 function renderReportAcctFilter(){
   const wrap=document.getElementById('report-acct-filter');
   if(!wrap)return;
-  const pills=[{id:0,name:'全口座',icon:'🏦'},...S.accounts.map(a=>({id:a.id,name:a.name,icon:a.icon}))];
-  wrap.innerHTML=pills.map(p=>'<button class="report-acct-pill '+(p.id===reportAcctId?'selected':'')+'" onclick="setReportAcct('+p.id+')">'+p.icon+' '+p.name+'</button>').join('');
+  if(reportAcctId>0&&!S.accounts.find(a=>a.id===reportAcctId))reportAcctId=0;
+  const pills=[{id:0,name:'全口座',icon:'🏦'},...S.accounts.map(a=>({id:a.id,name:a.name,icon:a.icon})),{id:-1,name:'ポイント',icon:'🅟'}];
+  wrap.innerHTML=pills.map(p=>'<button class="report-acct-pill '+(p.id===reportAcctId?'selected':'')+'" onclick="setReportAcct('+p.id+')">'+p.icon+' '+esc(p.name)+'</button>').join('');
 }
 function reportShift(d){
   if(reportMode==='monthly'){reportMonth+=d;if(reportMonth<0){reportMonth=11;reportYear--;}if(reportMonth>11){reportMonth=0;reportYear++;}}
-  else reportYear+=d;
+  else reportFY+=d;
   renderReport();
 }
 function renderAcctSummary(txs){
   const el=document.getElementById('report-acct-summary');
   if(!el)return;
+  const sumOf=(l,ty)=>l.filter(t=>t.type===ty).reduce((s,t)=>s+t.amount,0);
+  if(reportAcctId===-1){
+    const by={};txs.forEach(t=>{by[t.pointType]=(by[t.pointType]||0)+t.amount;});
+    el.innerHTML='<div class="acct-balance-card" style="flex-direction:column;align-items:stretch;gap:2px;">'+
+      '<div class="acct-balance-card-name">🅟 ポイント払い / 期間支出（口座残高は減りません）</div>'+
+      '<div class="acct-balance-card-val" style="color:var(--red);font-size:18px;margin:3px 0;">'+fmt(sumOf(txs,'expense'))+'</div>'+
+      Object.entries(by).sort((a,b)=>b[1]-a[1]).map(([k,v])=>'<div style="display:flex;justify-content:space-between;font-size:11px;color:var(--text3);padding:2px 0;"><span>'+esc(k)+'</span><span>'+fmt(v)+'</span></div>').join('')+'</div>';
+    return;
+  }
   if(reportAcctId!==0){
     const acct=getAcct(reportAcctId);
-    const inc=txs.filter(t=>t.type==='income').reduce((s,t)=>s+t.amount,0);
-    const exp=txs.filter(t=>t.type==='expense').reduce((s,t)=>s+t.amount,0);
+    const inc=sumOf(txs,'income'),exp=sumOf(txs,'expense');
     const net=inc-exp;
     el.innerHTML='<div class="acct-balance-card">'+
       '<div class="acct-balance-card-icon">'+acct.icon+'</div>'+
       '<div class="acct-balance-card-info">'+
-      '<div class="acct-balance-card-name">'+acct.name+' / 期間収支</div>'+
+      '<div class="acct-balance-card-name">'+esc(acct.name)+' / 期間収支</div>'+
       '<div class="acct-balance-card-row">'+
       '<div class="acct-balance-card-item"><div style="font-size:9px;color:var(--text4);">収入</div><div class="acct-balance-card-val" style="color:var(--accent2);">'+fmt(inc)+'</div></div>'+
       '<div class="acct-balance-card-item"><div style="font-size:9px;color:var(--text4);">支出</div><div class="acct-balance-card-val" style="color:var(--red);">'+fmt(exp)+'</div></div>'+
       '<div class="acct-balance-card-item"><div style="font-size:9px;color:var(--text4);">収支</div><div class="acct-balance-card-val" style="color:'+(net>=0?'var(--accent2)':'var(--red)')+';">'+fmtSigned(net)+'</div></div>'+
       '<div class="acct-balance-card-item"><div style="font-size:9px;color:var(--text4);">残高</div><div class="acct-balance-card-val" style="color:var(--accent);">'+fmt(acct.balance||0)+'</div></div>'+
       '</div></div></div>';
-  } else {
-    if(S.accounts.length<=1){el.innerHTML='';return;}
-    el.innerHTML='<div style="display:grid;grid-template-columns:1fr 1fr;gap:6px;">'+
-      S.accounts.map(a=>{
-        const atxs=txs.filter(t=>t.acctId===a.id);
-        const inc=atxs.filter(t=>t.type==='income').reduce((s,t)=>s+t.amount,0);
-        const exp=atxs.filter(t=>t.type==='expense').reduce((s,t)=>s+t.amount,0);
-        return '<div style="background:var(--bg2);border:0.5px solid var(--border);border-radius:var(--radius-sm);padding:8px 10px;cursor:pointer;" onclick="setReportAcct('+a.id+')">'+
-          '<div style="font-size:11px;color:var(--text4);">'+a.icon+' '+a.name+'</div>'+
-          '<div style="display:flex;gap:8px;margin-top:3px;">'+
-          '<div style="font-size:10px;"><span style="color:var(--text4);">収</span><span style="font-weight:700;color:var(--accent2);">'+fmt(inc)+'</span></div>'+
-          '<div style="font-size:10px;"><span style="color:var(--text4);">支</span><span style="font-weight:700;color:var(--red);">'+fmt(exp)+'</span></div>'+
-          '</div></div>';
-      }).join('')+'</div>';
+    return;
   }
+  const pts=txs.filter(t=>t.isPoint);
+  if(S.accounts.length<=1&&!pts.length){el.innerHTML='';return;}
+  const card=(label,click,inc,exp,color)=>'<div style="background:var(--bg2);border:0.5px solid var(--border);border-radius:var(--radius-sm);padding:8px 10px;cursor:pointer;" onclick="setReportAcct('+click+')">'+
+    '<div style="font-size:11px;color:'+color+';">'+label+'</div>'+
+    '<div style="display:flex;gap:8px;margin-top:3px;">'+
+    (inc===null?'':'<div style="font-size:10px;"><span style="color:var(--text4);">収</span><span style="font-weight:700;color:var(--accent2);">'+fmt(inc)+'</span></div>')+
+    '<div style="font-size:10px;"><span style="color:var(--text4);">支</span><span style="font-weight:700;color:var(--red);">'+fmt(exp)+'</span></div>'+
+    '</div></div>';
+  el.innerHTML='<div style="display:grid;grid-template-columns:1fr 1fr;gap:6px;">'+
+    S.accounts.map(a=>{
+      const atxs=txs.filter(t=>!t.isPoint&&t.acctId===a.id);
+      return card(a.icon+' '+esc(a.name),a.id,sumOf(atxs,'income'),sumOf(atxs,'expense'),'var(--text4)');
+    }).join('')+
+    (pts.length?card('🅟 ポイント払い',-1,null,sumOf(pts,'expense'),'var(--purple)'):'')+'</div>';
 }
 
 function renderReport(){
@@ -1234,17 +1354,18 @@ function renderReport(){
     txs=S.transactions.filter(t=>t.date>=from&&t.date<=to);
     document.getElementById('report-period-label').textContent=fy+'年'+fm+'月 ('+from.slice(5).replace('-','/')+'〜'+to.slice(5).replace('-','/')+')';
   } else if(reportMode==='yearly'){
-    const from=reportYear+'-'+String(sm).padStart(2,'0')+'-01';
-    const to=dateToStr(new Date(reportYear+(sm===1?1:1),sm-1,0));
+    const from=reportFY+'-'+String(sm).padStart(2,'0')+'-01';
+    const to=dateToStr(new Date(reportFY+1,sm-1,0));
     txs=S.transactions.filter(t=>t.date>=from&&t.date<=to);
-    document.getElementById('report-period-label').textContent=sm===1?reportYear+'年':reportYear+'年'+sm+'月〜';
+    document.getElementById('report-period-label').textContent=sm===1?reportFY+'年':reportFY+'年'+sm+'月〜';
   } else {
     const from=document.getElementById('report-date-from').value;
     const to=document.getElementById('report-date-to').value;
     if(!from||!to){document.getElementById('report-cat-list').innerHTML='<div class="empty-state"><div class="empty-state-emoji">📅</div><div class="empty-state-text">期間を選択してください</div></div>';return;}
     txs=S.transactions.filter(t=>t.date>=from&&t.date<=to);
   }
-  if(reportAcctId!==0) txs=txs.filter(t=>t.acctId===reportAcctId);
+  if(reportAcctId===-1)txs=txs.filter(t=>t.isPoint);
+  else if(reportAcctId!==0)txs=txs.filter(t=>!t.isPoint&&t.acctId===reportAcctId);
   renderAcctSummary(txs);
   const filtered=txs.filter(t=>t.type===reportType);
   const total=filtered.reduce((s,t)=>s+t.amount,0);
@@ -1258,15 +1379,13 @@ function renderReport(){
   const catMap={};filtered.forEach(t=>{catMap[t.catId]=(catMap[t.catId]||0)+t.amount;});
   const sorted=Object.entries(catMap).sort((a,b)=>b[1]-a[1]);
   if(donutChart){donutChart.destroy();donutChart=null;}
-  if(sorted.length){
+  if(sorted.length&&typeof Chart!=='undefined'){
     donutChart=new Chart(document.getElementById('donut-chart').getContext('2d'),{
       type:'doughnut',
       data:{labels:sorted.map(([id])=>getCat(id).name),datasets:[{data:sorted.map(([,v])=>v),backgroundColor:sorted.map(([id])=>getCat(id).color),borderWidth:2,borderColor:'#111',hoverOffset:4}]},
       options:{responsive:false,cutout:'65%',plugins:{legend:{display:false},tooltip:{callbacks:{label:ctx=>' '+fmt(ctx.parsed)+(total?' ('+Math.round(ctx.parsed/total*100)+'%)':'')}}}}
     });
   }
-
-  // カテゴリ別取引リスト（金額降順でドロップダウン）
   const txByCat={};
   filtered.forEach(t=>{
     if(!txByCat[t.catId])txByCat[t.catId]=[];
@@ -1275,19 +1394,17 @@ function renderReport(){
   Object.keys(txByCat).forEach(cid=>{
     txByCat[cid].sort((a,b)=>b.amount-a.amount);
   });
-
   document.getElementById('report-cat-list').innerHTML=sorted.map(([id,amt])=>{
     const c=getCat(id);
     const catTxs=txByCat[id]||[];
     const txRows=catTxs.map(t=>{
-      const ac=getAcct(t.acctId);
       const dateObj=parseDate(t.date);
       const dateLabel=(dateObj.getMonth()+1)+'/'+(dateObj.getDate())+'('+DOW[dateObj.getDay()]+')';
       return '<div class="cat-drop-tx" onclick="showTxModal('+t.id+');event.stopPropagation();">'+
         '<div class="cat-drop-icon" style="background:'+c.color+'22;">'+c.icon+'</div>'+
         '<div class="cat-drop-info">'+
-          '<div class="cat-drop-name">'+(t.memo||c.name)+'</div>'+
-          '<div class="cat-drop-sub">'+dateLabel+' <span style="background:var(--bg4);border-radius:3px;padding:1px 4px;font-size:9px;">'+ac.icon+' '+ac.name+'</span></div>'+
+          '<div class="cat-drop-name">'+esc(t.memo||c.name)+'</div>'+
+          '<div class="cat-drop-sub">'+dateLabel+' <span style="background:var(--bg4);border-radius:3px;padding:1px 4px;font-size:9px;'+(t.isPoint?'color:var(--purple);':'')+'">'+payText(t)+'</span></div>'+
         '</div>'+
         '<div class="cat-drop-amt" style="color:'+(reportType==='expense'?'var(--red)':'var(--accent2)')+';">'+(reportType==='expense'?'-':'+')+fmt(t.amount)+'</div>'+
         '<svg class="cat-drop-chevron" width="6" height="11" viewBox="0 0 7 12" style="margin-left:4px;"><path d="M1 1l5 5-5 5" stroke="currentColor" stroke-width="1.5" fill="none" stroke-linecap="round"/></svg>'+
@@ -1296,7 +1413,7 @@ function renderReport(){
     return '<div id="report-cat-wrap-'+id+'">'+
       '<div class="cat-list-item" onclick="toggleReportCat('+id+')">'+
         '<div class="cat-list-icon" style="background:'+c.color+'22;">'+c.icon+'</div>'+
-        '<span class="cat-list-name">'+c.name+'</span>'+
+        '<span class="cat-list-name">'+esc(c.name)+'</span>'+
         '<div class="cat-list-right"><div class="cat-list-amt">'+fmt(amt)+'</div>'+
         '<div class="cat-list-pct">'+(total?Math.round(amt/total*100):0)+'%</div></div>'+
         '<span class="cat-list-arrow">›</span>'+
@@ -1306,7 +1423,6 @@ function renderReport(){
   }).join('')||'<div class="empty-state"><div class="empty-state-emoji">📊</div><div class="empty-state-text">データがありません</div></div>';
 }
 
-// ★ カテゴリドロップダウン開閉
 function toggleReportCat(id){
   const item=document.querySelector('#report-cat-wrap-'+id+' .cat-list-item');
   const drop=document.getElementById('report-cat-drop-'+id);
@@ -1321,17 +1437,26 @@ function renderSettings(){
   document.getElementById('settings-account-card').innerHTML=S.accounts.map(a=>
     '<div class="settings-row" onclick="openAccountModal('+a.id+')">'+
     '<div class="settings-row-icon" style="background:var(--bg3);">'+a.icon+'</div>'+
-    '<div style="flex:1;"><div class="settings-row-label">'+a.name+'</div>'+
+    '<div style="flex:1;"><div class="settings-row-label">'+esc(a.name)+'</div>'+
     '<div style="font-size:11px;color:var(--text4);margin-top:1px;">残高 '+fmt(a.balance||0)+'</div></div>'+
     '<span class="chevron-right"></span></div>').join('')+
     '<div class="settings-row" onclick="openAccountModal(null)">'+
     '<div class="settings-row-icon" style="background:var(--bg3);">＋</div>'+
     '<span class="settings-row-label" style="color:var(--accent2);">口座を追加</span></div>';
+  const pc=document.getElementById('settings-point-card');
+  if(pc)pc.innerHTML=S.pointTypes.map((p,i)=>
+    '<div class="settings-row" onclick="deletePointType('+i+')">'+
+    '<div class="settings-row-icon" style="background:rgba(191,90,242,0.15);">🅟</div>'+
+    '<span class="settings-row-label">'+esc(p)+'</span>'+
+    '<span class="settings-row-val" style="font-size:10px;">タップで削除</span></div>').join('')+
+    '<div class="settings-row" onclick="addPointType()">'+
+    '<div class="settings-row-icon" style="background:var(--bg3);">＋</div>'+
+    '<span class="settings-row-label" style="color:var(--accent2);">ポイントを追加</span></div>';
   document.getElementById('period-setting-sub').textContent='月度: 毎月'+S.settings.monthStartDay+'日〜 / 年度: '+S.settings.yearStartMonth+'月始まり';
   document.getElementById('settings-cat-card').innerHTML=S.categories.map(c=>
     '<div class="settings-row" onclick="openAddCatModal('+c.id+',null)">'+
     '<div class="settings-row-icon" style="background:'+c.color+'22;">'+c.icon+'</div>'+
-    '<span class="settings-row-label">'+c.name+'</span>'+
+    '<span class="settings-row-label">'+esc(c.name)+'</span>'+
     '<span class="settings-row-val" style="font-size:10px;">'+(c.type==='expense'?'支出':'収入')+'</span>'+
     '<span class="chevron-right"></span></div>').join('')+
     '<div class="settings-row" onclick="openAddCatModal(null,null)">'+
@@ -1344,14 +1469,14 @@ function renderSettings(){
       const b=S.budgets[c.id];
       return '<div class="settings-row" onclick="openBudgetModal('+c.id+')">'+
         '<div class="settings-row-icon" style="background:'+c.color+'22;">'+c.icon+'</div>'+
-        '<span class="settings-row-label">'+c.name+'</span>'+
+        '<span class="settings-row-label">'+esc(c.name)+'</span>'+
         '<span class="settings-row-val">'+(b?fmt(b):'未設定')+'</span>'+
         '<span class="chevron-right"></span></div>';
     }).join('');
   }
   const lockLabel=document.getElementById('lock-status-label');
   if(lockLabel){
-    const locked=!!localStorage.getItem('kakebo_passcode');
+    const locked=hasLock();
     lockLabel.textContent=locked?'オン':'オフ';
     lockLabel.style.color=locked?'var(--accent2)':'var(--text4)';
   }
@@ -1373,16 +1498,21 @@ function openAccountModal(acctId){
 function selAcctIcon(ic){selectedAcctIcon=ic;document.getElementById('modal-account-icon-grid').innerHTML=ACCT_ICONS.map(i=>'<div class="icon-option '+(i===selectedAcctIcon?'selected':'')+'" onclick="selAcctIcon(\''+i+'\')">'+i+'</div>').join('');}
 function saveAccount(){
   const name=document.getElementById('modal-account-name').value.trim();
-  const bal=parseFloat(document.getElementById('modal-account-balance').value)||0;
+  const bal=Math.round(parseFloat(document.getElementById('modal-account-balance').value)||0);
   if(!name){toast('口座名を入力してください');return;}
-  if(editingAcctId){const a=S.accounts.find(a=>a.id==editingAcctId);if(a){a.name=name;a.icon=selectedAcctIcon;a.balance=bal;}}
-  else S.accounts.push({id:Math.max(...S.accounts.map(a=>a.id),0)+1,name,icon:selectedAcctIcon,balance:bal});
+  if(editingAcctId){
+    const a=S.accounts.find(a=>a.id==editingAcctId);
+    if(a){a.name=name;a.icon=selectedAcctIcon;a.start=bal-txSum(a.id);}
+  } else S.accounts.push({id:Math.max(...S.accounts.map(a=>a.id),0)+1,name,icon:selectedAcctIcon,start:bal,balance:bal});
   save();closeModal('modal-account');renderSettings();renderHome();toast('保存しました ✓');
 }
 function deleteAccount(){
   if(S.accounts.length<=1){toast('口座は1つ以上必要です');return;}
-  if(!confirm('この口座を削除しますか？'))return;
+  const n=S.transactions.filter(t=>!t.isPoint&&t.acctId==editingAcctId).length;
+  if(!confirm(n?'この口座と、紐づく記録'+n+'件を削除します。よろしいですか？':'この口座を削除しますか？'))return;
+  S.transactions=S.transactions.filter(t=>t.isPoint||t.acctId!=editingAcctId);
   S.accounts=S.accounts.filter(a=>a.id!=editingAcctId);
+  if(reportAcctId==editingAcctId)reportAcctId=0;
   save();closeModal('modal-account');renderSettings();renderHome();toast('削除しました');
 }
 
@@ -1413,9 +1543,12 @@ function saveCat(){
   save();closeModal('modal-cat');renderSettings();renderInputCats();toast('保存しました ✓');
 }
 function deleteCat(){
-  if(!editingCatId||!confirm('このカテゴリーを削除しますか？'))return;
+  if(!editingCatId)return;
+  const n=S.transactions.filter(t=>t.catId==editingCatId).length;
+  if(!confirm(n?'このカテゴリーを削除します。紐づく記録'+n+'件は「その他」表示になります。よろしいですか？':'このカテゴリーを削除しますか？'))return;
   S.categories=S.categories.filter(c=>c.id!=editingCatId);
-  save();closeModal('modal-cat');renderSettings();toast('削除しました');
+  delete S.budgets[editingCatId];
+  save();closeModal('modal-cat');renderSettings();renderInputCats();toast('削除しました');
 }
 
 // 期間設定
@@ -1427,7 +1560,7 @@ function openPeriodModal(){
 function savePeriodSettings(){
   S.settings.monthStartDay=parseInt(document.getElementById('modal-month-start-day').value);
   S.settings.yearStartMonth=parseInt(document.getElementById('modal-year-start-month').value);
-  save();closeModal('modal-period');renderSettings();renderHome();toast('期間設定を保存しました ✓');
+  save();closeModal('modal-period');initCalMonth();initReportMonth();renderSettings();renderHome();toast('期間設定を保存しました ✓');
 }
 
 // 予算
@@ -1455,12 +1588,29 @@ function deleteBudget(){
   save();closeModal('modal-budget');renderSettings();renderHome();toast('予算を解除しました');
 }
 
-// ロック
+// ロック（簡易ロック：合言葉はソルト付きSHA-256で保存）
+const LOCK_KEY='kakebo_passcode',LOCK_HASH_KEY='kakebo_passcode_h';
+function hasLock(){return !!(localStorage.getItem(LOCK_HASH_KEY)||localStorage.getItem(LOCK_KEY));}
+async function hashPass(p,salt){
+  try{
+    const buf=await crypto.subtle.digest('SHA-256',new TextEncoder().encode(salt+':'+p));
+    return Array.from(new Uint8Array(buf)).map(b=>b.toString(16).padStart(2,'0')).join('');
+  }catch(e){
+    let h=5381;const s=salt+':'+p;
+    for(let i=0;i<s.length;i++)h=((h<<5)+h+s.charCodeAt(i))|0;
+    return 'f'+h;
+  }
+}
+async function storePasscode(p){
+  const salt=Array.from(crypto.getRandomValues(new Uint8Array(8))).join('');
+  const h=await hashPass(p,salt);
+  localStorage.setItem(LOCK_HASH_KEY,JSON.stringify({salt,h}));
+  localStorage.removeItem(LOCK_KEY);
+}
 function toggleAppLock(){
-  const locked=!!localStorage.getItem('kakebo_passcode');
-  if(locked){
+  if(hasLock()){
     if(!confirm('ロックをオフにしますか？'))return;
-    localStorage.removeItem('kakebo_passcode');
+    localStorage.removeItem(LOCK_KEY);localStorage.removeItem(LOCK_HASH_KEY);
     renderSettings();
     toast('ロックをオフにしました');
   } else {
@@ -1469,32 +1619,36 @@ function toggleAppLock(){
     openModal('modal-passcode');
   }
 }
-function savePasscode(){
+async function savePasscode(){
   const p1=document.getElementById('modal-passcode-input').value;
   const p2=document.getElementById('modal-passcode-confirm').value;
   if(p1.length<4){toast('4桁以上で入力してください');return;}
   if(p1!==p2){toast('合言葉が一致しません');return;}
-  localStorage.setItem('kakebo_passcode',p1);
+  await storePasscode(p1);
   closeModal('modal-passcode');
   renderSettings();
   toast('ロックをオンにしました ✓');
 }
-function checkLockOnLoad(){
-  const saved=localStorage.getItem('kakebo_passcode');
-  if(saved){
-    document.getElementById('lock-screen').classList.remove('hidden');
-    setTimeout(()=>{
-      const inp=document.getElementById('lock-passcode-input');
-      if(inp)inp.focus();
-    },300);
-  }
+function showLock(){
+  document.getElementById('lock-screen').classList.remove('hidden');
+  const inp=document.getElementById('lock-passcode-input');
+  if(inp){inp.value='';setTimeout(()=>inp.focus(),300);}
 }
-function tryUnlock(){
-  const saved=localStorage.getItem('kakebo_passcode');
+function checkLockOnLoad(){if(hasLock())showLock();}
+async function tryUnlock(){
   const input=document.getElementById('lock-passcode-input').value;
   const errEl=document.getElementById('lock-error-msg');
-  if(input===saved){
+  let ok=false;
+  const hj=localStorage.getItem(LOCK_HASH_KEY);
+  if(hj){
+    try{const o=JSON.parse(hj);ok=(await hashPass(input,o.salt))===o.h;}catch(e){}
+  } else {
+    const old=localStorage.getItem(LOCK_KEY);
+    if(old&&input===old){ok=true;await storePasscode(input);} // 旧・平文保存をハッシュへ移行
+  }
+  if(ok){
     document.getElementById('lock-screen').classList.add('hidden');
+    document.getElementById('lock-passcode-input').value='';
     errEl.textContent='';
     hapticTap();
   } else {
@@ -1502,6 +1656,13 @@ function tryUnlock(){
     document.getElementById('lock-passcode-input').value='';
     if(navigator.vibrate)navigator.vibrate([60,40,60]);
   }
+}
+let hiddenAt=0;
+function initLockOnResume(){
+  document.addEventListener('visibilitychange',()=>{
+    if(document.hidden){hiddenAt=Date.now();}
+    else if(hasLock()&&hiddenAt&&Date.now()-hiddenAt>30000){showLock();}
+  });
 }
 
 function hapticTap(){
@@ -1560,18 +1721,7 @@ function editCalcEquals(){
     document.getElementById('edit-calc-display').textContent='';
   }
 }
-function _editCalcEval(){
-  if(!_editCalcExpr)return null;
-  try{
-    const expr=_editCalcExpr.replace(/÷/g,'/').replace(/×/g,'*').replace(/−/g,'-');
-    if(!/^[\d+\-*/.]+$/.test(expr))return null;
-    const clean=expr.replace(/[+\-*/]$/,'');
-    if(!clean)return null;
-    const result=Function('"use strict"; return ('+clean+')')();
-    if(!isFinite(result)||isNaN(result))return null;
-    return Math.round(result*100)/100;
-  }catch(e){return null;}
-}
+function _editCalcEval(){return safeEval(_editCalcExpr);}
 function _editCalcSyncDisplay(){
   const OPS=['+','−','×','÷'];
   const hasOp=OPS.some(op=>_editCalcExpr.includes(op));
@@ -1587,40 +1737,41 @@ function _editCalcSyncDisplay(){
   }
 }
 
+let editPay='acct',editPointType='',editTxType='expense';
 function showTxModal(id){
   const tx=S.transactions.find(t=>t.id==id);if(!tx)return;
-  editingTxId=id;editTxCatId=tx.catId;editTxAcctId=tx.acctId;editCalcExpr=String(tx.amount);
-  const c=getCat(tx.catId),ac=getAcct(tx.acctId);
+  editingTxId=id;editTxCatId=tx.catId;editTxType=tx.type;
+  editTxAcctId=tx.isPoint?S.accounts[0].id:tx.acctId;
+  editPay=tx.isPoint?'point':'acct';editPointType=tx.pointType||'';
+  if(tx.isPoint&&!S.pointTypes.includes(tx.pointType))S.pointTypes.push(tx.pointType);
+  const c=getCat(tx.catId);
   const catsHtml=S.categories.filter(cat=>cat.type===tx.type).map(cat=>
     '<div class="edit-cat-tile '+(cat.id===editTxCatId?'selected':'')+'" onclick="selectEditCat('+cat.id+')">'+
     '<div class="edit-cat-icon">'+cat.icon+'</div>'+
-    '<div class="edit-cat-label">'+cat.name+'</div></div>').join('');
-  const acctsHtml=S.accounts.length>1?
-    '<div class="modal-form-label">口座</div>'+
-    '<div style="display:flex;gap:6px;flex-wrap:wrap;margin-bottom:14px;overflow-x:hidden;" id="edit-acct-pills">'+
-    S.accounts.map(a=>'<button class="acct-pill '+(a.id===editTxAcctId?'selected':'')+'" onclick="selectEditAcct('+a.id+')" style="flex-shrink:0;">'+a.icon+' '+a.name+'</button>').join('')+
-    '</div>':'';
+    '<div class="edit-cat-label">'+esc(cat.name)+'</div></div>').join('');
+  const payHtml=(S.accounts.length>1||tx.type==='expense')?
+    '<div class="modal-form-label">'+(tx.type==='expense'?'支払い方法':'口座')+'</div>'+
+    '<div style="display:flex;gap:6px;flex-wrap:wrap;margin-bottom:14px;" id="edit-acct-pills">'+
+    payPillsHtml(editPay,editTxAcctId,editPointType,'selectEditPay',tx.type==='expense')+'</div>':'';
   document.getElementById('modal-tx-body').innerHTML=
     '<div style="display:flex;align-items:center;gap:10px;margin-bottom:14px;overflow:hidden;">'+
     '<div style="width:40px;height:40px;flex-shrink:0;border-radius:50%;background:'+c.color+'22;display:flex;align-items:center;justify-content:center;font-size:20px;">'+c.icon+'</div>'+
     '<div style="min-width:0;"><div style="font-size:17px;font-weight:700;color:'+(tx.type==='expense'?'var(--red)':'var(--accent2)')+';">'+(tx.type==='expense'?'-':'+')+fmt(tx.amount)+'</div>'+
-    '<div style="font-size:10px;color:var(--text4);white-space:nowrap;overflow:hidden;text-overflow:ellipsis;">'+tx.date+' · '+c.name+' · '+ac.name+'</div></div></div>'+
+    '<div style="font-size:10px;color:var(--text4);white-space:nowrap;overflow:hidden;text-overflow:ellipsis;">'+esc(tx.date)+' · '+esc(c.name)+' · '+payText(tx)+'</div></div></div>'+
     '<div class="modal-form-label">金額</div>'+
-    // 電卓タップエリア（表示用）
     '<div class="edit-amount-row" onclick="openEditCalcSheet()" style="cursor:pointer;">'+
       '<div id="edit-amount-display" style="flex:1;font-size:20px;font-weight:700;color:var(--text);">'+fmt(tx.amount)+'</div>'+
       '<span style="font-size:13px;color:var(--text3);">円</span>'+
       '<span style="font-size:12px;color:var(--accent2);margin-left:8px;">🖩</span>'+
     '</div>'+
-    // 実際の値を保持する隠しinput
     '<input type="hidden" id="edit-amount-hidden" value="'+tx.amount+'">'+
     '<div class="modal-form-label">日付</div>'+
-    '<input class="modal-input" id="edit-date" type="date" value="'+tx.date+'">'+
+    '<input class="modal-input" id="edit-date" type="date" value="'+esc(tx.date)+'">'+
     '<div class="modal-form-label">メモ</div>'+
-    '<input class="modal-input" id="edit-memo" type="text" value="'+(tx.memo||'')+'" placeholder="未入力">'+
+    '<input class="modal-input" id="edit-memo" type="text" value="'+esc(tx.memo||'')+'" placeholder="未入力">'+
     '<div class="modal-form-label">カテゴリー</div>'+
     '<div class="edit-cat-grid" id="edit-cat-grid">'+catsHtml+'</div>'+
-    acctsHtml+
+    payHtml+
     '<button class="modal-save-btn" onclick="saveEditTx()">変更を保存</button>'+
     '<button class="modal-delete-btn" onclick="deleteTx('+tx.id+')">この記録を削除</button>';
   openModal('modal-tx');
@@ -1631,41 +1782,31 @@ function selectEditCat(id){
     el.className='edit-cat-tile'+(parseInt(el.getAttribute('onclick').match(/\d+/)[0])===id?' selected':'');
   });
 }
-function selectEditAcct(id){
-  editTxAcctId=id;
-  document.querySelectorAll('#edit-acct-pills .acct-pill').forEach(el=>{
-    el.className='acct-pill'+(parseInt(el.getAttribute('onclick').match(/\d+/)[0])===id?' selected':'');
-  });
+function selectEditPay(k,v){
+  if(k==='a'){editPay='acct';editTxAcctId=v;}
+  else{editPay='point';editPointType=S.pointTypes[v];}
+  const el=document.getElementById('edit-acct-pills');
+  if(el)el.innerHTML=payPillsHtml(editPay,editTxAcctId,editPointType,'selectEditPay',editTxType==='expense');
 }
 function saveEditTx(){
   const tx=S.transactions.find(t=>t.id==editingTxId);if(!tx)return;
-  const newAmt=parseFloat(document.getElementById('edit-amount-hidden').value);
+  const newAmt=Math.round(parseFloat(document.getElementById('edit-amount-hidden').value));
   const newDate=document.getElementById('edit-date').value;
   const newMemo=document.getElementById('edit-memo').value.trim();
   if(!newAmt||newAmt<=0){toast('金額を入力してください');return;}
-  const oldAcct=getAcct(tx.acctId);
-  if(tx.type==='expense')oldAcct.balance=(oldAcct.balance||0)+tx.amount;
-  else oldAcct.balance=(oldAcct.balance||0)-tx.amount;
-  tx.amount=newAmt;tx.date=newDate;tx.memo=newMemo;tx.catId=editTxCatId;tx.acctId=editTxAcctId;
-  const newAcct=getAcct(editTxAcctId);
-  if(tx.type==='expense')newAcct.balance=(newAcct.balance||0)-newAmt;
-  else newAcct.balance=(newAcct.balance||0)+newAmt;
+  if(!newDate){toast('日付を選択してください');return;}
+  tx.amount=newAmt;tx.date=newDate;tx.memo=newMemo;tx.catId=editTxCatId;
+  if(tx.type==='expense'&&editPay==='point'&&editPointType){tx.isPoint=true;tx.pointType=editPointType;tx.acctId=0;}
+  else{delete tx.isPoint;delete tx.pointType;tx.acctId=editTxAcctId;}
   save();closeModal('modal-tx');toast('変更を保存しました ✓');
-  if(currentScreen==='home')renderHome();
-  if(currentScreen==='calendar')renderCalendar();
-  if(currentScreen==='report'){renderReportAcctFilter();renderReport();}
+  refreshCurrent();
 }
 function deleteTx(id){
   const tx=S.transactions.find(t=>t.id==id);if(!tx)return;
   if(!confirm('この記録を削除しますか？'))return;
-  const acct=getAcct(tx.acctId);
-  if(tx.type==='expense')acct.balance=(acct.balance||0)+tx.amount;
-  else acct.balance=(acct.balance||0)-tx.amount;
   S.transactions=S.transactions.filter(t=>t.id!=id);
   save();closeModal('modal-tx');toast('削除しました');
-  if(currentScreen==='home')renderHome();
-  if(currentScreen==='calendar')renderCalendar();
-  if(currentScreen==='report'){renderReportAcctFilter();renderReport();}
+  refreshCurrent();
 }
 
 // CSV
@@ -1684,24 +1825,35 @@ function handleSimpleCSVFile(e){
 function renderCSVAcctList(){
   document.getElementById('csv-acct-select-list').innerHTML=S.accounts.map(a=>
     '<div class="acct-select-item '+(a.id===csvImportAcctId?'selected':'')+'" onclick="selectCSVAcct('+a.id+')">'+
-    '<span class="acct-select-icon">'+a.icon+'</span><span class="acct-select-name">'+a.name+'</span>'+
+    '<span class="acct-select-icon">'+a.icon+'</span><span class="acct-select-name">'+esc(a.name)+'</span>'+
     '<span class="acct-select-bal">'+fmt(a.balance||0)+'</span></div>').join('');
 }
 function selectCSVAcct(id){csvImportAcctId=id;renderCSVAcctList();}
+function parseCSVLine(line){
+  const out=[];let cur='',q=false;
+  for(let i=0;i<line.length;i++){
+    const ch=line[i];
+    if(q){if(ch==='"'){if(line[i+1]==='"'){cur+='"';i++;}else q=false;}else cur+=ch;}
+    else if(ch==='"')q=true;
+    else if(ch===','){out.push(cur);cur='';}
+    else cur+=ch;
+  }
+  out.push(cur);return out;
+}
 function executeCSVImport(){
-  const lines=pendingCSVText.split('\n');
+  const lines=pendingCSVText.replace(/^\uFEFF/,'').split('\n');
   const existing=new Set(S.transactions.map(t=>t.date+'_'+t.amount+'_'+t.memo+'_'+t.type));
   let imported=0;
   for(let i=1;i<lines.length;i++){
     const line=lines[i].trim();if(!line||!line.includes(','))continue;
-    const cols=line.split(',');if(cols.length<5)continue;
+    const cols=parseCSVLine(line);if(cols.length<5)continue;
     try{
-      const rawDate=cols[0].replace(/"/g,'').trim();
+      const rawDate=cols[0].trim();
       if(!rawDate.match(/^\d{4}\/\d{1,2}\/\d{1,2}$/))continue;
       const [y,mo,d]=rawDate.split('/');
       const date=y+'-'+mo.padStart(2,'0')+'-'+d.padStart(2,'0');
       const amount=parseInt(cols[1]);
-      const memo=cols[2].replace(/"/g,'').replace(/\\n/g,'').trim();
+      const memo=cols[2].replace(/\\n/g,'').trim();
       const catId=parseInt(cols[3].trim());
       const typeNum=cols[4].trim();
       if(isNaN(amount)||amount<=0)continue;
@@ -1715,14 +1867,15 @@ function executeCSVImport(){
   }
   save();closeModal('modal-csv-acct');
   toast(imported+'件を「'+getAcct(csvImportAcctId).name+'」に取り込みました ✓');
-  if(currentScreen==='home')renderHome();
+  refreshCurrent();
 }
 function exportMyCSV(){
-  const rows=[['日付','金額','メモ','カテゴリー','口座','種類']];
+  const q=v=>'"'+String(v).replace(/"/g,'""')+'"';
+  const rows=[['日付','金額','メモ','カテゴリー','口座/支払い','種類']];
   [...S.transactions].sort((a,b)=>a.date.localeCompare(b.date)).forEach(t=>{
-    rows.push([t.date,t.amount,t.memo||'',getCat(t.catId).name,getAcct(t.acctId).name,t.type==='expense'?'支出':'収入']);
+    rows.push([t.date,t.amount,t.memo||'',getCat(t.catId).name,t.isPoint?'ポイント:'+t.pointType:getAcct(t.acctId).name,t.type==='expense'?'支出':'収入']);
   });
-  const csv=rows.map(r=>r.map(v=>'"'+v+'"').join(',')).join('\n');
+  const csv=rows.map(r=>r.map(q).join(',')).join('\n');
   const blob=new Blob(['\uFEFF'+csv],{type:'text/csv;charset=utf-8'});
   const url=URL.createObjectURL(blob);
   const a=document.createElement('a');a.href=url;a.download='kakebo_export_'+todayStr()+'.csv';a.click();
@@ -1735,24 +1888,55 @@ function exportBackup(){
   URL.revokeObjectURL(url);toast('バックアップを保存しました ✓');
 }
 function triggerBackupImport(){document.getElementById('backup-import-input').click();}
+function afterStateReplaced(){
+  reportAcctId=0;initCalMonth();initReportMonth();
+  resetInputForm();renderInputCats();renderInputAccts();
+  renderHome();renderSettings();
+}
 function handleBackupImport(e){
   const file=e.target.files[0];if(!file)return;
-  if(!confirm('現在のデータを上書きします。よろしいですか？')){e.target.value='';return;}
   const reader=new FileReader();
   reader.onload=ev=>{
-    try{S=JSON.parse(ev.target.result);if(!S.settings)S.settings={monthStartDay:1,yearStartMonth:1};save();toast('復元しました ✓');renderHome();renderSettings();}
-    catch{toast('ファイルが読み込めませんでした');}
-    e.target.value='';
+    try{
+      const raw=JSON.parse(ev.target.result);
+      const obj=(raw&&raw.S&&typeof raw.S==='object')?raw.S:raw;
+      if(!obj||typeof obj!=='object'||(!Array.isArray(obj.transactions)&&!Array.isArray(obj.accounts)))throw new Error('format');
+      const ns=normalizeState(obj);
+      if(!confirm('現在のデータを上書きします。\n（記録'+ns.transactions.length+'件・口座'+ns.accounts.length+'件）\nよろしいですか？'))return;
+      try{localStorage.setItem('kakebo_before_restore',JSON.stringify(S));}catch(_){}
+      S=ns;save();afterStateReplaced();toast('復元しました ✓');
+    }catch(err){toast('ファイルが読み込めませんでした');}
+    finally{e.target.value='';}
   };
   reader.readAsText(file);
 }
 function confirmReset(){
   if(!confirm('全データを削除しますか？この操作は取り消せません。'))return;
-  S={accounts:DEFAULT_ACCOUNTS.map(a=>({...a})),transactions:[],categories:[...DEFAULT_CATS],settings:{monthStartDay:1,yearStartMonth:1}};
-  save();toast('データを削除しました');renderHome();renderSettings();
+  try{localStorage.setItem('kakebo_before_restore',JSON.stringify(S));}catch(_){}
+  S=normalizeState({});
+  save();afterStateReplaced();toast('データを削除しました');
 }
 
-// 電卓
+// 電卓（Function()を使わない安全な式評価）
+function safeEval(expr){
+  if(!expr)return null;
+  const s=expr.replace(/÷/g,'/').replace(/×/g,'*').replace(/−/g,'-');
+  if(!/^[\d+\-*/.]+$/.test(s))return null;
+  const t=s.replace(/[+\-*/]+$/,'');
+  const toks=t.match(/\d+\.?\d*|\.\d+|[+\-*/]/g);
+  if(!toks||toks.length%2===0||isNaN(parseFloat(toks[0])))return null;
+  const v=[parseFloat(toks[0])],o=[];
+  for(let i=1;i<toks.length;i+=2){
+    const op=toks[i],n=parseFloat(toks[i+1]);
+    if(isNaN(n))return null;
+    if(op==='*')v[v.length-1]*=n;
+    else if(op==='/'){if(n===0)return null;v[v.length-1]/=n;}
+    else{o.push(op);v.push(n);}
+  }
+  let r=v[0];
+  for(let i=0;i<o.length;i++)r=o[i]==='+'?r+v[i+1]:r-v[i+1];
+  return isFinite(r)?Math.round(r):null;
+}
 let calcExpr = '';
 function calcInput(v) {
   const OPS = ['+', '−', '×', '÷'];
@@ -1790,18 +1974,7 @@ function calcEquals() {
     onAmountChange();
   }
 }
-function _calcEval() {
-  if (!calcExpr) return null;
-  try {
-    const expr = calcExpr.replace(/÷/g, '/').replace(/×/g, '*').replace(/−/g, '-');
-    if (!/^[\d+\-*/.]+$/.test(expr)) return null;
-    const clean = expr.replace(/[+\-*/]$/, '');
-    if (!clean) return null;
-    const result = Function('"use strict"; return (' + clean + ')')();
-    if (!isFinite(result) || isNaN(result)) return null;
-    return Math.round(result * 100) / 100;
-  } catch(e) { return null; }
-}
+function _calcEval() { return safeEval(calcExpr); }
 function _calcSync() {
   const OPS = ['+', '−', '×', '÷'];
   const hasOp = OPS.some(op => calcExpr.includes(op));
@@ -1818,7 +1991,15 @@ function _calcSync() {
     dispEl.textContent = result !== null ? calcExpr + ' = ' + result : calcExpr;
   }
 }
-function closeInputSheet(){closeModal('modal-input-sheet');}
+function closeInputSheet(){
+  const r=_calcEval();
+  if(r!==null&&r>0){
+    calcExpr=String(r);
+    document.getElementById('input-amount').value=r;
+    onAmountChange();
+  }
+  closeModal('modal-input-sheet');
+}
 
 function toggleAccord(id) {
   const sec = document.getElementById(id);
@@ -1830,7 +2011,7 @@ function toggleAccord(id) {
 }
 
 // INIT
-load();
+load();save();
 checkLockOnLoad();
 renderHome();
 resetInputForm();
@@ -1839,6 +2020,7 @@ renderInputAccts();
 initCalMonth();
 initReportMonth();
 initCalSwipe();
+initLockOnResume();
 const _t=new Date();
 document.getElementById('report-date-to').value=todayStr();
 document.getElementById('report-date-from').value=dateToStr(new Date(_t.getFullYear(),_t.getMonth(),1));
