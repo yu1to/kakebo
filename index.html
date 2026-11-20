@@ -24,7 +24,6 @@
     });
   }
 </script>
-<link href="https://fonts.googleapis.com/css2?family=Noto+Sans+JP:wght@300;400;500;700&display=swap" rel="stylesheet">
 <style>
 *{box-sizing:border-box;margin:0;padding:0;-webkit-tap-highlight-color:transparent;}
 :root{
@@ -34,7 +33,7 @@
   --accent:#30d158;--accent2:#32ade6;--red:#ff453a;--orange:#ff9f0a;
   --pink:#ff375f;--purple:#bf5af2;--teal:#5ac8fa;
   --radius:12px;--radius-sm:8px;--nav-h:83px;
-  --font:'Noto Sans JP',sans-serif;
+  --font:-apple-system,BlinkMacSystemFont,'Hiragino Sans','Hiragino Kaku Gothic ProN','Yu Gothic','Noto Sans JP','Meiryo',sans-serif;
 }
 html,body{height:100%;overflow:hidden;max-width:100vw;}
 body{background:var(--bg);color:var(--text);font-family:var(--font);font-size:14px;}
@@ -318,7 +317,7 @@ input[type="date"]::-webkit-calendar-picker-indicator{filter:invert(0.7);}
   <div class="nav-header">
     <div class="nav-header-row">
       <span class="nav-title" id="home-period-label">2026年3月</span>
-      <span><button class="nav-btn-icon" onclick="openSearch()">検索</button> <button class="nav-btn-icon" onclick="showScreen('settings')">口座管理</button></span>
+      <span><button class="nav-btn-icon" onclick="triggerInbox()">取込</button> <button class="nav-btn-icon" onclick="openSearch()">検索</button> <button class="nav-btn-icon" onclick="showScreen('settings')">口座管理</button></span>
     </div>
   </div>
   <div class="scroll-area"><div class="scroll-area-inner">
@@ -611,7 +610,12 @@ input[type="date"]::-webkit-calendar-picker-indicator{filter:invert(0.7);}
       </div>
       <div class="accord-body" style="display:none;">
         <div class="settings-card">
-          <div class="settings-row" onclick="triggerSimpleCSV()">
+          <div class="settings-row" onclick="triggerInbox()">
+<div class="settings-row-icon" style="background:rgba(48,209,88,0.15);">⚡</div>
+<div style="flex:1;"><div class="settings-row-label">ショートカットの記録を取り込む</div><div style="font-size:10px;color:var(--text4);margin-top:1px;">kakebo_inbox.txt を選ぶ（取り込み済みは自動スキップ）</div></div>
+<span class="chevron-right"></span>
+</div>
+<div class="settings-row" onclick="triggerSimpleCSV()">
             <div class="settings-row-icon" style="background:rgba(50,173,230,0.15);">📥</div>
             <div style="flex:1;"><div class="settings-row-label">シンプル家計簿CSVを取り込む</div><div style="font-size:10px;color:var(--text4);margin-top:1px;">今まで使ってたアプリのデータ</div></div>
             <span class="chevron-right"></span>
@@ -824,9 +828,10 @@ input[type="date"]::-webkit-calendar-picker-indicator{filter:invert(0.7);}
 
 <input type="file" id="simple-csv-input" accept=".csv" class="hidden" onchange="handleSimpleCSVFile(event)">
 <input type="file" id="backup-import-input" accept=".json" class="hidden" onchange="handleBackupImport(event)">
+<input type="file" id="inbox-input" accept=".txt,text/plain" class="hidden" onchange="handleInbox(event)">
 <div id="toast"></div>
 
-<script src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/4.4.1/chart.umd.js"></script>
+<script src="chart.umd.js"></script>
 <script>
 const ICONS=[
   '🍔','🍜','🍣','🍱','🍕','🍞','🥗','🍰','🍩','🍦','🥩','🍗','🥚','🥦','🥕',
@@ -2496,6 +2501,39 @@ function renderSettingsExtra(){
   if(vc){const cur=(()=>{const fd=parseDate(getCurrentPeriod().from);return monthKey(fd.getFullYear(),fd.getMonth()+1);})();
     vc.innerHTML=row('📝','rgba(50,173,230,0.15)','今月ここまでのふりかえり','','openReview(\''+cur+'\')')+
       Object.keys(S.reviews).sort().reverse().map(k=>row('🗒️','var(--bg3)',k.replace('-','年')+'月','<span>'+esc((S.reviews[k].memo||'メモなし').slice(0,30))+'</span>','openReview(\''+k+'\')')).join('');}
+}
+
+/* ---- ショートカット連携: テキストファイルの取り込み ---- */
+function triggerInbox(){$('inbox-input').click();}
+function txFromQuery(q){
+  const type=(q.type==='income'||q.type==='inc')?'income':'expense';
+  const amt=Math.round(Number(q.amt));if(!(amt>0))return null;
+  const cat=findBy(S.categories.filter(c=>c.type===type),q.cat)||S.categories.find(c=>c.type===type);
+  txFromQuery._n=(txFromQuery._n||0)+1;
+  const tx={id:Date.now()*1000+(txFromQuery._n%1000),amount:amt,date:/^\d{4}-\d{2}-\d{2}$/.test(q.date||'')?q.date:todayStr(),memo:(q.memo||'').slice(0,60),type,catId:cat?cat.id:0};
+  const pt=(type==='expense'&&q.pt)?S.pointTypes.find(x=>x===q.pt||x.includes(q.pt)):null;
+  if(pt){tx.isPoint=true;tx.pointType=pt;tx.acctId=0;}
+  else{const ac=findBy(S.accounts,q.acct)||S.accounts[0];tx.acctId=ac.id;}
+  applyTags(tx,{kind:KINDS.some(k=>k[0]===q.kind)?q.kind:'',regret:q.regret==='1',adv:q.adv==='1'});
+  return tx;
+}
+function handleInbox(e){
+  const f=e.target.files[0];if(!f)return;
+  const r=new FileReader();
+  r.onload=ev=>{
+    S.inboxSeen=S.inboxSeen||[];let n=0,skip=0;
+    ev.target.result.split(/\r?\n/).forEach(line=>{
+      line=line.trim().replace(/^\?/,'');if(!line)return;
+      const q=Object.fromEntries(new URLSearchParams(line).entries()),key=q.id||line;
+      if(S.inboxSeen.includes(key)){skip++;return;}
+      const tx=txFromQuery(q);if(!tx)return;
+      S.transactions.push(tx);S.inboxSeen.push(key);n++;
+    });
+    S.inboxSeen=S.inboxSeen.slice(-3000);
+    save();e.target.value='';refreshCurrent();hapticTap();
+    toast(n+'件を取り込みました ✓'+(skip?'（取り込み済み'+skip+'件はスキップ）':''),3500);
+  };
+  r.readAsText(f);
 }
 
 // INIT

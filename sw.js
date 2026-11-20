@@ -1,39 +1,29 @@
-const CACHE_NAME = 'kakebo-v3';
-const URLS = [
-  '/kakebo/',
-  '/kakebo/index.html',
-  '/kakebo/favicon.ico',
-  '/kakebo/manifest.json',
-  '/kakebo/icon-180.png',
-  '/kakebo/icon-192.png',
-  '/kakebo/icon-512.png',
-  '/kakebo/splash-1170x2532.png',
-  '/kakebo/splash-1179x2556.png',
-  '/kakebo/splash-1284x2778.png',
-  '/kakebo/splash-750x1334.png',
-  'https://fonts.googleapis.com/css2?family=Noto+Sans+JP:wght@300;400;500;700&display=swap',
-  'https://cdnjs.cloudflare.com/ajax/libs/Chart.js/4.4.1/chart.umd.js'
+// 完全オフライン対応: 外部通信なし。初回アクセス時に全ファイルをキャッシュ
+const CACHE_NAME = 'kakebo-v4';
+const FILES = [
+  './', 'index.html', 'chart.umd.js', 'manifest.json', 'favicon.ico',
+  'icon-180.png', 'icon-192.png', 'icon-512.png',
+  'splash-1170x2532.png', 'splash-1179x2556.png', 'splash-1284x2778.png', 'splash-750x1334.png'
 ];
 
-// インストール: キャッシュに保存
 self.addEventListener('install', e => {
   e.waitUntil(
-    caches.open(CACHE_NAME).then(cache => cache.addAll(URLS)).then(() => self.skipWaiting())
+    caches.open(CACHE_NAME).then(c => c.addAll(FILES)).then(() => self.skipWaiting())
   );
 });
 
-// アクティベート: 古いキャッシュを削除
 self.addEventListener('activate', e => {
   e.waitUntil(
-    caches.keys().then(keys =>
-      Promise.all(keys.filter(k => k !== CACHE_NAME).map(k => caches.delete(k)))
-    ).then(() => self.clients.claim())
+    caches.keys().then(keys => Promise.all(keys.filter(k => k !== CACHE_NAME).map(k => caches.delete(k))))
+      .then(() => self.clients.claim())
   );
 });
 
-// フェッチ: キャッシュ優先、なければネット
+// キャッシュ優先(クエリ違いも同じファイル扱い)。ネットが無くても必ず index.html を返す
 self.addEventListener('fetch', e => {
+  if (e.request.method !== 'GET') return;
   e.respondWith(
-    caches.match(e.request,{ignoreSearch:true}).then(cached => cached || fetch(e.request))
+    caches.match(e.request, { ignoreSearch: true }).then(hit => hit || fetch(e.request).catch(() =>
+      e.request.mode === 'navigate' ? caches.match('index.html') : Response.error()))
   );
 });
