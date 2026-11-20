@@ -1,4 +1,4 @@
-const CACHE_NAME = 'kakebo-v2';
+const CACHE_NAME = 'kakebo-v3';
 const URLS = [
   '/kakebo/',
   '/kakebo/index.html',
@@ -34,6 +34,6 @@ self.addEventListener('activate', e => {
 // フェッチ: キャッシュ優先、なければネット
 self.addEventListener('fetch', e => {
   e.respondWith(
-    caches.match(e.request).then(cached => cached || fetch(e.request))
+    caches.match(e.request,{ignoreSearch:true}).then(cached => cached || fetch(e.request))
   );
 });
